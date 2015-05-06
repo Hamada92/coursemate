@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_question, only: [:show, :destroy, :edit, :update]
 
   def index
     @questions = Question.all
@@ -7,6 +8,12 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+  end
+
+  def show
+  end
+
+  def edit
   end
 
   def create
@@ -21,12 +28,15 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def show
-    @question = Question.find(params[:id])
+  def update
+    respond_to do |format|
+      if @question.update(question_params)
+        format.html { redirect_to @question, notice: "Question successfully updated" }
+      end
+    end
   end
 
   def destroy
-    @question = Question.find(params[:id])
     @question.destroy
     respond_to do |format|
       format.html {redirect_to questions_path, notice: 'questions was deleted'}
@@ -37,6 +47,10 @@ class QuestionsController < ApplicationController
 
     def question_params
       params.require(:question).permit(:title,:body)
+    end
+
+    def set_question
+      @question = Question.find(params[:id])
     end
 
 end
