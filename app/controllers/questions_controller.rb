@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_question, only: [:show, :destroy, :edit, :update]
+  before_action :authorize, only: [:edit]
 
   def index
     @questions = Question.all
@@ -51,6 +52,13 @@ class QuestionsController < ApplicationController
 
     def set_question
       @question = Question.find(params[:id])
+    end
+
+    def authorize
+      unless @question.user == current_user
+        flash[:alert] = "You are not allowed to edit someone else's question"
+        redirect_to @question
+      end
     end
 
 end
