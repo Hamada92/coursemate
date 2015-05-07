@@ -30,13 +30,13 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
+
       if @question.update(question_params)
-        format.html { redirect_to @question, notice: "Question successfully updated" }
+        redirect_to @question, notice: "Question successfully updated" 
       else
-        format.html { render :edit}
+        render :edit
       end
-    end
+
   end
 
   def destroy

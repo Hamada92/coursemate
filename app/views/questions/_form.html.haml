@@ -3,9 +3,8 @@
     #error_explanation
       %h2= "#{pluralize(@question.errors.count, "error")} "
       %ul
-        - @question.errors.full_messages.each do |msg|
-          .container
-            %li= msg
+        -@question.errors.full_messages.each do |msg|
+          %li= msg
 
   =f.label :title
   =f.text_field :title
