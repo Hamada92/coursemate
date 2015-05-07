@@ -14,9 +14,3 @@ describe 'create new question' do
     expect(page).to have_content('what is your name?')
   end
 end
-
-
-
-def login(user)
-  page.driver.post user_session_path, 'user[email]' => user.email, 'user[password]' => user.password
-end
