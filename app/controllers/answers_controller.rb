@@ -1,26 +1,19 @@
-class QuestionsController < ApplicationController
-  before_action :set_question, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
+class AnswersController < ApplicationController
+  before_action :set_answer, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:show]
   before_action :authorize, only: [:edit, :update, :destroy]
 
-  def index
-    @questions = Question.all
-  end
-
-  def show
-  end
-
   def new
-    @question = Question.new
+    @answer = Answer.new
   end
 
   def edit
   end
 
   def create
-    @question = current_user.questions.build(question_params)
+    @answer = current_user.answers.build(answer_params)
     respond_to do |format|
-      if @question.save
+      if @answer.save
         format.html { redirect_to @question, notice: 'Question was successfully created'}
       else
         format.html { render :new }
@@ -29,7 +22,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-      if @question.update(question_params)
+      if @answer.update(answer_params)
         redirect_to @question, notice: "Question successfully updated" 
       else
         render :edit
@@ -37,27 +30,27 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
+    @answer.destroy
     respond_to do |format|
-      format.html {redirect_to questions_path, notice: 'questions was deleted'}
+      format.html {redirect_to @question, notice: 'questions was deleted'}
     end
   end
 
   private
 
     def question_params
-      params.require(:question).permit(:title,:body)
+      params.require(:answer).permit(:body)
     end
 
-    def set_question
+    def set_answer
       @question = Question.find(params[:id])
+      @answer = @questions.answers.find(params[:id])
     end
 
     def authorize
       unless @question.user == current_user
-        flash[:alert] = "You are not allowed to edit someone else's question"
+        flash[:alert] = "You are not allowed to edit someone else's answer"
         redirect_to @question
       end
     end
-
 end
