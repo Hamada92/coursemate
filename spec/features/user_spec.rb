@@ -10,14 +10,14 @@ describe 'go to dashboard' do
 
   it "shows only user1's questions in the dashboard" do
     login user1
-    visit "#{user1.id}/dashboard"
+    visit "/users/#{user1.id}"
     expect(page).to have_content('user1question')
     expect(page).to_not have_content('user2question')
   end
 
   it "shows only user2's questions in the dashboard" do
     login user2
-    visit "#{user2.id}/dashboard"
+    visit "/users/#{user2.id}"
     expect(page).to have_content('user2question')
     expect(page).to_not have_content('user1question')
   end

@@ -33,6 +33,8 @@ class QuestionsController < ApplicationController
     respond_to do |format|
       if @question.update(question_params)
         format.html { redirect_to @question, notice: "Question successfully updated" }
+      else
+        format.html { render :edit}
       end
     end
   end
