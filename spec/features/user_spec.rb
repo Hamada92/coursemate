@@ -4,8 +4,8 @@ describe 'go to dashboard' do
   let!(:user2) { User.create(email: 'test2@test.com', password: 'tetstest') }
 
   before :each do 
-    Question.create(title: 'user1question', user: user1)
-    Question.create(title: 'user2question', user: user2)
+    Question.create(title: 'user1question', body:'anything', user: user1)
+    Question.create(title: 'user2question', body:'anything', user: user2)
   end
 
   it "shows only user1's questions in the dashboard" do

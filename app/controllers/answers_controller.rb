@@ -1,22 +1,16 @@
 class AnswersController < ApplicationController
-  before_action :set_answer, only: [:edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:show]
+  before_action :set_question
+  before_action :authenticate_user!
   before_action :authorize, only: [:edit, :update, :destroy]
 
-  def new
-    @answer = Answer.new
-  end
-
-  def edit
-  end
-
   def create
-    @answer = current_user.answers.build(answer_params)
+    @answer = @question.answers.build(answer_params)
+    @answer.user = current_user
     respond_to do |format|
       if @answer.save
-        format.html { redirect_to @question, notice: 'Question was successfully created'}
+        format.html { redirect_to @question, notice: 'Answer was successfully created'}
       else
-        format.html { render :new }
+        format.html { render 'questions/show' }
       end
     end
   end
@@ -38,13 +32,18 @@ class AnswersController < ApplicationController
 
   private
 
-    def question_params
+    def answer_params
       params.require(:answer).permit(:body)
     end
 
+    def set_question
+      @question = Question.find(params[:question_id])
+    end
+
+=begin
     def set_answer
-      @question = Question.find(params[:id])
-      @answer = @questions.answers.find(params[:id])
+      @question = Question.find(params[:question_id])
+      @answer = @question.answers.find(params[:id])
     end
 
     def authorize
@@ -53,4 +52,5 @@ class AnswersController < ApplicationController
         redirect_to @question
       end
     end
+=end
 end
