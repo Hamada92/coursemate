@@ -1,3 +1,11 @@
+questions
+
 =@user.email
 -@questions.each do |q|
   =link_to q.title, question_path(q)
+
+answered questions
+
+-@answered_questions.each do |q|
+  =link_to q.title, question_path(q)
+
