@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
-  before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :authorize, only: [:edit, :update, :destroy]
 
   def index
@@ -8,7 +8,6 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answer = @question.answers.build
     @answers = @question.answers
   end
 

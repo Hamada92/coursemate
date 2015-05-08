@@ -14,7 +14,7 @@
   =link_to("Edit", edit_question_answer_path(@question, a))
   %br
 
-=form_for [@question, @answer] do |f|
+=form_for [@question, @answer = @question.answers.build] do |f|
   - if @answer.errors.any?
     %h2="#{pluralize(@answer.errors.count, "error")} "
     %ul
