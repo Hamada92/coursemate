@@ -44,6 +44,10 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def unanswered
+    @unanswered_questions = Question.unanswered
+  end
+
   private
 
     def question_params
