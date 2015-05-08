@@ -1,11 +1,18 @@
-=@question.title
-=@question.body
-=link_to("Edit", edit_question_path(@question))
-=link_to("Delete", question_path(@question), method: :delete)
 =render 'partials/menu'
+%h2=@question.title
+=@question.body
+%br
+=link_to("Edit", edit_question_path(@question))
+%br
+=link_to("Delete", question_path(@question), method: :delete)
+%br
+
+%h2 Answers
 
 -@answers.each do |a|
   =a.body
+  =link_to("Edit", edit_question_answer_path(@question, a))
+  %br
 
 =form_for [@question, @answer] do |f|
   - if @answer.errors.any?
@@ -17,6 +24,7 @@
   =f.label :body 
   =f.text_area :body
 
+  %br
   =f.submit 'Post'
 
 

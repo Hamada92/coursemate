@@ -1,12 +1,15 @@
+=render 'partials/menu'
 %h1=@user.email
 
 %h2 Questions
 
 -@questions.each do |q|
   =link_to q.title, question_path(q)
+  %br
 
-%h2 Answered questions
+%h2  Answered questions
 
 -@answered_questions.each do |q|
   =link_to q.title, question_path(q)
+  %br
 

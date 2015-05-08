@@ -1,2 +1,5 @@
+=render 'partials/menu'
+%h2 Users
 -@users.each do |u|
   =link_to u.email, user_path(u)
+  %br

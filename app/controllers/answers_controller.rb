@@ -1,7 +1,11 @@
 class AnswersController < ApplicationController
-  before_action :set_question
+  before_action :set_question, only: [:create]
+  before_action :set_answer, only: [:edit, :update, :destroy]
   before_action :authenticate_user!
   before_action :authorize, only: [:edit, :update, :destroy]
+
+  def edit
+  end
 
   def create
     @answer = @question.answers.build(answer_params)
@@ -17,7 +21,7 @@ class AnswersController < ApplicationController
 
   def update
       if @answer.update(answer_params)
-        redirect_to @question, notice: "Question successfully updated" 
+        redirect_to @question, notice: "Answer successfully updated" 
       else
         render :edit
       end
@@ -26,7 +30,7 @@ class AnswersController < ApplicationController
   def destroy
     @answer.destroy
     respond_to do |format|
-      format.html {redirect_to @question, notice: 'questions was deleted'}
+      format.html {redirect_to @question, notice: 'Answer was deleted'}
     end
   end
 
@@ -40,10 +44,8 @@ class AnswersController < ApplicationController
       @question = Question.find(params[:question_id])
     end
 
-=begin
     def set_answer
-      @question = Question.find(params[:question_id])
-      @answer = @question.answers.find(params[:id])
+      @answer = Answer.find(params[:id])
     end
 
     def authorize
@@ -52,5 +54,4 @@ class AnswersController < ApplicationController
         redirect_to @question
       end
     end
-=end
 end
