@@ -5,7 +5,6 @@ class AnswersController < ApplicationController
   before_action :authorize, only: [:edit, :update, :destroy]
 
   def edit
-
   end
 
   def create
@@ -50,7 +49,7 @@ class AnswersController < ApplicationController
     end
 
     def authorize
-      unless @question.user == current_user
+      unless @answer.user == current_user
         flash[:alert] = "You are not allowed to edit someone else's answer"
         redirect_to @question
       end

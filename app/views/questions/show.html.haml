@@ -11,20 +11,12 @@
 
 -@answers.each do |a|
   =a.body
+  %br
   =link_to("Edit", edit_question_answer_path(@question, a))
   %br
-
-=form_for [@question, @answer = @question.answers.build] do |f|
-  - if @answer.errors.any?
-    %h2="#{pluralize(@answer.errors.count, "error")} "
-    %ul
-      -@answer.errors.full_messages.each do |msg|
-        %li= msg
-
-  =f.label :body 
-  =f.text_area :body
-
+  =link_to("Delete", question_answer_path(@question, a), method: :delete)
   %br
-  =f.submit 'Post'
+
+=render 'answers/form'
 
 
