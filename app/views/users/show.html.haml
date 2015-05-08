@@ -1,10 +1,11 @@
-questions
+%h1=@user.email
 
-=@user.email
+%h2 Questions
+
 -@questions.each do |q|
   =link_to q.title, question_path(q)
 
-answered questions
+%h2 Answered questions
 
 -@answered_questions.each do |q|
   =link_to q.title, question_path(q)
