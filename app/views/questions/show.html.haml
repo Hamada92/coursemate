@@ -17,6 +17,17 @@
   =link_to("Delete", question_answer_path(@question, a), method: :delete)
   %br
 
-=render 'answers/form'
+=form_for [@question, @answer = @question.answers.build] do |f|
+  - if @answer.errors.any?
+    %h2="#{pluralize(@answer.errors.count, "error")} "
+    %ul
+      -@answer.errors.full_messages.each do |msg|
+        %li= msg
+
+  =f.label :body 
+  =f.text_area :body
+
+  %br
+  =f.submit 'Post'
 
 
