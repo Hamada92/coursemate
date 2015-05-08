@@ -9,15 +9,16 @@
 
 %h2 Answers
 
--@answers.each do |a|
-  =a.body
-  %br
-  =link_to("Edit", edit_question_answer_path(@question, a))
-  %br
-  =link_to("Delete", question_answer_path(@question, a), method: :delete)
-  %br
+-@question.answers.each do |a|
+  -unless a.id.nil?
+    =a.body
+    %br
+    =link_to("Edit", edit_question_answer_path(@question, a))
+    %br
+    =link_to("Delete", question_answer_path(@question, a), method: :delete)
+    %br
 
-=form_for [@question, @answer = @question.answers.build] do |f|
+=form_for [@question, @answer] do |f|
   - if @answer.errors.any?
     %h2="#{pluralize(@answer.errors.count, "error")} "
     %ul

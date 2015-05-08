@@ -14,6 +14,7 @@ class AnswersController < ApplicationController
       if @answer.save
         format.html { redirect_to @question, notice: 'Answer was successfully created'}
       else
+        
         format.html { render 'questions/show' }
       end
     end
