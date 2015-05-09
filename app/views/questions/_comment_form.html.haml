@@ -1,0 +1,9 @@
+=form_for [resource, @resource_comment = resource.comments.build] do |f|
+  - if @resource_comment.errors.any?
+    %h2="#{pluralize(@resource_comment.errors.count, "error")} "
+    %ul
+      -@resource_comment.errors.full_messages.each do |msg|
+        %li= msg
+
+  =f.text_field :body, placeholder: 'Enter comment'
+  =f.submit 'Post Comment'

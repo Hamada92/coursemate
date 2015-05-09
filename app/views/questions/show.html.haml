@@ -7,6 +7,11 @@
   =link_to("Delete", question_path(@question), method: :delete)
   %br
 
+%h3 Question comments
+#comments
+=render 'comment_form', resource: @question
+
+
 %h3 Answers
 
 -@question.answers.each do |a|
@@ -16,6 +21,9 @@
       =link_to("Edit", edit_answer_path(a))
       =link_to("Delete", answer_path(a), method: :delete)
     %br
+    =render 'comment_form', resource: a
+    %br
+
 
 =form_for [@question, @answer = @question.answers.build] do |f|
   - if @answer.errors.any?
