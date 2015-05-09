@@ -6,8 +6,6 @@ class User < ActiveRecord::Base
   has_many :answers, dependent: :destroy
 
   def answered_questions
-    Question.includes(:answers).where(answers: { user_id: self.id} )
-    #or:
-    #Question.joins(:answers).where("answers.user_id = ?", self.id).distinct
+    Question.joins(:answers).where(answers: { user_id: self.id} )
   end
 end

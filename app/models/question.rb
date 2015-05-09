@@ -5,8 +5,6 @@ class Question < ActiveRecord::Base
   has_many :answers, dependent: :destroy
 
   def self.unanswered
-    Question.includes(:answers).where(answers: { question_id: nil })
-    # Plain SQL, but slower:
-    #Question.where('id NOT IN (SELECT DISTINCT(question_id) FROM answers)')
+    includes(:answers).where(answers: { id: nil })
   end
 end
