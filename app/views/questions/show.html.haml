@@ -1,5 +1,5 @@
 =render 'partials/menu'
-%h2=@question.title
+%h1=@question.title
 =@question.body
 %br
 -if owner @question
@@ -7,12 +7,14 @@
   =link_to("Delete", question_path(@question), method: :delete)
   %br
 
-%h3 Question comments
-#comments
-=render 'comment_form', resource: @question
+-@question.comments.each do |c|
+  -unless c.id.nil?
+    %span.c=c.body
+    %br
+.c=render 'questions/comment_form', resource: @question, comment_type: @question_comment
 
 
-%h3 Answers
+%h2 Answers
 
 -@question.answers.each do |a|
   -unless a.id.nil?
@@ -21,11 +23,17 @@
       =link_to("Edit", edit_answer_path(a))
       =link_to("Delete", answer_path(a), method: :delete)
     %br
-    =render 'comment_form', resource: a
+
+    -a.comments.each do |c|
+      -unless c.id.nil?
+        %span.c=c.body
+        %br
+
+    .c=render 'questions/comment_form', resource: a, comment_type: @answer_comment
     %br
 
 
-=form_for [@question, @answer = @question.answers.build] do |f|
+=form_for [@question, @answer] do |f|
   - if @answer.errors.any?
     %h2="#{pluralize(@answer.errors.count, "error")} "
     %ul
@@ -33,6 +41,7 @@
         %li= msg
 
   =f.label :body 
+  %br
   =f.text_area :body
 
   %br

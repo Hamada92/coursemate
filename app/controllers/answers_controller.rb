@@ -14,7 +14,8 @@ class AnswersController < ApplicationController
       if @answer.save
         format.html { redirect_to @question, notice: 'Answer was successfully created'}
       else
-        
+        @question_comment = @question.comments.build
+        @answer_comment = @answer.comments.build
         format.html { render 'questions/show' }
       end
     end

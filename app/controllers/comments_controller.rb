@@ -8,6 +8,9 @@ before_action :set_commentable
       if @comment.save
         format.html { redirect_to @question, notice: "Comment created for #{@commentable.class}" }
       else
+        @answer = @question.answers.build
+        @question_comment = @question.comments.build
+        @answer_comment = @answer.comments.build
         format.html { render 'questions/show' }
       end
     end
