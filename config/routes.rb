@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   
 
   resources :questions, shallow: true do 
-    #resources :comments, except: [:new, :show]
+    resources :comments, except: [:new, :show]
     resources :answers, except: [:new, :show]
 
     collection do 
@@ -16,14 +16,8 @@ Rails.application.routes.draw do
     end
   end
 
-  #resources :answers, only: [], shallow: true do
-    #resources :comments, except: [:new, :show]
-  #end
-
-
-
-
-
-
+  resources :answers, only: [], shallow: true do
+    resources :comments, except: [:new, :show]
+  end
 
 end

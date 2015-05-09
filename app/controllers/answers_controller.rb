@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_answer, except: [:create]
   before_action :set_question, only: [:create]
-  before_action :set_answer, only: [:edit, :update, :destroy]
   before_action :authorize, only: [:edit, :update, :destroy]
 
   def edit
@@ -47,6 +47,7 @@ class AnswersController < ApplicationController
 
     def set_answer
       @answer = Answer.find(params[:id])
+      @question = @answer.question
     end
 
     def authorize

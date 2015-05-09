@@ -3,7 +3,7 @@ class Question < ActiveRecord::Base
   validates :body, presence: true
   
   belongs_to :user
-  has_many :answers, as: :commentable, dependent: :destroy
+  has_many :answers, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
 
   def self.unanswered

@@ -17,7 +17,7 @@
       =link_to("Delete", answer_path(a), method: :delete)
     %br
 
-=form_for [@question, @answer = @question.answer.build] do |f|
+=form_for [@question, @answer = @question.answers.build] do |f|
   - if @answer.errors.any?
     %h2="#{pluralize(@answer.errors.count, "error")} "
     %ul
