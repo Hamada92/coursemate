@@ -7,6 +7,6 @@ class User < ActiveRecord::Base
   has_many :comments, dependent: :destroy
 
   def answered_questions
-    Question.joins(:answers).where(answers: { user_id: self.id} )
+    Question.joins(:answers).where(answers: { user_id: self.id} ).distinct
   end
 end

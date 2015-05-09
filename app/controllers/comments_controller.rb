@@ -8,10 +8,8 @@ before_action :set_commentable
       if @comment.save
         format.html { redirect_to @question, notice: "Comment created for #{@commentable.class}" }
       else
-        @answer = @question.answers.build
-        @question_comment = @question.comments.build
-        @answer_comment = @answer.comments.build
-        format.html { render 'questions/show' }
+        set_errors
+        format.html { render 'questions/show' }  
       end
     end
   end
@@ -26,8 +24,21 @@ before_action :set_commentable
         @question = @commentable.question
       end
     end
+
+    def set_errors
+      @answer = @question.answers.build
+      if @comment.commentable_type.to_sym == :Question
+        @question_comment = @comment
+        @answer_comment = @answer.comments.build
+      else
+        @answer_comment = @comment
+        @question_comment = @question.comments.build
+      end
+    end
         
     def comments_params
       params.require(:comment).permit(:body)
     end
+
+
 end
