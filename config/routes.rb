@@ -1,20 +1,28 @@
 Rails.application.routes.draw do
 
-  root 'questions#index'
+   root 'questions#index'
 
-  devise_for :users
+   devise_for :users
 
-  resources :users, only: [:index, :show]
-  resources :questions do
-    resources :comments
-    resources :answers, except: [:new, :show] do
+   resources :users, only: [:index, :show]
+  
+
+  resources :questions, shallow: true do 
+    #resources :comments, except: [:new, :show]
+    resources :answers, except: [:new, :show]
+
     collection do 
       get 'unanswered'
     end
   end
-  resources :answers do
-    resources :comments
-  end
+
+  #resources :answers, only: [], shallow: true do
+    #resources :comments, except: [:new, :show]
+  #end
+
+
+
+
 
 
 
