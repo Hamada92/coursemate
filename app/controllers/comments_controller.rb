@@ -8,7 +8,7 @@ before_action :set_commentable
       if @comment.save
         format.html { redirect_to @question, notice: "Comment created for #{@commentable.class}" }
       else
-        set_errors
+        set_built_comment
         format.html { render 'questions/show' }  
       end
     end
@@ -17,17 +17,19 @@ before_action :set_commentable
 
     def set_commentable
       if params[:question_id]
+        @commentable_type = :question
         @commentable = Question.find(params[:question_id])
         @question = @commentable
       elsif params[:answer_id]
+        @commentable_type = :answer
         @commentable = Answer.find(params[:answer_id])
         @question = @commentable.question
       end
     end
 
-    def set_errors
+    def set_built_comment
       @answer = @question.answers.build
-      if @comment.commentable_type.to_sym == :Question
+      if @commentable_type == :question
         @question_comment = @comment
         @answer_comment = @answer.comments.build
       else
