@@ -10,6 +10,7 @@
 -@question.comments.each do |c|
   -unless c.id.nil?
     %span.c=c.body
+    =link_to("Delete", comment_path(c), method: :delete)
     %br
 .c=render 'questions/comment_form', resource: @question, comment_type: @question_comment
 
@@ -27,6 +28,7 @@
     -a.comments.each do |c|
       -unless c.id.nil?
         %span.c=c.body
+        =link_to("Delete", comment_path(c), method: :delete)
         %br
 
     .c=render 'questions/comment_form', resource: a, comment_type: @answer_comment
