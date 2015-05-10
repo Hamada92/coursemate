@@ -1,5 +1,10 @@
 =render 'partials/menu'
-%h1=@question.title
+
+%h2=Question
+title:
+=@question.title
+%br
+body:
 =@question.body
 %br
 -if owner @question
