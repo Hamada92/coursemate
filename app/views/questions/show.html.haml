@@ -1,4 +1,10 @@
 =render 'partials/menu'
+- @errors = @question_comment.errors.full_messages + @answer_comment.errors.full_messages
+- if @errors.any?
+  %h2="#{pluralize(@errors.count, "error")} "
+  %ul
+    -@errors.each do |msg|
+      %li= msg
 
 %h2=Question
 title:
@@ -18,7 +24,7 @@ body:
     =link_to("Edit", edit_comment_path(c))
     =link_to("Delete", comment_path(c), method: :delete)
     %br
-.c=render 'comments/form', resources: [@question, @question_comment], comment: @question_comment
+.c=render 'comments/form', resources: [@question, @question_comment]
 
 
 %h2 Answers
@@ -38,7 +44,7 @@ body:
         =link_to("Delete", comment_path(c), method: :delete)
         %br
 
-    .c=render 'comments/form', resources: [a, @answer_comment], comment: @answer_comment
+    .c=render 'comments/form', resources: [a, @answer_comment]
     %br
 
 =render 'answers/form', resources: [@question, @answer]
