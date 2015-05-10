@@ -18,14 +18,10 @@ body:
   =link_to("Delete", question_path(@question), method: :delete)
   %br
 
--@question.comments.each do |c|
-  -unless c.id.nil?
-    %span.c=c.body
-    =link_to("Edit", edit_comment_path(c))
-    =link_to("Delete", comment_path(c), method: :delete)
-    %br
-.c=render 'comments/form', resources: [@question, @question_comment]
+%div{id:'comments'}
+  =render 'comments/question_comments'
 
+.c=render 'comments/form', resources: [@question, @question_comment]
 
 %h2 Answers
 

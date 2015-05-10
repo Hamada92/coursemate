@@ -13,9 +13,11 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         format.html { redirect_to @question, notice: "Comment created for #{@commentable.class}" }
+        format.js
       else
         set_built_comment
         format.html { render 'questions/show' }  
+        format.js
       end
     end 
   end
