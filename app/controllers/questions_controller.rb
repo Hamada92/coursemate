@@ -8,9 +8,9 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answer = @question.answers.new
-    @question_comment = @question.comments.new
-    @answer_comment = @answer.comments.new
+    @answer = Answer.new
+    @question_comment = Comment.new
+    @answer_comment = Comment.new
   end
 
   def new

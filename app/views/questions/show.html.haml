@@ -38,7 +38,7 @@ body:
         =link_to("Delete", comment_path(c), method: :delete)
         %br
 
-    .c=render 'comments/form', resources: [a, @answer_comment], comment: @question_comment
+    .c=render 'comments/form', resources: [a, @answer_comment], comment: @answer_comment
     %br
 
 =render 'answers/form', resources: [@question, @answer]

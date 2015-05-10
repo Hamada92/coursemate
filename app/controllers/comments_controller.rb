@@ -50,13 +50,13 @@ class CommentsController < ApplicationController
     end
 
     def set_built_comment
-      @answer = @question.answers.build
+      @answer = Answer.new
       if @comment.commentable_type == 'Question'
         @question_comment = @comment
-        @answer_comment = @answer.comments.new
+        @answer_comment = Comment.new
       else
         @answer_comment = @comment
-        @question_comment = @question.comments.new
+        @question_comment = Comment.new
       end
     end
 
