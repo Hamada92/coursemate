@@ -1,0 +1,9 @@
+=form_for resources do |f|
+  - if comment.errors.any?
+    %h2="#{pluralize(comment.errors.count, "error")} "
+    %ul
+      -comment.errors.full_messages.each do |msg|
+        %li= msg
+
+  =f.text_field :body, placeholder: 'Enter comment'
+  =f.submit 'Post Comment'

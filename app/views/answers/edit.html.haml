@@ -1,12 +1,1 @@
-=form_for @answer do |f|
-  - if @answer.errors.any?
-    %h2="#{pluralize(@answer.errors.count, "error")} "
-    %ul
-      -@answer.errors.full_messages.each do |msg|
-        %li= msg
-
-  =f.label :body 
-  =f.text_area :body
-
-  %br
-  =f.submit 'Post'
+=render 'answers/form', resources: [@answer]

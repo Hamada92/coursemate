@@ -2,7 +2,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_answer, except: [:create]
   before_action :set_question, only: [:create]
-  before_action :authorize, only: [:edit, :update, :destroy]
+  before_action :authorize, except: [:create]
 
   def edit
   end
@@ -12,7 +12,7 @@ class AnswersController < ApplicationController
     @answer.user = current_user
     respond_to do |format|
       if @answer.save
-        format.html { redirect_to @question, notice: 'Answer was successfully created'}
+        format.html { redirect_to @question, notice: 'Answer was successfully created' }
       else
         @question_comment = @question.comments.new
         @answer_comment = @answer.comments.new
@@ -22,17 +22,19 @@ class AnswersController < ApplicationController
   end
 
   def update
+    respond_to do |format|
       if @answer.update(answer_params)
-        redirect_to @question, notice: "Answer successfully updated" 
+        format.html { redirect_to @question, notice: "Answer successfully updated" }
       else
-        render :edit
+        format.html { render :edit }
       end
+    end
   end
 
   def destroy
     @answer.destroy
     respond_to do |format|
-      format.html {redirect_to @question, notice: 'Answer was deleted'}
+      format.html { redirect_to @question, notice: 'Answer was deleted' }
     end
   end
 

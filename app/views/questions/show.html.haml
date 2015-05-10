@@ -10,9 +10,10 @@
 -@question.comments.each do |c|
   -unless c.id.nil?
     %span.c=c.body
+    =link_to("Edit", edit_comment_path(c))
     =link_to("Delete", comment_path(c), method: :delete)
     %br
-.c=render 'questions/comment_form', resource: @question, comment_type: @question_comment
+.c=render 'comments/form', resources: [@question, @question_comment], comment: @question_comment
 
 
 %h2 Answers
@@ -28,25 +29,14 @@
     -a.comments.each do |c|
       -unless c.id.nil?
         %span.c=c.body
+        =link_to("Edit", edit_comment_path(c))
         =link_to("Delete", comment_path(c), method: :delete)
         %br
 
-    .c=render 'questions/comment_form', resource: a, comment_type: @answer_comment
+    .c=render 'comments/form', resources: [a, @answer_comment], comment: @question_comment
     %br
 
+=render 'answers/form', resources: [@question, @answer]
 
-=form_for [@question, @answer] do |f|
-  - if @answer.errors.any?
-    %h2="#{pluralize(@answer.errors.count, "error")} "
-    %ul
-      -@answer.errors.full_messages.each do |msg|
-        %li= msg
-
-  =f.label :body 
-  %br
-  =f.text_area :body
-
-  %br
-  =f.submit 'Post'
 
 
