@@ -25,8 +25,10 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.update(comment_params)
         format.html { redirect_to @question, notice: "Comment successfully updated" }
+        format.js
       else
         format.html { render :edit }
+        format.js
       end
     end
   end

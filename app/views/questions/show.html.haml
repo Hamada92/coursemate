@@ -14,7 +14,7 @@
     =link_to("Delete", question_path(@question), method: :delete)
 
 %div{id: "Question#{@question.id}", class: "c"}
-  =render 'comments/show_comments', commentable: @question, comment: Comment.new
+  =render 'comments/all_comments', commentable: @question, comment: Comment.new
 
 %h2 Answers
 
@@ -27,7 +27,7 @@
         =link_to("Delete", answer_path(a), method: :delete)
 
     %div{id: "Answer#{a.id}", class: "c"}
-      =render 'comments/show_comments', commentable: a, comment: Comment.new
+      =render 'comments/all_comments', commentable: a, comment: Comment.new
 
 =render 'answers/form', resources: [@question, @answer]
 

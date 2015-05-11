@@ -1,3 +1,2 @@
-console.log("<%=@comment.errors.any?%>");
-$("#<%=@comment.commentable_type%><%=@commentable.id%>").html("<%= j (render 'comments/show_comments', commentable: @commentable, comment: @comment) %>");
+$("#<%=@comment.commentable_type%><%=@commentable.id%>").html("<%= j (render 'comments/all_comments', commentable: @commentable, comment: @comment) %>");
 $('#comment_body').val('');
