@@ -28,7 +28,7 @@ class CommentsController < ApplicationController
         format.js
       else
         format.html { render :edit }
-        format.js
+        format.js { render :edit}
       end
     end
   end
@@ -57,10 +57,8 @@ class CommentsController < ApplicationController
       @comment = Comment.find(params[:id])
       if @comment.commentable_type == 'Question'
         @question = @comment.commentable
-        @commentable = @question
       else
         @answer = @comment.commentable
-        @commentable = @answer
         @question = @answer.question
       end
     end 
