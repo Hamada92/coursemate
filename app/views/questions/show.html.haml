@@ -1,47 +1,33 @@
 =render 'partials/menu'
-- @errors = @question_comment.errors.full_messages + @answer_comment.errors.full_messages
-- if @errors.any?
-  %h2="#{pluralize(@errors.count, "error")} "
-  %ul
-    -@errors.each do |msg|
-      %li= msg
 
-%h2=Question
-title:
-=@question.title
-%br
-body:
-=@question.body
-%br
--if owner @question
-  =link_to("Edit", edit_question_path(@question))
-  =link_to("Delete", question_path(@question), method: :delete)
+.question
+
+  %h2=Question
+  title:
+  =@question.title
   %br
+  body:
+  =@question.body
+  %br
+  -if owner @question
+    =link_to("Edit", edit_question_path(@question))
+    =link_to("Delete", question_path(@question), method: :delete)
 
-%div{id:'comments'}
-  =render 'comments/question_comments'
-
-.c=render 'comments/form', resources: [@question, @question_comment]
+%div{id: "Question#{@question.id}", class: "c"}
+  =render 'comments/show_comments', commentable: @question, comment: Comment.new
 
 %h2 Answers
 
 -@question.answers.each do |a|
   -unless a.id.nil?
-    =a.body
-    -if owner a
-      =link_to("Edit", edit_answer_path(a))
-      =link_to("Delete", answer_path(a), method: :delete)
-    %br
+    .answer
+      =a.body
+      -if owner a
+        =link_to("Edit", edit_answer_path(a))
+        =link_to("Delete", answer_path(a), method: :delete)
 
-    -a.comments.each do |c|
-      -unless c.id.nil?
-        %span.c=c.body
-        =link_to("Edit", edit_comment_path(c))
-        =link_to("Delete", comment_path(c), method: :delete)
-        %br
-
-    .c=render 'comments/form', resources: [a, @answer_comment]
-    %br
+    %div{id: "Answer#{a.id}", class: "c"}
+      =render 'comments/show_comments', commentable: a, comment: Comment.new
 
 =render 'answers/form', resources: [@question, @answer]
 

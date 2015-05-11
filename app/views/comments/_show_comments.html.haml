@@ -1,0 +1,8 @@
+-commentable.comments.order('id ASC').each do |c|
+  -unless c.id.nil?
+    %div{id: c.id}
+      =c.body
+      =link_to("Edit", edit_comment_path(c))
+      =link_to("Delete", comment_path(c), method: :delete,  remote: true)
+=render 'comments/form', resources: [commentable, Comment.new], comment: comment
+

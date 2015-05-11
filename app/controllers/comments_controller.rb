@@ -15,7 +15,6 @@ class CommentsController < ApplicationController
         format.html { redirect_to @question, notice: "Comment created for #{@commentable.class}" }
         format.js
       else
-        set_built_comment
         format.html { render 'questions/show' }  
         format.js
       end
@@ -36,6 +35,7 @@ class CommentsController < ApplicationController
     @comment.destroy
     respond_to do |format|
       format.html { redirect_to @question, notice: 'Comment was deleted' }
+      format.js
     end
   end
 
@@ -51,23 +51,15 @@ class CommentsController < ApplicationController
       end
     end
 
-    def set_built_comment
-      @answer = Answer.new
-      if @comment.commentable_type == 'Question'
-        @question_comment = @comment
-        @answer_comment = Comment.new
-      else
-        @answer_comment = @comment
-        @question_comment = Comment.new
-      end
-    end
-
     def set_comment
       @comment = Comment.find(params[:id])
       if @comment.commentable_type == 'Question'
         @question = @comment.commentable
+        @commentable = @question
       else
-        @question = @comment.commentable.question
+        @answer = @comment.commentable
+        @commentable = @answer
+        @question = @answer.question
       end
     end 
         
