@@ -1,5 +1,0 @@
--commentable.comments.order('id ASC').each do |c|
-  -unless c.id.nil?
-    =render 'comments/single_comment', comment: c
-=render 'comments/form', resources: [commentable, Comment.new], comment: comment
-

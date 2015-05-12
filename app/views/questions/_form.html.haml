@@ -1,18 +1,10 @@
 =form_for @question do |f|
-  - if @question.errors.any?
-    %h2= "#{pluralize(@question.errors.count, "error")} "
-    %ul
-      -@question.errors.full_messages.each do |msg|
-        %li= msg
-
+  .error
+    =render 'partials/errors', resource: @question
   =f.label :title
   =f.text_field :title
-
   %br
-
   =f.label :body
   =f.text_area :body
-
   %br
-
   =f.submit 'Post'

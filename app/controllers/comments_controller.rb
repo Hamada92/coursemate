@@ -28,7 +28,7 @@ class CommentsController < ApplicationController
         format.js
       else
         format.html { render :edit }
-        format.js { render :edit}
+        format.js
       end
     end
   end
