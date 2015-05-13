@@ -1,5 +1,5 @@
 <% if @likeable.is_a? Question %>
   $("#<%=Question%><%=@question.id%> .Vote").html("<%= j (render 'question_like') %>");
 <%else%>
-  $("#<%=Answer%><%=@answer.id%> .Vote").html("<%= j (render 'answer_like') %>");
+  $("#<%=Answer%><%=@answer.id%> .Vote").html("<%= j (render 'answer_like', answer: @answer) %>");
 <%end%>
