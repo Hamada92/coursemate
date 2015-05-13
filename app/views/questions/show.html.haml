@@ -9,10 +9,9 @@
   %br
   body:
   =@question.body
-  %br
+
   .Vote
-    =link_to("Vote Up", question_likes_path(@question, Like.new), remote: true, method: :post)
-    =@question.num_likes
+    =render 'likes/like', parent: @question
 
   -if owner @question
     =link_to("Edit", edit_question_path(@question))
@@ -32,9 +31,9 @@
   -unless a.id.nil?
     %div{id: "Answer#{a.id}"}
       =a.body
-      =a.num_likes
+      
       .Vote
-        =link_to("Vote Up", answer_likes_path(a, Like.new), remote: true, method: :post)
+        =render 'likes/like', parent: @question
       -if owner a
         =link_to("Edit", edit_answer_path(a))
         =link_to("Delete", answer_path(a), method: :delete)

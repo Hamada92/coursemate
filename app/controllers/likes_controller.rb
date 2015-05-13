@@ -1,6 +1,7 @@
 class LikesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_likeable
+  before_action :set_like
   before_action :restrict
 
   def create
@@ -18,23 +19,44 @@ class LikesController < ApplicationController
   end
 
   def destroy
-  end
-
-  def set_likeable
-    if params[:question_id]
-      @likeable = Question.find(params[:question_id])
-      @question = @likeable
-    elsif params[:answer_id]
-      @likeable = Answer.find(params[:answer_id])
-      @question = @likeable.question
+    respond_to do |format|
+      if @like.update
+        format.html { redirect_to @question}
+        format.js
+      else
+        format.html { render 'questions/show' }
+        format.js
+      end
     end
   end
 
-  def restrict
-    if @likeable.liked_by(current_user)
-      redirect_to @question
+  private
+
+    def set_likeable
+      if params[:question_id]
+        @likeable = Question.find(params[:question_id])
+        @question = @likeable
+      elsif params[:answer_id]
+        @likeable = Answer.find(params[:answer_id])
+        @question = @likeable.question
+      end
     end
-  end
+
+    def set_like
+      @like = Like.find(params[:id])
+      if @like.likeable_type == 'Question'
+        @question = @like.likeable
+      else
+        @answer = @like.likeable
+        @question = @answer.question
+      end
+    end 
+
+    def restrict
+      if @likeable.liked_by(current_user)
+        redirect_to @question
+      end
+    end
 
 
 end
