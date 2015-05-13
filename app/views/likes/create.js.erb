@@ -1,1 +1,1 @@
-$("#<%=@like.likeable_type%><%=@likeable.id%> .Vote").html("<%= j (render @like, parent: @likeable) %>");
+$("#<%=@like.likeable_type%><%=@likeable.id%> .Vote").html("<%= j (render @like, parent: @likeable.reload) %>");
