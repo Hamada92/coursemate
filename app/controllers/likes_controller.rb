@@ -9,6 +9,7 @@ class LikesController < ApplicationController
     @like.user = current_user
     respond_to do |format|
       if @like.save
+        @likeable.reload
         format.html { redirect_to @question }
         format.js
       else
@@ -38,6 +39,7 @@ class LikesController < ApplicationController
         @question = @likeable
       elsif params[:answer_id]
         @likeable = Answer.find(params[:answer_id])
+        @answer = @likeable
         @question = @likeable.question
       end
     end

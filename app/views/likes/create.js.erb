@@ -1,1 +1,5 @@
-$("#<%=@like.likeable_type%><%=@likeable.id%> .Vote").html("<%= j (render @like, parent: @likeable.reload) %>");
+<% if @likeable.is_a? Question %>
+  $("#<%=Question%><%=@question.id%> .Vote").html("<%= j (render 'question_like') %>");
+<%else%>
+  $("#<%=Answer%><%=@answer.id%> .Vote").html("<%= j (render 'answer_like') %>");
+<%end%>

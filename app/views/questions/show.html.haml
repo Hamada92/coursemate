@@ -11,7 +11,7 @@
   =@question.body
 
   .Vote
-    =render 'likes/like', parent: @question
+    =render 'likes/question_like'
 
   -if owner @question
     =link_to("Edit", edit_question_path(@question))
@@ -33,7 +33,7 @@
       =a.body
       
       .Vote
-        =render 'likes/like', parent: a
+        =render 'likes/answer_like', answer: a
       -if owner a
         =link_to("Edit", edit_answer_path(a))
         =link_to("Delete", answer_path(a), method: :delete)
