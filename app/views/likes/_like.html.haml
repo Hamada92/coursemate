@@ -1,5 +1,2 @@
--if @likeable.liked_by(current_user)
-  =link_to("Remove Vote", like_path(@like), remote: true)
--else
-  =link_to("Vote Up", question_likes_path(parent, Like.new), remote: true, method: :post)
+=link_to("Vote Up", question_likes_path(parent, Like.new), remote: true, method: :post)
 =parent.num_likes

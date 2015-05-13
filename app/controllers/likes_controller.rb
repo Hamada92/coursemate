@@ -1,7 +1,7 @@
 class LikesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_likeable
-  before_action :set_like
+  before_action :set_likeable, only: [:create]
+  before_action :set_like, only: [:destroy]
   before_action :restrict
 
   def create
