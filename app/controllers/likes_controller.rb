@@ -54,7 +54,7 @@ class LikesController < ApplicationController
 
     def restrict
       if @likeable.liked_by(current_user)
-        redirect_to @question
+
       end
     end
 
