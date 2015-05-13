@@ -10,10 +10,13 @@
   body:
   =@question.body
   %br
+  =@question.num_likes
+  %br
+  =link_to("Vote Up", question_likes_path(@question, Like.new), method: :post)
+
   -if owner @question
     =link_to("Edit", edit_question_path(@question))
     =link_to("Delete", question_path(@question), method: :delete)
-  =link_to("Vote Up", question_likes_path(@question, method: :post))
 
 
   .Comments
@@ -29,6 +32,8 @@
   -unless a.id.nil?
     %div{id: "Answer#{a.id}"}
       =a.body
+      =a.num_likes
+      =link_to("Vote Up", answer_likes_path(a, Like.new), method: :post)
       -if owner a
         =link_to("Edit", edit_answer_path(a))
         =link_to("Delete", answer_path(a), method: :delete)

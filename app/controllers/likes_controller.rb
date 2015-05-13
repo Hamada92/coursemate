@@ -1,15 +1,17 @@
 class LikesController < ApplicationController
-  before: :authenticate_user!
-  before: :set_likeable
-  before: :restrict
+  before_action :authenticate_user!
+  before_action :set_likeable
+  before_action :restrict
 
   def create
     @like = @likeable.likes.build
     @like.user = current_user
     respond_to do |format|
       if @like.save
+        format.html { redirect_to @question }
         format.js
       else
+        format.html { render 'questions/show'}
         format.js
       end
     end
@@ -28,9 +30,9 @@ class LikesController < ApplicationController
     end
   end
 
-  def restric
+  def restrict
     if @likeable.liked_by(current_user)
-      redirect to @question
+      redirect_to @question
     end
   end
 
