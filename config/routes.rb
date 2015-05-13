@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :questions, shallow: true do 
     resources :comments, except: [:new, :show]
     resources :answers, except: [:new, :show]
+    resources :likes, only: [:create, :destroy]
 
     collection do 
       get 'unanswered'
@@ -18,6 +19,7 @@ Rails.application.routes.draw do
 
   resources :answers, only: [], shallow: true do
     resources :comments, except: [:new, :show]
+    resources :likes, only: [:create, :destroy]
   end
 
 end
