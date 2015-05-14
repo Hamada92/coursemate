@@ -8,7 +8,6 @@ class LikesController < ApplicationController
     @like.user = current_user
     respond_to do |format|
       if @likeable.likes_by(current_user).empty? and @like.save
-        @likeable.reload
         format.html { redirect_to @question }
         format.js
       else
@@ -21,7 +20,6 @@ class LikesController < ApplicationController
   def destroy
     @like.destroy
     respond_to do |format| 
-      @likeable.reload
       format.html { redirect_to @question }
       format.js
     end

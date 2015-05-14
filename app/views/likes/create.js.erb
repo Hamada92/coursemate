@@ -1,5 +1,5 @@
-<% if @likeable.is_a? Question %>
-  $("#<%=Question%><%=@question.id%> .Vote").html("<%= j (render 'like', likeable: @likeable, path: question_likes_path(@likeable, Like.new)) %>");
-<%else%>
-  $("#<%=Answer%><%=@answer.id%> .Vote").html("<%= j (render 'like', likeable: @likeable, path: answer_likes_path(@likeable, Like.new)) %>");
-<%end%>
+$("#<%=@like.likeable_type%><%=@likeable.id%> .VoteButton").html("<%= j (render 'remove_like', like: @like) %>");
+$("#<%=@like.likeable_type%><%=@likeable.id%> .NumVotes").html(parseInt($("#<%=@like.likeable_type%><%=@likeable.id%> .NumVotes").html(), 10)+1);
+
+
+

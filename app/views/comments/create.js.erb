@@ -1,5 +1,5 @@
 $("#<%=@comment.commentable_type%><%=@commentable.id%> .NewComment .Errors").html("<%= j (render 'partials/errors', resource: @comment) %>");
-if ("<%=@comment.errors.any?%>" == "false") {
+<% unless @comment.errors.any? %>
   $("#<%=@comment.commentable_type%><%=@commentable.id%> .ExistingComments").append("<%= j (render @comment) %>");
   $("#<%=@comment.commentable_type%><%=@commentable.id%> .NewComment form").trigger("reset");
-}
+<%end%>

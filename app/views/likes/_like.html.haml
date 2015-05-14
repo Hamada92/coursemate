@@ -1,6 +1,8 @@
-=likeable.num_likes
--if likeable.likes_by(current_user).any?
-  =link_to("Cancel Vote", like_path(likeable.likes_by(current_user).first), remote: true, method: :delete)
--else
-  =link_to("Vote Up", path, remote: true, method: :post)
+%span.NumVotes
+  =likeable.num_likes
+%span.VoteButton
+  -if likeable.likes_by(current_user).any?
+    =render 'likes/remove_like', like: likeable.likes_by(current_user).first
+  -else
+    =render 'likes/add_like', path: path
 

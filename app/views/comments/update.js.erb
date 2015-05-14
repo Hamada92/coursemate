@@ -1,4 +1,4 @@
 $("#Comment<%=@comment.id%> .Errors").html("<%= j (render 'partials/errors', resource: @comment) %>");
-if ("<%=@comment.errors.any?%>" == "false") {
+<% unless @comment.errors.any? %>
   $("#Comment<%=@comment.id%>").html("<%= j (render @comment) %>");
-}
+<%end%>

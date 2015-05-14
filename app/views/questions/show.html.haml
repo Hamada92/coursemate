@@ -27,7 +27,7 @@
 
 %h2 Answers
 
--@question.answers.each do |a|
+-@question.answers.order('num_likes DESC').each do |a|
   -unless a.id.nil?
     %div{id: "Answer#{a.id}"}
       =a.body
