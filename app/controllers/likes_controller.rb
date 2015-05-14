@@ -2,13 +2,12 @@ class LikesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_likeable, only: [:create]
   before_action :set_like, only: [:destroy]
-  before_action :restrict
 
   def create
     @like = @likeable.likes.build
     @like.user = current_user
     respond_to do |format|
-      if @like.save
+      if @likeable.likes_by(current_user).empty? and @like.save
         @likeable.reload
         format.html { redirect_to @question }
         format.js
@@ -20,14 +19,11 @@ class LikesController < ApplicationController
   end
 
   def destroy
-    respond_to do |format|
-      if @like.update
-        format.html { redirect_to @question}
-        format.js
-      else
-        format.html { render 'questions/show' }
-        format.js
-      end
+    @like.destroy
+    respond_to do |format| 
+      @likeable.reload
+      format.html { redirect_to @question }
+      format.js
     end
   end
 
@@ -48,17 +44,12 @@ class LikesController < ApplicationController
       @like = Like.find(params[:id])
       if @like.likeable_type == 'Question'
         @question = @like.likeable
+        @likeable = @question
       else
-        @answer = @like.likeable
+        @likeable = @like.likeable
+        @answer = @likeable
         @question = @answer.question
       end
-    end 
-
-    def restrict
-      if @likeable.liked_by(current_user)
-        redirect_to @question
-      end
     end
-
 
 end

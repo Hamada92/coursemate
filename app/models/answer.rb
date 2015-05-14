@@ -6,8 +6,8 @@ class Answer < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :likes, as: :likeable, dependent: :destroy
 
-  def liked_by user
-    self.likes.where(user_id: user.id).any?
+  def likes_by user
+    self.likes.where(user_id: user.id)
   end
 
 end
