@@ -7,7 +7,7 @@ class LikesController < ApplicationController
     @like = @likeable.likes.build
     @like.user = current_user
     respond_to do |format|
-      if @likeable.likes_by(current_user).empty? and @like.save
+      if @like.save
         format.html { redirect_to @question }
         format.js
       else
