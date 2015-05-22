@@ -7,7 +7,9 @@ class Like < ActiveRecord::Base
 
   def has_not_voted?
     @likeable = self.likeable
-    errors.add(:base, "You can't vote twice on the same post") unless @likeable.likes_by(self.user).empty?
+    unless @likeable.likes_by(self.user).empty?
+      errors.add(:base, "You can't vote twice on the same post") 
+    end
   end
     
 

@@ -50,10 +50,14 @@ class QuestionsController < ApplicationController
     @unanswered_questions = Question.unanswered
   end
 
+  def show_with_tag
+    @questions_with_tag = Question.tagged_with(params[:course_name])
+  end
+
   private
 
     def question_params
-      params.require(:question).permit(:title,:body)
+      params.require(:question).permit(:title, :body, :course_name, :course_number)
     end
 
     def set_question
