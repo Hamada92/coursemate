@@ -13,8 +13,12 @@ class Question < ActiveRecord::Base
     includes(:answers).where(answers: { id: nil })
   end
 
-  def self.tagged_with tag
-    where(course_name: tag)
+  def self.from_subject name
+    where(course_name: name)
+  end
+
+  def self.from_course name, number
+    where(course_name: name, course_number: number)
   end
 
   def likes_by user
