@@ -4,7 +4,11 @@ class QuestionsController < ApplicationController
   before_action :authorize, only: [:edit, :update, :destroy]
 
   def index
-    @questions = Question.all
+    if user_signed_in?
+      @questions = Question.university_of current_user
+    else
+      @questions = Question.all
+    end
   end
 
   def show
@@ -61,7 +65,7 @@ class QuestionsController < ApplicationController
   private
 
     def question_params
-      params.require(:question).permit(:title, :body, :course_name, :course_number)
+      params.require(:question).permit(:title, :body, :course_name, :course_number, :university)
     end
 
     def set_question

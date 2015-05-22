@@ -9,6 +9,13 @@ class Question < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :likes, as: :likeable, dependent: :destroy
 
+
+  before_create :set_university
+
+  def set_university
+    self.university = self.user.university
+  end
+
   def self.unanswered
     includes(:answers).where(answers: { id: nil })
   end
@@ -23,6 +30,10 @@ class Question < ActiveRecord::Base
 
   def likes_by user
     self.likes.where(user_id: user.id)
+  end
+
+  def self.university_of user
+    where(university: user.university)
   end
 
 
