@@ -1,2 +1,2 @@
--@unanswered_questions.each do |un|
-  =un.title
+-@unanswered_questions.each do |q|
+  =link_to q.title, question_path(q)
