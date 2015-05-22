@@ -58,10 +58,6 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def show_from_course
-    @questions_with_tag = Question.from_course(params[:course_name], params[:course_number])
-  end
-
   private
 
     def question_params
