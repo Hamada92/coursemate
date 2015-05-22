@@ -3,6 +3,8 @@ class Question < ActiveRecord::Base
 
   validates :title, presence: true, length: { minimum: 10 }
   validates :body, presence: true
+  validates_inclusion_of :course_name, in: QuestionsHelper::COURSES
+
   
   belongs_to :user
   has_many :answers, dependent: :destroy

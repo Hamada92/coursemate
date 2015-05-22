@@ -8,7 +8,7 @@
   =f.text_area :body
   %br
   =f.label :course_name
-  =f.text_field :course_name
+  =f.select :course_name, options_for_select(QuestionsHelper::COURSES)
   %br
   =f.label :course_number
   =f.text_field :course_number
