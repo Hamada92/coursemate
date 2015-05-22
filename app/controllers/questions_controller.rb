@@ -51,7 +51,8 @@ class QuestionsController < ApplicationController
   end
 
   def show_with_tag
-    @questions_with_tag = Question.tagged_with(params[:course_name])
+    p params
+    @questions_with_tag = Question.tagged_with(params[:tag_name])
   end
 
   private

@@ -3,7 +3,7 @@ describe 'create a new answer for a question' do
   let! (:user) { User.create(email: 'test@test.com', password: 'testtest') }
 
   before :each do 
-    @question = Question.create(title: 'test question', body: 'what is 2+2?', user: user)
+    @question = Question.create(title: 'test question', body: 'what is 2+2?', user: user, course_name: 'CISC', course_number: '123')
   end
 
   it 'answers a question' do 
