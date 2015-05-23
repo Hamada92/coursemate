@@ -34,9 +34,8 @@ class Question < ActiveRecord::Base
     self.likes.where(user_id: user.id)
   end
 
-  def self.university_of user
+  def self.from_university user
     where(university: user.university)
   end
-
 
 end

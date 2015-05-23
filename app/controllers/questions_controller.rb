@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
 
   def index
     if user_signed_in?
-      @questions = Question.university_of current_user
+      @questions = Question.from_university current_user
     else
       @questions = Question.all
     end

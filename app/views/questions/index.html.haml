@@ -1,7 +1,3 @@
-=render 'partials/menu'
-%br
-=link_to 'Unanswered', unanswered_questions_path
-%br
 %h2 Questions
 -@questions.each do |q|
   =link_to q.title, q
