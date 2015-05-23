@@ -5,9 +5,9 @@ describe 'go to dashboard' do
   let!(:user3) { User.create(email: 'test3@test.com', password: 'tetstest') }
 
   before :each do 
-    @question1 = Question.create(title: 'user1question', body:'anything', user: user1)
-    @question2 = Question.create(title: 'user2question', body:'anything', user: user2)
-    @question3 = Question.create(title: 'user3question', body:'anything', user: user3)
+    @question1 = user1.questions.create(title: 'user1question', body:'anything', course_name: 'CISC')
+    @question2 = user2.questions.create(title: 'user2question', body:'anything', course_name: 'CISC')
+    @question3 = user3.questions.create(title: 'user3question', body:'anything', course_name: 'CISC')
 
     Answer.create(body: 'user1answer', user: user1, question: @question3)
   end

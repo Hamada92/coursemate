@@ -10,7 +10,7 @@ describe 'create new question' do
     visit '/questions/new'
     fill_in 'Title', with: 'test question'
     fill_in 'Body', with: 'what is your name?'
-    fill_in 'Course name', with: 'CISC'
+    select 'CISC', from: 'Course name'
     fill_in 'Course number', with: '110'
     click_button 'Post'
     expect(page).to have_content('what is your name?')
