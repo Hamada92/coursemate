@@ -2,20 +2,13 @@
   .error
     =render 'partials/errors', resource: @question
   %br
-  / =f.fields_for :taggings do |taggings_form|
-  /   =taggings_form.fields_for :tag do |tag_form|
-  /     =tag_form.label :category
-  /     =tag_form.text_field :category
-
-  =f.fields_for :tags do |t|
-    =t.label :category
-    =t.text_field :category
-
-  %br
   =f.label :title
   =f.text_field :title
   %br
   =f.label :body
   =f.text_area :body
+  %br
+  =f.label :category
+  =f.text_field :category
   %br
   =f.submit 'Post'

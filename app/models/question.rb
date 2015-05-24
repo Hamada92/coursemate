@@ -10,10 +10,7 @@ class Question < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :likes, as: :likeable, dependent: :destroy
   has_many :taggings
-  has_many :tags, through: :taggings
-
-  accepts_nested_attributes_for :tags
-
+  has_many :tags, through: :taggings, dependent: :destroy
 
   def self.unanswered
     includes(:answers).where(answers: { id: nil })
@@ -33,6 +30,14 @@ class Question < ActiveRecord::Base
 
   def self.from_university user
     where(university: user.university)
+  end
+
+  def category=(name)
+    self.tags = [Tag.where(category: name).first_or_create!]
+  end
+ 
+  def category
+    self.tags.map(&:category).join(", ")
   end
 
 end

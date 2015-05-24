@@ -17,7 +17,6 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
-    @question.tags.build
   end
 
   def edit
@@ -55,18 +54,11 @@ class QuestionsController < ApplicationController
     @unanswered_questions = Question.unanswered
   end
 
-  def show_with_tag
-    if params[:course_number]
-      @questions_with_tag = Question.from_course(params[:course_name], params[:course_number])
-    else
-      @questions_with_tag = Question.from_subject(params[:course_name])
-    end
-  end
 
   private
 
     def question_params
-      params.require(:question).permit(:title, :body, { tags_attributes: [:id, :category]})
+      params.require(:question).permit(:title, :body, :category)
     end
 
     def set_question
