@@ -4,20 +4,20 @@ class QuestionsController < ApplicationController
   before_action :authorize, only: [:edit, :update, :destroy]
 
   def index
-    if user_signed_in?
-      @questions = Question.from_university current_user
-    else
-      @questions = Question.all
-    end
+    # if user_signed_in?
+    #   @questions = Question.from_university current_user
+    # else
+    @questions = Question.all
+    #end
   end
 
   def show
     @answer = Answer.new
-    @question.tags.build
   end
 
   def new
     @question = Question.new
+    @question.tags.build
   end
 
   def edit
@@ -66,7 +66,7 @@ class QuestionsController < ApplicationController
   private
 
     def question_params
-      params.require(:question).permit(:title, :body, { tags_attributes: [:id, :type]})
+      params.require(:question).permit(:title, :body, { tags_attributes: [:id, :category]})
     end
 
     def set_question
