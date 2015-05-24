@@ -13,6 +13,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = Answer.new
+    @question.tags.build
   end
 
   def new
@@ -65,7 +66,7 @@ class QuestionsController < ApplicationController
   private
 
     def question_params
-      params.require(:question).permit(:title, :body, :course_name, :course_number, :university)
+      params.require(:question).permit(:title, :body, { tags_attributes: [:id, :type]})
     end
 
     def set_question

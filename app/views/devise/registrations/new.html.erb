@@ -10,7 +10,7 @@
 
   <div class="field">
     <%= f.label :university %><br />
-    <%= f.text_field :university %>
+    <%= f.select :university, options_for_select(UsersHelper::UNIVERSITIES), prompt: "Select University" %>
   </div>
 
   <div class="field">

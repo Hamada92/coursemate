@@ -3,20 +3,17 @@ class Question < ActiveRecord::Base
 
   validates :title, presence: true, length: { minimum: 10 }
   validates :body, presence: true
-  validates_inclusion_of :course_name, in: QuestionsHelper::COURSES
 
   
   belongs_to :user
   has_many :answers, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :likes, as: :likeable, dependent: :destroy
+  has_many :taggings
+  has_many :tags, through: :taggings
 
+  accepts_nested_attributes_for :tags
 
-  before_create :set_university
-
-  def set_university
-    self.university = self.user.university
-  end
 
   def self.unanswered
     includes(:answers).where(answers: { id: nil })

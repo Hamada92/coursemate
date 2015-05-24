@@ -1,16 +1,16 @@
 =form_for @question do |f|
   .error
     =render 'partials/errors', resource: @question
+  %br
+  =f.fields_for :tags do |t|
+    =t.label :type
+    =t.text_field :type
+
+  %br
   =f.label :title
   =f.text_field :title
   %br
   =f.label :body
   =f.text_area :body
-  %br
-  =f.label :course_name
-  =f.select :course_name, options_for_select(QuestionsHelper::COURSES)
-  %br
-  =f.label :course_number
-  =f.text_field :course_number
   %br
   =f.submit 'Post'
