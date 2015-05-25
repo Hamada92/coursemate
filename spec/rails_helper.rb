@@ -18,3 +18,14 @@ end
 def login(user)
   page.driver.post user_session_path, 'user[email]' => user.email, 'user[password]' => user.password
 end
+
+def create_question
+  visit '/questions/new'
+  select 'Course Related', from: 'Category'
+  fill_in 'Name', with: 'CISC 121'
+  fill_in 'Title', with: 'How to write a for loop in python?'
+  fill_in 'Body', with: 'Can someone explain for loops?'
+  click_button 'Post'
+  expect(page).to have_content('How to write a for loop in python?')
+
+end

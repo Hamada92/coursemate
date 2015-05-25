@@ -1,18 +1,19 @@
 require "rails_helper"
 describe 'create new question' do 
-  let!(:user)  { User.create(email: 'test@test.com', password: 'testtest') }
+  let!(:user)  { User.create(email: 'test@test.com', password: 'testtest', university: 'Acadia University') }
   
   before :each do 
     login user
   end
 
   it 'create a new question' do 
-    visit '/questions/new'
-    fill_in 'Title', with: 'test question'
-    fill_in 'Body', with: 'what is your name?'
-    select 'CISC', from: 'Course name'
-    fill_in 'Course number', with: '110'
-    click_button 'Post'
-    expect(page).to have_content('what is your name?')
+    create_question
   end
+
+  it 'does not create new tag if it already exists' do 
+    Tag.create!(name: 'CISC 121', university: 'Acadia University', category: 'Course Related')
+    create_question
+  end
+
+
 end

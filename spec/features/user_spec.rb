@@ -1,16 +1,17 @@
 require "rails_helper"
 describe 'go to dashboard' do 
-  let!(:user1) { User.create(email: 'test1@test.com', password: 'testtest') }
-  let!(:user2) { User.create(email: 'test2@test.com', password: 'tetstest') }
-  let!(:user3) { User.create(email: 'test3@test.com', password: 'tetstest') }
+  let!(:user1) { User.create(email: 'test1@test.com', password: 'testtest', university: "Acadia University") }
+  let!(:user2) { User.create(email: 'test2@test.com', password: 'tetstest', university: "Acadia University")}
+  let!(:user3) { User.create(email: 'test3@test.com', password: 'tetstest', university: "Acadia University")}
 
   before :each do 
-    @question1 = user1.questions.create(title: 'user1question', body:'anything', course_name: 'CISC')
-    @question2 = user2.questions.create(title: 'user2question', body:'anything', course_name: 'CISC')
-    @question3 = user3.questions.create(title: 'user3question', body:'anything', course_name: 'CISC')
-
-    Answer.create(body: 'user1answer', user: user1, question: @question3)
+    @question1 = user1.questions.create!(title: 'user1question', body:'anything', "tags_attributes"=>{"0"=>{category: "Course Related", name: "CISC 121", university: "Acadia University"}})
+    @question2 = user2.questions.create!(title: 'user2question', body:'anything', "tags_attributes"=>{"0"=>{category: "Course Related", name: "CISC 121", university: "Acadia University"}})
+    @question3 = user3.questions.create!(title: 'user3question', body:'anything', "tags_attributes"=>{"0"=>{category: "Course Related", name: "CISC 121", university: "Acadia University"}})
+    user1.answers.create(body: 'answer', question: @question3)
   end
+
+
 
   it "shows only user1's questions and answers in the dashboard" do
     login user1
