@@ -13,6 +13,8 @@
     %br
     =t.label :name
     =t.text_field :name
+    %br
+    =t.hidden_field :university, value: current_user.university
 
   %br
   =f.label :title

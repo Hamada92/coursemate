@@ -3,6 +3,8 @@ class Question < ActiveRecord::Base
 
   validates :title, presence: true, length: { minimum: 10 }
   validates :body, presence: true
+  validate :university_hidden_field
+
 
   
   belongs_to :user
@@ -13,6 +15,12 @@ class Question < ActiveRecord::Base
   has_many :tags, through: :taggings
 
   accepts_nested_attributes_for :tags
+
+  def university_hidden_field
+    unless self.tags.first[:university] == self.user.university
+      errors.add(:base, "You can't modify the university hidden field")
+    end
+  end
 
 
   def self.unanswered
@@ -37,7 +45,7 @@ class Question < ActiveRecord::Base
 
   def tags_attributes=(hash)
     hash.each do |sequence, tag_values|
-      tags <<  Tag.where(category: tag_values[:category], name: tag_values[:name]).first_or_create
+      self.tags <<  Tag.where(category: tag_values[:category], name: tag_values[:name], university: tag_values[:university]).first_or_create
     end
   end
 
