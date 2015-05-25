@@ -5,6 +5,8 @@ class Question < ActiveRecord::Base
   validates :body, presence: true
   validate :university_hidden_field
 
+  before_destroy :cleanup
+
 
   
   belongs_to :user
@@ -12,15 +14,10 @@ class Question < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :likes, as: :likeable, dependent: :destroy
   has_many :taggings, dependent: :destroy
-  has_many :tags, through: :taggings
+  has_many :tags, through: :taggings, dependent: :destroy
 
   accepts_nested_attributes_for :tags
 
-  def university_hidden_field
-    unless self.tags.first[:university] == self.user.university
-      errors.add(:base, "You can't modify the university hidden field")
-    end
-  end
 
 
   def self.unanswered
@@ -48,5 +45,21 @@ class Question < ActiveRecord::Base
       self.tags <<  Tag.where(category: tag_values[:category], name: tag_values[:name], university: tag_values[:university]).first_or_create
     end
   end
+
+  private
+
+    def university_hidden_field
+      unless self.tags.first[:university] == self.user.university
+        errors.add(:base, "You can't modify the university hidden field")
+      end
+    end
+
+    def cleanup 
+      question_tag_id = self.tags.first.id
+      if Tagging.where(tag_id: self.tags.first.id).count == 1 # means we have only one tagging and therefore one question with this tag, so if we destroy this last question we should also destroy the tag
+        Tag.find(question_tag_id ).destroy
+      end
+    end
+
 
 end
