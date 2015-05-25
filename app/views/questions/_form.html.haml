@@ -9,7 +9,7 @@
 
   =f.fields_for :tags do |t|
     =t.label :category
-    =t.text_field :category
+    =t.select :category, options_for_select(QuestionsHelper::CATEGORIES)
     %br
     =t.label :name
     =t.text_field :name

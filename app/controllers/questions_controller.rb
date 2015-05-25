@@ -51,6 +51,7 @@ class QuestionsController < ApplicationController
     end
   end
 
+
   def unanswered
     @unanswered_questions = Question.unanswered
   end
