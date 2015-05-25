@@ -10,7 +10,7 @@ class Question < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :likes, as: :likeable, dependent: :destroy
   has_many :taggings
-  has_many :tags, through: :taggings
+  has_many :tags, through: :taggings, dependent: :destroy
 
   accepts_nested_attributes_for :tags
 
@@ -33,6 +33,12 @@ class Question < ActiveRecord::Base
 
   def self.from_university user
     where(university: user.university)
+  end
+
+  def tags_attributes=(hash)
+    hash.each do |sequence, tag_values|
+      tags <<  Tag.where(name: tag_values[:name], category: tag_values[:category]).first_or_create
+    end
   end
 
 end

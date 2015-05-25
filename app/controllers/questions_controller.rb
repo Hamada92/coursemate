@@ -66,7 +66,7 @@ class QuestionsController < ApplicationController
   private
 
     def question_params
-      params.require(:question).permit(:title, :body, { tags_attributes: [:id, :category]})
+      params.require(:question).permit(:title, :body, { tags_attributes: [:id, :category, :name]})
     end
 
     def set_question
