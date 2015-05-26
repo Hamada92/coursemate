@@ -1,20 +1,18 @@
 class Question < ActiveRecord::Base
   
 
-  validates :title, presence: true, length: { minimum: 10 }
-  validates :body, presence: true
-  validate :university_hidden_field
+  validates :title, presence: true
+  validate :user_from_university
 
-  before_destroy :cleanup
-
-
+  after_destroy :cleanup_orphan_tags
+  after_update :cleanup_orphan_tags
   
   belongs_to :user
   has_many :answers, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :likes, as: :likeable, dependent: :destroy
   has_many :taggings, dependent: :destroy
-  has_many :tags, through: :taggings, dependent: :destroy
+  has_many :tags, through: :taggings
 
   accepts_nested_attributes_for :tags
 
@@ -42,24 +40,22 @@ class Question < ActiveRecord::Base
 
   def tags_attributes=(hash)
     hash.each do |sequence, tag_values|
-      self.tags <<  Tag.where(category: tag_values[:category], name: tag_values[:name], university: tag_values[:university]).first_or_create
+      self.tags = [Tag.where(category: tag_values[:category], name: tag_values[:name], university: tag_values[:university]).first_or_create]
     end
   end
 
   private
 
-    def university_hidden_field
+    def user_from_university
       unless self.tags.first[:university] == self.user.university
-        errors.add(:base, "You can't modify the university hidden field")
+        errors.add(:base, "You may only post questions for your university")
       end
     end
 
-    def cleanup 
-      question_tag_id = self.tags.first.id
-      if Tagging.where(tag_id: self.tags.first.id).count == 1 # means we have only one tagging and therefore one question with this tag, so if we destroy this last question we should also destroy the tag
-        Tag.find(question_tag_id ).destroy
-      end
+    def cleanup_orphan_tags
+      # rails issue 778
+      # add -1 to array to prevent array from being empty and running into this issue
+      Tag.where("id not in (?)", [-1] + Tagging.pluck(:tag_id)).destroy_all
     end
-
 
 end
