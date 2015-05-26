@@ -23,4 +23,5 @@ Rails.application.routes.draw do
   end
 
   get 'questions/tags/:id', to: 'questions#show_with_tag', as: 'show_with_tag'
+  get 'questions/universities/:university', to: 'questions#show_with_tag', as: 'show_with_university_tag'
 end

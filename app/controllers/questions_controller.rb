@@ -57,7 +57,11 @@ class QuestionsController < ApplicationController
   end
 
   def show_with_tag
-    @questions_with_tag = Question.tagged_with params[:id]
+    if params[:university]
+      @questions_with_tag = Question.tagged_with_university params[:university]
+    else
+      @questions_with_tag = Question.tagged_with params[:id]
+    end
   end
 
   private

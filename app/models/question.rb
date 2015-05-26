@@ -26,6 +26,10 @@ class Question < ActiveRecord::Base
     joins(:taggings).where(taggings: { tag_id: id })
   end
 
+  def self.tagged_with_university university
+    joins(:taggings, :tags).where(tags: { university: university })
+  end
+
   def likes_by user
     self.likes.where(user_id: user.id)
   end
@@ -49,9 +53,7 @@ class Question < ActiveRecord::Base
     end
 
     def cleanup_orphan_tags
-      # rails issue 778
-      # add -1 to array to prevent array from being empty and running into this issue
-      Tag.where("id not in (?)", [-1] + Tagging.pluck(:tag_id)).destroy_all
+      Tag.includes(:taggings).where(taggings: { id: nil }).destroy_all
     end
 
 end
