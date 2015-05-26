@@ -9,6 +9,7 @@
   =@question.body
   %br
   tags:
+  =link_to("#{@question.tags.first.university} #{@question.tags.first.name}", show_with_tag_path(@question.tags.first.id))
 
   .Vote
     =render 'likes/like', likeable: @question, path: question_likes_path(@question, Like.new)

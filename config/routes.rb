@@ -22,7 +22,5 @@ Rails.application.routes.draw do
     resources :likes, only: [:create, :destroy]
   end
 
-  get 'questions/course/:course_name', to: 'questions#show_with_tag', as: 'questions_from_subject'
-  get 'questions/course/:course_name/number/:course_number', to: 'questions#show_with_tag', as: 'questions_from_course'
-
+  get 'questions/tags/:id', to: 'questions#show_with_tag', as: 'show_with_tag'
 end

@@ -57,11 +57,7 @@ class QuestionsController < ApplicationController
   end
 
   def show_with_tag
-    if params[:course_number]
-      @questions_with_tag = Question.from_course(params[:course_name], params[:course_number])
-    else
-      @questions_with_tag = Question.from_subject(params[:course_name])
-    end
+    @questions_with_tag = Question.tagged_with params[:id]
   end
 
   private
