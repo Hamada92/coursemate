@@ -8,7 +8,9 @@ class User < ActiveRecord::Base
   has_many :likes, dependent: :destroy
 
   validate :valid_email
+  validates :user_name, uniqueness: true
   before_create :set_university
+
 
   def questions_he_answered
     Question.joins(:answers).where(answers: { user_id: self.id} ).distinct
