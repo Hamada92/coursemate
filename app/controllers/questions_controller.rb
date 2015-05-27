@@ -4,11 +4,11 @@ class QuestionsController < ApplicationController
   before_action :authorize, only: [:edit, :update, :destroy]
 
   def index
-    # if user_signed_in?
-    #   @questions = Question.from_university current_user
-    # else
-    @questions = Question.all
-    #end
+    if user_signed_in?
+      @questions = Question.tagged_with_university current_user.university
+    else
+      @questions = Question.all
+    end
   end
 
   def show

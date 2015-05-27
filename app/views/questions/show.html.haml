@@ -24,7 +24,7 @@
     .ExistingComments
       =render @question.comments.order('id ASC')
     .NewComment
-      =render 'comments/form', resources: [@question, Comment.new], comment: Comment.new
+      =render 'comments/form', resources: [@question, Comment.new]
 
 
 %h2 Answers
@@ -43,7 +43,7 @@
         .ExistingComments
           =render a.comments.order('id ASC')
         .NewComment
-          =render 'comments/form', resources: [a, Comment.new], comment: Comment.new
+          =render 'comments/form', resources: [a, Comment.new]
 =render 'answers/form', resources: [@question, @answer]
 
 

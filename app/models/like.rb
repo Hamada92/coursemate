@@ -1,10 +1,10 @@
 class Like < ActiveRecord::Base
 
-  validate :has_not_voted? 
-  validate :does_not_own_post?
-
   belongs_to :likeable, counter_cache: :num_likes, polymorphic: true
   belongs_to :user
+
+  validate :has_not_voted? 
+  validate :does_not_own_post?
 
   def has_not_voted?
     @likeable = self.likeable

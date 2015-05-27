@@ -1,12 +1,5 @@
 class Question < ActiveRecord::Base
-  
 
-  validates :title, presence: true
-  validate :user_from_university
-
-  after_destroy :cleanup_orphan_tags
-  after_update :cleanup_orphan_tags
-  
   belongs_to :user
   has_many :answers, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
@@ -16,8 +9,12 @@ class Question < ActiveRecord::Base
 
   accepts_nested_attributes_for :tags
 
+  validates :title, presence: true
+  validate :user_from_university
 
-
+  after_destroy :cleanup_orphan_tags
+  after_update :cleanup_orphan_tags
+  
   def self.unanswered
     includes(:answers).where(answers: { id: nil })
   end
@@ -32,10 +29,6 @@ class Question < ActiveRecord::Base
 
   def likes_by user
     self.likes.where(user_id: user.id)
-  end
-
-  def self.from_university user
-    where(university: user.university)
   end
 
   def tags_attributes=(hash)

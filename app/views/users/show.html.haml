@@ -1,4 +1,9 @@
+-if current_user == @user
+  =link_to("Edit Account", edit_user_registration_path)
+
 %h2=@user.email
+
+=@user.university
 
 %h3 Questions
 
@@ -8,7 +13,7 @@
 
 %h3 Answers
 
--@answered_questions.each do |q|
+-@questions_he_answered.each do |q|
   =link_to q.title, question_path(q)
   %br
 
