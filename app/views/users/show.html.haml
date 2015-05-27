@@ -1,9 +1,15 @@
 -if current_user == @user
   =link_to("Edit Account", edit_user_registration_path)
 
+%h2
+  =@user.first_name 
+  =@user.last_name
+
 %h2=@user.email
 
-%h3=@user.score
+%h3
+  Score:
+  =@user.score
 
 =@user.university
 
