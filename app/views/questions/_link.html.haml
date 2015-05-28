@@ -1,7 +1,9 @@
 %p
+  answers:
+  =question.answers.count
+  votes:
+  =question.likes.count
   =link_to question.title, question_path(question)
-  %br
-  =question.body
   %br
   tags:
   =link_to("#{question.tags.first.university}", show_with_university_tag_path(question.tags.first.university))
