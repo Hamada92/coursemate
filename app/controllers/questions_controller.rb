@@ -8,7 +8,7 @@ class QuestionsController < ApplicationController
       @questions = Question.tagged_with_university(current_user.university).includes(:answers, :likes, :tags)
       @tags = Tag.with_university current_user.university
     else
-      @questions = Question.all
+      @questions = Question.includes(:answers, :likes, :tags)
     end
   end
 
