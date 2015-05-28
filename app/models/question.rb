@@ -10,6 +10,7 @@ class Question < ActiveRecord::Base
   accepts_nested_attributes_for :tags
 
   validates :title, presence: true
+  validates :body, presence: true
   validate :user_from_university
 
   after_destroy :cleanup_orphan_tags

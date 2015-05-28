@@ -4,21 +4,20 @@
 %h2
   =@user.first_name 
   =@user.last_name
-  %i= "&#40".html_safe + @user.user_name + "&#41".html_safe 
+  -if @user.first_name.nil? and @user.last_name.nil?
+    =@user.username
+  -else
+    %i= "&#40".html_safe + @user.username + "&#41".html_safe 
 
-%h2=@user.email
-
-%h3
-  Score:
-  =@user.score
-
+Score:
+=@user.score
+%br
 =@user.university
 
 %h3 Questions
 
 -@questions.each do |q|
-  =link_to q.title, question_path(q)
-  %br
+  =render 'questions/link', question: q
 
 %h3 Answers
 

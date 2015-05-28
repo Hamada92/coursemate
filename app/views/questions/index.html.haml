@@ -1,5 +1,10 @@
+-if user_signed_in?
+  %h2 Tags
+  -@tags.each do |t|
+    =link_to("#{t.name}", show_with_tag_path(t.id))
+%br
 %h2 Questions
 -@questions.each do |q|
-  =link_to q.title, q
-  %br
+  =render 'questions/link', question: q
+
 

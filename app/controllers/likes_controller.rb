@@ -8,7 +8,7 @@ class LikesController < ApplicationController
     @like.user = current_user
     respond_to do |format|
       if @like.save
-        change_score 10
+        change_score 1
         format.html { redirect_to @question }
         format.js
       else
@@ -20,7 +20,7 @@ class LikesController < ApplicationController
 
   def destroy
     @like.destroy
-    change_score -10
+    change_score -1
     respond_to do |format| 
       format.html { redirect_to @question }
       format.js
@@ -53,6 +53,11 @@ class LikesController < ApplicationController
     end
 
     def change_score points
+      if @like.likeable_type == 'Question'
+        points *= 5
+      elsif @like.likeable_type == 'Answer'
+        points *= 10
+      end
       @like.likeable.user.score += points
       @like.likeable.user.save
     end
