@@ -22,14 +22,14 @@
 
   .Comments
     .ExistingComments
-      =render @question.comments.order('id ASC')
+      =render @question.comments.includes(:user).order('id ASC')
     .NewComment
       =render 'comments/form', resources: [@question, Comment.new]
 
 
 %h2 Answers
 
--@question.answers.order('num_likes DESC').each do |a|
+-@question.answers.includes(:user).order('num_likes DESC').each do |a|
   -unless a.id.nil?
     %div{id: "Answer#{a.id}"}
       =a.body
@@ -41,7 +41,7 @@
         =link_to("Delete", answer_path(a), method: :delete)
       .Comments
         .ExistingComments
-          =render a.comments.order('id ASC')
+          =render a.comments.includes(:user).order('id ASC')
         .NewComment
           =render 'comments/form', resources: [a, Comment.new]
 =render 'answers/form', resources: [@question, @answer]
