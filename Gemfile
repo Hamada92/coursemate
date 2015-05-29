@@ -52,4 +52,5 @@ end
 gem "passenger"
 gem "haml-rails"
 gem 'devise'
+gem 'foundation-rails'
 
