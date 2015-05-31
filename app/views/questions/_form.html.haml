@@ -3,12 +3,11 @@
     =render 'partials/errors', resource: @question
 
   =f.fields_for :tags do |t|
-    #category_select
-      =t.label :category
-      =t.select :category, QuestionsHelper::CATEGORIES
-    
-    #tag_input
-      =t.text_field :name, autocomplete: "off", placeholder: "Enter a course name... eg. MATH 101"
+  
+    =t.label :category
+    =t.select :category, QuestionsHelper::CATEGORIES, {}, id: "category_select"
+  
+    =t.text_field :name, autocomplete: "off", placeholder: "Enter a course name... eg. MATH 101", id: "tag_input"
     
     =t.hidden_field :university, value: current_user.university
 

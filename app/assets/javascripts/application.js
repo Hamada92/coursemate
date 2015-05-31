@@ -23,23 +23,23 @@ $(document).on('page:load', ready)
 
 function ready() {
 
-  if ($("#category_select select").val() == "University Related") 
+  if ($("#category_select").val() == "University Related") 
     $("#tag_input").hide();
 
-  $("#category_select select").change(function () {
+  $("#category_select").change(function () {
     if (this.value == "University Related") {
       $("#tag_input").hide();
-      $("#tag_input input").val("General");
+      $("#tag_input").val("General");
     }
     else {
       $("#tag_input").show();
       if (this.value == "Course Related") {
-        $("#tag_input input").val("");
-        $("#tag_input input").attr("placeholder", "Enter a course name... eg. MATH 101");
+        $("#tag_input").val("");
+        $("#tag_input").attr("placeholder", "Enter a course name... eg. MATH 101");
       }
       else if (this.value == "Program Related") {
-        $("#tag_input input").val("");
-        $("#tag_input input").attr("placeholder", "Enter a program... eg. Electrical Engineering");
+        $("#tag_input").val("");
+        $("#tag_input").attr("placeholder", "Enter a program... eg. Electrical Engineering");
       }
     }
   });
