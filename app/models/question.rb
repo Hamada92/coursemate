@@ -13,6 +13,7 @@ class Question < ActiveRecord::Base
   validates :body, presence: true
   validate :user_from_university
   validate :valid_tag
+  validate :valid_category
 
   after_destroy :cleanup_orphan_tags
   after_update :cleanup_orphan_tags
@@ -39,9 +40,13 @@ class Question < ActiveRecord::Base
     end
   end
 
-
-
   private
+
+    def valid_category
+      unless QuestionsHelper::CATEGORIES.include?(self.tags.first.category)
+        errors.add(:base, "Please use a valid question category")
+      end
+    end
 
     def valid_tag
       tag = self.tags.first

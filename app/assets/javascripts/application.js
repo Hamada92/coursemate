@@ -23,7 +23,9 @@ $(document).on('page:load', ready)
 
 function ready() {
 
-  if ($("#category_select").val() == "University Related") 
+  if ($("#category_select").val() == "Program Related") 
+    $("#tag_input").attr("placeholder", "Enter a program... eg. Electrical Engineering");
+  else if ($("#category_select").val() == "University Related") 
     $("#tag_input").hide();
 
   $("#category_select").change(function () {
