@@ -2,6 +2,10 @@
   %h2 Tags
   -@tags.each do |t|
     =link_to("#{t.name}", show_with_tag_path(t.id))
+-else
+  %h2 Universities
+  -@universities.each do |u|
+    =link_to("#{u}", show_with_university_tag_path(u))
 %br
 %h2 Questions
 -@questions.each do |q|

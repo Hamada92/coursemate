@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show, :show_with_tag]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :authorize, only: [:edit, :update, :destroy]
 
@@ -9,6 +9,7 @@ class QuestionsController < ApplicationController
       @tags = Tag.with_university current_user.university
     else
       @questions = Question.all
+      @universities = Tag.all_universities
     end
   end
 
