@@ -23,6 +23,9 @@ $(document).on('page:load', ready)
 
 function ready() {
 
+  if ($("#category_select select").val() == "University Related") 
+    $("#tag_input").hide();
+
   $("#category_select select").change(function () {
     var category = $("#category_select select").val();
     if (category == "University Related") {
