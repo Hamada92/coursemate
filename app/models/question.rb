@@ -12,6 +12,7 @@ class Question < ActiveRecord::Base
   validates :title, presence: true
   validates :body, presence: true
   validate :user_from_university
+  validate :valid_tag
 
   after_destroy :cleanup_orphan_tags
   after_update :cleanup_orphan_tags
@@ -38,7 +39,26 @@ class Question < ActiveRecord::Base
     end
   end
 
+
+
   private
+
+    def valid_tag
+      tag = self.tags.first
+      if tag.category == "University Related"
+        unless tag.name == "General"
+          errors.add(:base, "University related questions must be tagged with \'General\'")
+        end
+      elsif tag.category == "Course Related"
+        unless tag.name =~ /\A *[A-Za-z0-9]+ +[A-Za-z0-9]+ *\Z/
+          errors.add(:base, "A course must be composed of a course code and a course number seperated by a space")
+        end
+      else
+        if tag.name.blank?
+          errors.add(:base, "Please enter a valid program")
+        end
+      end
+    end
 
     def user_from_university
       unless self.tags.first[:university] == self.user.university

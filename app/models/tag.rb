@@ -4,8 +4,6 @@ class Tag < ActiveRecord::Base
   has_many :questions, through: :taggings
 
   validates_inclusion_of :category, in: QuestionsHelper::CATEGORIES
-  validates :name, presence: true
-  validate :valid_tag
 
   before_create :clean_tag
 
@@ -15,18 +13,6 @@ class Tag < ActiveRecord::Base
 
   def self.all_universities
     Tag.pluck(:university).uniq
-  end
-
-  def valid_tag
-    if self.category == "University Related"
-      unless self.name == "General"
-        errors.add(:base, "University related questions must be tagged with \'General\'")
-      end
-    elsif self.category == "Course Related"
-      unless self.name =~ /\A *[A-Za-z0-9]+ +[A-Za-z0-9]+ *\Z/
-        errors.add(:base, "A course must be composed of a course code and a course number seperated by a space")
-      end
-    end
   end
 
   def clean_tag
