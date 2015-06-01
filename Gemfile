@@ -52,5 +52,6 @@ end
 gem "passenger"
 gem "haml-rails"
 gem 'devise'
-gem 'foundation-rails'
+gem 'bootstrap-sass', '~> 3.3.4'
+
 
