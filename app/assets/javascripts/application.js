@@ -17,8 +17,6 @@
 //= require jquery
 //= require bootstrap-sprockets
 
-$(function(){ $(document).foundation(); });
-
 $(document).ready(ready)
 $(document).on('page:load', ready)
 
@@ -48,4 +46,6 @@ function ready() {
   });
 
 }
+
+
 
