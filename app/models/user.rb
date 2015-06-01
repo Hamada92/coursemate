@@ -7,8 +7,8 @@ class User < ActiveRecord::Base
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
 
-  validate :valid_email
   validates :username, uniqueness: true, presence: true
+  validate :valid_email
   
   before_create :set_university
 

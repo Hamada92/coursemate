@@ -8,9 +8,14 @@
 </head>
 <body>
   <%= render 'partials/menu' %>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-  <p class="error"><%= flash[:error] %></p>
+
+  <div class="container">
+  <% if flash[:alert] -%>
+    <p class='alert alert-danger'><%=h flash[:alert] %></p>
+  <% end -%>
+  <% if flash[:notice] -%>
+    <p class='alert alert-success'><%=h flash[:notice] %></p>
+  <% end -%>
 
 <%= yield %>
 
