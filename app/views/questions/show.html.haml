@@ -8,9 +8,8 @@
   body:
   =@question.body
   %br
-  tags:
-  =link_to("#{@question.tags.first.university}", show_with_university_tag_path(@question.tags.first.university))
-  =link_to("#{@question.tags.first.name}", show_with_tag_path(@question.tags.first.id))
+  =link_to("#{@question.tags.first.university}", show_with_university_tag_path(@question.tags.first.university), class: "btn-sm btn-info")
+  =link_to("#{@question.tags.first.name}", show_with_tag_path(@question.tags.first.id), class: "btn-sm btn-info")
 
   .Vote
     =render 'likes/like', likeable: @question, path: question_likes_path(@question, Like.new)
