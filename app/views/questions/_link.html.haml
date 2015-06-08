@@ -1,9 +1,10 @@
 %p
-  answers:
-  =question.answers.count
-  votes:
-  =question.likes.count
-  =link_to question.title, question_path(question)
-  %br
-  =link_to("#{question.tags.first.university}", show_with_university_tag_path(question.tags.first.university), class: "btn-sm btn-info")
-  =link_to("#{question.tags.first.name}", show_with_tag_path(question.tags.first.id), class: "btn-sm btn-info")
+  .one_question
+    answers:
+    =question.answers.count
+    votes:
+    =question.likes.count
+    =link_to question.title, question_path(question)
+    %br
+    =link_to("#{question.tags.first.university}", show_with_university_tag_path(question.tags.first.university), class: "btn-sm btn-info")
+    =link_to("#{question.tags.first.name}", show_with_tag_path(question.tags.first.id), class: "btn-sm btn-info")
