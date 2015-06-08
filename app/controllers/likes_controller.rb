@@ -58,8 +58,8 @@ class LikesController < ApplicationController
       elsif @like.likeable_type == 'Answer'
         points *= 10
       end
-      @like.likeable.user.score += points
-      @like.likeable.user.save
+      @likeable.user.score += points
+      @likeable.user.save
     end
 
 end
