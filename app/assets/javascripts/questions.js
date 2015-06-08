@@ -27,7 +27,7 @@ function ready() {
   });
 
   $("#question_body").keyup(function() {
-    $('.question_keydown').html($('#question_body').val());
+    $(".question_preview").html($("#question_body").val());
   });
 
 }
