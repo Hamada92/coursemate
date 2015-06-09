@@ -1,5 +1,4 @@
-$("#<%=@like.likeable_type%><%=@likeable.id%> .VoteButton").html("<%= j (render 'remove_like', like: @like) %>");
-$("#<%=@like.likeable_type%><%=@likeable.id%> .NumVotes").html(parseInt($("#<%=@like.likeable_type%><%=@likeable.id%> .NumVotes").html(), 10)+1);
+$("#<%=@like.likeable_type%><%=@likeable.id%> .VoteButton").html("<%= j (render 'remove_like', like: @like, num_likes: @likeable.num_likes) %>");
 
 
 

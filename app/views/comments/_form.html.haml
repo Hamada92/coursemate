@@ -1,4 +1,5 @@
 =form_for resources, remote: true do |f|
   .Errors
-  =f.text_field :body, placeholder: 'Enter comment', autocomplete: "off"
-  =f.submit 'Post Comment', class: 'button'
+  .form-group
+    =f.text_field :body, placeholder: 'Enter comment', autocomplete: "off", class: "form-control"
+  =f.submit 'Post Comment', class: 'btn btn-primary'
