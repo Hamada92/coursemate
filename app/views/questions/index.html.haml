@@ -1,11 +1,11 @@
 -if user_signed_in?
   %h2 Tags
   -@tags.each do |t|
-    =link_to("#{t.name}", show_with_tag_path(t.id))
+    =link_to("#{t.name}", show_with_tag_path(t.id), class: "btn-sm btn-info")
 -else
   %h2 Universities
   -@universities.each do |u|
-    =link_to("#{u}", show_with_university_tag_path(u))
+    =link_to("#{u}", show_with_university_tag_path(u), class: "btn-sm btn-info")
 %br
 %h2 Questions
 -@questions.each do |q|
