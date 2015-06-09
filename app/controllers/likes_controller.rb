@@ -8,6 +8,7 @@ class LikesController < ApplicationController
     @like.user = current_user
     respond_to do |format|
       if @like.save
+        @likeable.reload
         change_score 1
         format.html { redirect_to @question }
         format.js
@@ -22,6 +23,7 @@ class LikesController < ApplicationController
     @like.destroy
     change_score -1
     respond_to do |format| 
+      @likeable.reload
       format.html { redirect_to @question }
       format.js
     end

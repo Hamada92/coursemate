@@ -5,10 +5,12 @@
 body {
   background-color: #edecec;
 }
+a .btn-sm {
+  text-decoration: none;
+}
 .signin {
   max-width: 400px;
 }
-
 #nav-icon {
   padding-top: 6px;
 }
@@ -18,8 +20,6 @@ body {
 .btn-info {
   border-radius: 10px;
 }
-
-
 .question-card {
   background: white;
   box-shadow: 0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
