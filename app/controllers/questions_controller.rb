@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show, :show_with_tag]
+  before_action :authenticate_user!, except: [:index, :show, :show_with_tag, :unanswered]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :authorize, only: [:edit, :update, :destroy]
 
@@ -55,7 +55,7 @@ class QuestionsController < ApplicationController
 
 
   def unanswered
-    @unanswered_questions = Question.unanswered
+    @unanswered_questions = Question.unanswered params[:tag]
   end
 
   def show_from_university

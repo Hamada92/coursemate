@@ -12,4 +12,4 @@
       =link_to("#{question.tags.first.university}", show_with_university_tag_path(question.tags.first.university), class: "btn-sm btn-info")
       =link_to("#{question.tags.first.name}", show_with_tag_path(question.tags.first.id), class: "btn-sm btn-info")
       -if question.answers.empty?
-        =link_to("unanswered", unanswered_questions_path, class: "btn-sm btn-success")
+        =link_to("unanswered", unanswered_path(question.tags.first.name), class: "btn-sm btn-success")
