@@ -22,6 +22,5 @@ Score:
 %h3 Answers
 
 -@questions_he_answered.each do |q|
-  =link_to q.title, question_path(q)
-  %br
+  =render 'questions/link', question: q
 
