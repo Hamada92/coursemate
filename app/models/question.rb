@@ -18,8 +18,8 @@ class Question < ActiveRecord::Base
   after_destroy :cleanup_orphan_tags
   after_update :cleanup_orphan_tags
   
-  def self.unanswered name
-    includes(:answers, :tags).where(answers: { id: nil }).where(tags: { name: name} )
+  def self.unanswered tag
+    includes(:answers, :tags).where(answers: { id: nil }).where(tags: { id: tag} )
   end
 
   def self.tagged_with id

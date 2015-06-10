@@ -6,7 +6,7 @@
   =@question.title
   %br
   body:
-  =@question.body
+  =@question.body.html_safe
   %br
   =link_to("#{@question.tags.first.university}", show_with_university_tag_path(@question.tags.first.university), class: "btn-sm btn-info")
   =link_to("#{@question.tags.first.name}", show_with_tag_path(@question.tags.first.id), class: "btn-sm btn-info")
