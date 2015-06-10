@@ -20,7 +20,7 @@ h2 {
 .question-form {
   max-width: 600px;
 }
-.btn-info {
+.btn-info, .btn-success {
   border-radius: 10px;
 }
 .question-card {
@@ -36,7 +36,7 @@ h2 {
   padding: 10px 20px;
   margin: 10px 0;
 }
-.question-card .stats {
+.question-card .votes {
   display: -webkit-flex;
   display: flex;
   -webkit-flex-direction: column;
@@ -44,18 +44,16 @@ h2 {
   justify-content: center;
   -webkit-flex-shrink: 0;
   flex-shrink: 0;
-  width: 110px;
-
+  width: 55px;
+}
+.question-card .votes btn {
+  width: 40px;
 }
 .question-card .main {
   display: -webkit-flex;
   display: flex;
   -webkit-flex-direction: column;
   flex-direction: column;
-}
-.question-card .num-votes, .question-card .num-answers {
-  height: 30px;
-  line-height: 30px;
 }
 .question-card .title-body {
   white-space: nowrap; 
@@ -64,5 +62,11 @@ h2 {
 }
 .question-card .title {
   font-size: 2em;
+}
+.score {
+  font-size: 1.5em;
+}
+.fa-trophy {
+  color: #FFA319;
 }
 

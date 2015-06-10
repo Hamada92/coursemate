@@ -1,18 +1,22 @@
 -if current_user == @user
   =link_to("Edit Account", edit_user_registration_path)
 
-%h2
+%h1
   =@user.first_name 
   =@user.last_name
   -if @user.first_name.nil? and @user.last_name.nil?
     =@user.username
   -else
     %i= "&#40".html_safe + @user.username + "&#41".html_safe 
+  %br
+  %small
+    =@user.university
 
-Score:
-=@user.score
-%br
-=@user.university
+.score
+  %i.fa.fa-trophy.fa-lg
+  %span
+    ="+" + @user.score.to_s
+
 
 %h3 Questions
 

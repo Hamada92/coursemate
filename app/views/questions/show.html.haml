@@ -22,8 +22,9 @@
   .Comments
     .ExistingComments
       =render @question.comments.includes(:user).order('id ASC')
-    .NewComment
-      =render 'comments/form', resources: [@question, Comment.new]
+    -if user_signed_in?
+      .NewComment
+        =render 'comments/form', resources: [@question, Comment.new]
 
 
 %h2 Answers
@@ -41,8 +42,9 @@
       .Comments
         .ExistingComments
           =render a.comments.includes(:user).order('id ASC')
-        .NewComment
-          =render 'comments/form', resources: [a, Comment.new]
+        -if user_signed_in?
+          .NewComment
+            =render 'comments/form', resources: [a, Comment.new]
 =render 'answers/form', resources: [@question, @answer]
 
 
