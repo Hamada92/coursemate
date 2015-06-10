@@ -1,7 +1,7 @@
 %h2
-  =@tag
+  =@tag.name
   %br
   %small
-    =@university
+    =@tag.university
 -@questions_with_tag.each do |q|
   =render 'questions/link', question: q

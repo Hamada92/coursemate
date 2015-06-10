@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show, :show_with_tag, :unanswered]
+  before_action :authenticate_user!, except: [:index, :show, :show_with_tag, :unanswered, :show_from_university]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :authorize, only: [:edit, :update, :destroy]
 
@@ -66,8 +66,7 @@ class QuestionsController < ApplicationController
 
   def show_with_tag
     @questions_with_tag = Question.tagged_with params[:id]
-    @tag = @questions_with_tag.first.tags.first.name 
-    @university = @questions_with_tag.first.tags.first.university
+    @tag = @questions_with_tag.first.tags.first
   end
 
   private
