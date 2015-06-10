@@ -58,12 +58,16 @@ class QuestionsController < ApplicationController
     @unanswered_questions = Question.unanswered
   end
 
+  def show_from_university
+    @questions_with_tag = Question.tagged_with_university params[:university]
+    @university = @questions_with_tag.first.tags.first.university
+
+  end
+
   def show_with_tag
-    if params[:university]
-      @questions_with_tag = Question.tagged_with_university params[:university]
-    else
-      @questions_with_tag = Question.tagged_with params[:id]
-    end
+    @questions_with_tag = Question.tagged_with params[:id]
+    @tag = @questions_with_tag.first.tags.first.name 
+    @university = @questions_with_tag.first.tags.first.university
   end
 
   private
