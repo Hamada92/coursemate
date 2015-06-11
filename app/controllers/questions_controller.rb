@@ -5,10 +5,10 @@ class QuestionsController < ApplicationController
 
   def index
     if user_signed_in?
-      @questions = Question.tagged_with_university(current_user.university)
+      @questions = Question.tagged_with_university(current_user.university).includes(:tags)
       @tags = Tag.with_university current_user.university
     else
-      @questions = Question.all
+      @questions = Question.all.includes(:tags)
       @universities = Tag.all_universities
     end
   end
