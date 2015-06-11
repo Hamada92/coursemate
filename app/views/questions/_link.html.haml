@@ -15,5 +15,5 @@
       -tag = question.tags.first
       =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn-sm btn-info")
       =link_to("#{tag.name}", show_with_tag_path(tag.id), class: "btn-sm btn-info")
-      -if question.answers.empty?
+      -if question.num_answers == 0
         =link_to("unanswered", unanswered_with_tag_path(tag.id), class: "btn-sm btn-success")
