@@ -1,0 +1,8 @@
+%h2
+  =@tag.name
+  %br
+  %small
+    =@tag.university
+  %h4 Waiting to be answered...
+-@unanswered_questions.each do |q|
+  =render 'questions/link', question: q

@@ -1,3 +1,6 @@
+//=question.created_at
+//=question.user.username
+//=image_tag "avatar", class: "profile-pic"
 .question-card
   .votes
 
@@ -13,4 +16,4 @@
       =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn-sm btn-info")
       =link_to("#{tag.name}", show_with_tag_path(tag.id), class: "btn-sm btn-info")
       -if question.answers.empty?
-        =link_to("unanswered", unanswered_path(tag), class: "btn-sm btn-success")
+        =link_to("unanswered", unanswered_with_tag_path(tag.id), class: "btn-sm btn-success")
