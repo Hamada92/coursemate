@@ -12,3 +12,6 @@
 !/log/.keep
 /tmp
 passenger*
+
+# Ignore application configuration
+/config/application.yml
