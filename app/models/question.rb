@@ -36,7 +36,16 @@ class Question < ActiveRecord::Base
 
   def tags_attributes=(hash)
     hash.each do |sequence, tag_values|
-      self.tags = [Tag.where(category: tag_values[:category], name: tag_values[:name], university: tag_values[:university]).first_or_create]
+      category = tag_values[:category]
+      name = tag_values[:name]
+      if category == "Course Related"
+        name = name.strip
+        name.gsub(/ +/," ")
+        name = name.upcase
+      elsif category == "Program Related"
+        name = name.split.map(&:capitalize).join(' ')
+      end
+      self.tags = [Tag.where(category: category, name: name, university: tag_values[:university]).first_or_create]
     end
   end
 

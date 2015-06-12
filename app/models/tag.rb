@@ -13,14 +13,4 @@ class Tag < ActiveRecord::Base
     Tag.pluck(:university).uniq
   end
 
-  def clean_tag
-    if self.category == "Course Related"
-      self.name = self.name.strip
-      self.name.gsub(/ +/," ")
-      self.name = self.name.upcase
-    elsif self.category == "Program Related"
-      self.name = self.name.split.map(&:capitalize).join(' ')
-    end
-  end
-
 end
