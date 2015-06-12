@@ -34,6 +34,14 @@ function ready() {
     $(".question_preview").html($("#question_body").val());
   });
 
+  $(".question-card").click(function() {
+    window.location.href = "/questions/" + this.id;
+  });
+
+  $(".stop-bubble").click(function(event) {
+    event.stopImmediatePropagation();
+  });
+
 
 }
 
