@@ -3,6 +3,8 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :authorize, only: [:edit, :update, :destroy]
 
+  caches_action :index
+
   def index
     if user_signed_in?
       @questions = Question.tagged_with_university(current_user.university).includes(:tags)
