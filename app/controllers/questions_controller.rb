@@ -3,7 +3,6 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :authorize, only: [:edit, :update, :destroy]
 
-  caches_action :index
 
   def index
     if user_signed_in?
@@ -61,7 +60,7 @@ class QuestionsController < ApplicationController
   end
 
   def show_from_university
-    @questions_with_tag = Question.tagged_with_university params[:university]
+    @questions_with_tag = Question.tagged_with_university(params[:university]).includes(:tags)
     @university = @questions_with_tag.first.tags.first.university
 
   end
