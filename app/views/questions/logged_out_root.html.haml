@@ -3,21 +3,5 @@
   =link_to("#{u}", show_with_university_tag_path(u), class: "btn-sm btn-info")
 %br
 %h2 Questions
--@questions.each do |question|
-  .question-card{id: "#{question.id}"}
-    .votes
-      %btn.btn-sm.btn-danger.disabled
-        ="+ " + "#{question.num_likes}"
-    .main
-      .title-body
-        %span.title
-          =question.title
-        =question.body
-      .tags
-        -tag = question.tags.first
-        =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn-sm btn-info stop-bubble")
-        =link_to("#{tag.name}", show_with_tag_path(tag.id), class: "btn-sm btn-info stop-bubble")
-        -if question.num_answers == 0
-          =link_to("unanswered", unanswered_with_tag_path(tag.id), class: "btn-sm btn-success stop-bubble")
-
-
+-@questions.each do |q|
+  =render 'questions/link', question: q
