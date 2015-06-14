@@ -58,6 +58,3 @@ gem "wysiwyg-rails"
 gem "paperclip", "~> 4.2"
 gem 'aws-sdk', '< 2.0'
 gem 'figaro'
-gem 'actionpack-page_caching'
-gem 'actionpack-action_caching'
-

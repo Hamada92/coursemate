@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
-   root 'questions#index'
+  authenticated :user do
+    root "questions#index", as: :authenticated_root
+  end
+
+  root "questions#logged_out_root"
 
    devise_for :users
 
