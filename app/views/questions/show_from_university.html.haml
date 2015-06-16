@@ -1,4 +1,8 @@
-%h2
+%h1
   =@university
--@questions_with_tag.each do |q|
+%h2 Tags
+-@tags.each do |t|
+  =link_to("#{t.name}", show_with_tag_path(t.id), class: "btn-sm btn-info")
+%h2 Questions
+-@questions_from_university.each do |q|
   =render 'questions/link', question: q

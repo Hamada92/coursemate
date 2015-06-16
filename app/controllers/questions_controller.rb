@@ -1,12 +1,12 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show, :show_with_tag, :unanswered, :show_from_university, :logged_out_root]
+  before_action :authenticate_user!, except: [:index, :show, :show_with_tag, :unanswered_with_tag, :show_from_university]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :authorize, only: [:edit, :update, :destroy]
 
 
   def index
-    @questions = Question.tagged_with_university(current_user.university).includes(:tags)
-    @tags = Tag.with_university current_user.university
+    @questions = Question.all.includes(:tags)
+    @universities = Tag.all_universities
   end
 
   def show
@@ -55,21 +55,19 @@ class QuestionsController < ApplicationController
   end
 
   def show_from_university
-    @questions_with_tag = Question.tagged_with_university(params[:university]).includes(:tags)
-    @university = @questions_with_tag.first.tags.first.university
-
+    if params[:university]
+      @questions_from_university = Question.tagged_with_university(params[:university]).includes(:tags) 
+    else
+      @questions_from_university = Question.tagged_with_university(current_user.university).includes(:tags)
+    end
+    @university = @questions_from_university.first.tags.first.university
+    @tags = Tag.with_university current_user.university
   end
 
   def show_with_tag
     @questions_with_tag = Question.tagged_with params[:tag_id]
     @tag = @questions_with_tag.first.tags.first
   end
-
-  def logged_out_root
-    @questions = Question.all.includes(:tags)
-    @universities = Tag.all_universities
-  end
-
 
   private
 

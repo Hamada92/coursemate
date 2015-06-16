@@ -1,16 +1,15 @@
 Rails.application.routes.draw do
 
   authenticated :user do
-    root "questions#index", as: :authenticated_root
+    root "questions#show_from_university", as: :authenticated_root
   end
 
-  root "questions#logged_out_root"
+  root "questions#index"
 
-   devise_for :users
+  devise_for :users
 
-   resources :users, only: [:index, :show]
+  resources :users, only: [:index, :show]
   
-
   resources :questions, shallow: true do 
     resources :comments, except: [:new, :show]
     resources :answers, except: [:new, :show]
