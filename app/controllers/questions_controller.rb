@@ -56,12 +56,12 @@ class QuestionsController < ApplicationController
 
   def show_from_university
     if params[:university]
-      @questions_from_university = Question.tagged_with_university(params[:university]).includes(:tags) 
+      @university = params[:university]
     else
-      @questions_from_university = Question.tagged_with_university(current_user.university).includes(:tags)
+      @university = current_user.university
     end
-    @university = @questions_from_university.first.tags.first.university
-    @tags = Tag.with_university current_user.university
+    @questions_from_university = Question.tagged_with_university(@university).includes(:tags)
+    @tags = Tag.with_university @university
   end
 
   def show_with_tag
