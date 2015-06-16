@@ -54,12 +54,15 @@ class QuestionsController < ApplicationController
     @tag = @unanswered_questions.first.tags.first
   end
 
+  def show_from_my_university
+    @university = current_user.university
+    @questions_from_university = Question.tagged_with_university(@university).includes(:tags)
+    @tags = Tag.with_university @university
+    render :show_from_university
+  end
+
   def show_from_university
-    if params[:university]
-      @university = params[:university]
-    else
-      @university = current_user.university
-    end
+    @university = params[:university]
     @questions_from_university = Question.tagged_with_university(@university).includes(:tags)
     @tags = Tag.with_university @university
   end

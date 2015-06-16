@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   authenticated :user do
-    root "questions#show_from_university", as: :authenticated_root
+    root "questions#show_from_my_university", as: :authenticated_root
   end
 
   root "questions#index"
