@@ -54,7 +54,8 @@ gem "haml-rails"
 gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.4'
 gem "font-awesome-rails"
-gem "wysiwyg-rails"
 gem "paperclip", "~> 4.2"
 gem 'aws-sdk', '< 2.0'
 gem 'figaro'
+gem 'summernote-rails'
+

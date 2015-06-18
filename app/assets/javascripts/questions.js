@@ -26,9 +26,7 @@ function ready() {
     }
   });
 
-  $('#question_body').editable({
-    inlineMode: false
-  });
+  $("#question_body").summernote();
 
    $("#question_body").keyup(function() {
     $(".question_preview").html($("#question_body").val());

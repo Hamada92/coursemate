@@ -14,8 +14,8 @@
     .form-group
       =f.text_field :title, autocomplete: "off", placeholder: "Enter a title...", class: "form-control"
 
-    .form-group
-      =f.text_area :body, placeholder: "Type your questions here...", class: "text-small"
+    .form-group{rows: 20}
+      =f.text_area :body, placeholder: "Type your questions here..."
 
     =f.submit 'Post', class: 'btn btn-primary'
 

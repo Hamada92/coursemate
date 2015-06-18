@@ -9,7 +9,6 @@
     .title-body
       %span.title
         =question.title
-      =question.body
     .tags
       -tag = question.tags.first
       =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn-sm btn-info stop-bubble")

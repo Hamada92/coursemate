@@ -1,5 +1,7 @@
 -if resource.errors.any?
   %h2="#{pluralize(resource.errors.count, "error")} "
-  %ul
-    -resource.errors.full_messages.each do |msg|
-      %li= msg
+  %ul{class: 'alert alert-danger'}
+    .container
+      -resource.errors.full_messages.each do |msg|
+        %li= msg
+
