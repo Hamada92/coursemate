@@ -3,7 +3,7 @@
 
 %h1
   =@user.first_name 
-  =image_tag @user.avatar.url(:thumb)
+  =image_tag @user.avatar.url(:original)
   =@user.last_name
   -if @user.first_name.nil? and @user.last_name.nil?
     =@user.username
