@@ -7,6 +7,10 @@ class Tag < ActiveRecord::Base
     Tag.where(university: university)
   end
 
+  def self.names_with university, category
+    Tag.where(university: university, category: category).pluck(:name)
+  end
+
   def self.all_universities
     Tag.pluck(:university).uniq
   end

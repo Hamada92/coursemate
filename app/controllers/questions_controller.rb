@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy, :show_from_my_university]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :authorize, only: [:edit, :update, :destroy]
-
+  before_action :set_autocomplete, only: [:new, :edit, :create, :update]
 
   def index
     @questions = Question.all.includes(:tags)
@@ -80,6 +80,12 @@ class QuestionsController < ApplicationController
 
     def set_question
       @question = Question.find(params[:id])
+    end
+
+    def set_autocomplete
+      university = current_user.university
+      @course_tags = Tag.names_with(university, "Course Related")
+      @program_tags = Tag.names_with(university, "Program Related")
     end
 
     def authorize
