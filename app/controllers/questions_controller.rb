@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show, :show_with_tag, :unanswered_with_tag, :show_from_university]
+  before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy, :show_from_my_university]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :authorize, only: [:edit, :update, :destroy]
 
@@ -75,7 +75,7 @@ class QuestionsController < ApplicationController
   private
 
     def question_params
-      params.require(:question).permit(:title, :body, { tags_attributes: [:id, :category, :name, :university]})
+      params.require(:question).permit(:title, :body, :tag_category, :tag_name)
     end
 
     def set_question
