@@ -1,7 +1,8 @@
 -if resource.errors.any?
-  %h2="#{pluralize(resource.errors.count, "error")} "
-  %ul{class: 'alert alert-danger'}
-    .container
-      -resource.errors.full_messages.each do |msg|
-        %li= msg
+  .alert.alert-danger.alert-dismissible{role: "alert"}
+    %button.close{type: "button", "data-dismiss" => "alert"}
+      %span &times;
+    %h4="#{pluralize(resource.errors.count, "error")}:"
+    -resource.errors.full_messages.each do |msg|
+      %li= msg
 

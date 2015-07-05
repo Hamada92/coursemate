@@ -10,14 +10,12 @@
   <%= render 'partials/menu' %>
 
   <div class="container">
-  <% if flash[:alert] -%>
-    <p class='alert alert-danger'><%=h flash[:alert] %></p>
-  <% end -%>
-  <% if flash[:notice] -%>
-    <p class='alert alert-success'><%=h flash[:notice] %></p>
-  <% end -%>
 
-<%= yield %>
+    <%= flash_messages %>
+
+    <%= yield %>
+
+  </div>
 
 </body>
 </html>
