@@ -4,7 +4,6 @@ class User < ActiveRecord::Base
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
   validates_with AttachmentSizeValidator, :attributes => :avatar, :less_than => 5.megabytes
 
-
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 

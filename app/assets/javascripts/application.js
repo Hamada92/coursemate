@@ -122,6 +122,10 @@ function ready() {
     source: tags
   });
 
+  $("#change_password").click(function(){
+    $("#change_password_fields").toggle();
+  });
+
 }
 
 
