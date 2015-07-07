@@ -123,7 +123,7 @@ function ready() {
   });
 
   $("#change_password").click(function(){
-    $("#change_password_fields").toggle();
+    $("#change_password_fields").slideToggle();
   });
 
 }
