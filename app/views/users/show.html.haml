@@ -1,6 +1,10 @@
+=form_for @user  do |f|
+  =f.file_field :avatar
+  =f.submit 'Upload'
+
 %h1
-  =@user.first_name 
   =image_tag @user.avatar.url(:original)
+  =@user.first_name 
   =@user.last_name
   -if @user.first_name.nil? and @user.last_name.nil?
     =@user.username

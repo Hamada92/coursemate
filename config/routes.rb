@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
 
-  resources :users, only: [:index, :show]
+  resources :users, only: [:index, :show, :update]
   
   resources :questions, shallow: true do 
     resources :comments, except: [:new, :show]
