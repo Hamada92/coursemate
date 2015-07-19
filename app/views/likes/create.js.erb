@@ -1,4 +1,6 @@
-$("#<%=@like.likeable_type%><%=@likeable.id%> .VoteButton").html("<%= j (render 'remove_like', like: @like, num_likes: @likeable.num_likes) %>");
-
+$("#<%=@like.likeable_type%><%=@likeable.id%> .vote-button").html("<%= j (render 'remove_like', like: @like, num_likes: @likeable.num_likes) %>");
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 
 

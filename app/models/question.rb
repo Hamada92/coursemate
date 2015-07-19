@@ -1,5 +1,7 @@
 class Question < ActiveRecord::Base
 
+  default_scope { order(created_at: :desc) }
+
   belongs_to :user
   has_many :answers, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy

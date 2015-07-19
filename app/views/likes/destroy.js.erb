@@ -1,5 +1,8 @@
 <% if @likeable.is_a? Question %>
-  $("#<%=Question%><%=@likeable.id%> .VoteButton").html("<%= j (render 'add_like', path: question_likes_path(@likeable, Like.new), num_likes: @likeable.num_likes) %>");
+  $("#<%=Question%><%=@likeable.id%> .vote-button").html("<%= j (render 'add_like', path: question_likes_path(@likeable, Like.new), num_likes: @likeable.num_likes) %>");
 <%else%>
-  $("#<%=Answer%><%=@likeable.id%> .VoteButton").html("<%= j (render 'add_like', path: answer_likes_path(@likeable, Like.new), num_likes: @likeable.num_likes) %>");
+  $("#<%=Answer%><%=@likeable.id%> .vote-button").html("<%= j (render 'add_like', path: answer_likes_path(@likeable, Like.new), num_likes: @likeable.num_likes) %>");
 <%end%>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})

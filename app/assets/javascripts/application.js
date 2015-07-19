@@ -18,6 +18,7 @@
 //= require bootstrap-sprockets
 //= require summernote
 //= require twitter/typeahead
+//= require local_time
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
@@ -103,14 +104,6 @@ function ready() {
    $("#question_body").keyup(function() {
     $(".question_preview").html($("#question_body").val());
   });
-
-  $(".question-card").click(function() {
-    window.location.href = "/questions/" + this.id;
-  });
-
-  $(".stop-bubble").click(function(event) {
-    event.stopImmediatePropagation();
-  });
    
   $('.typeahead').typeahead({
     hint: true,
@@ -125,6 +118,10 @@ function ready() {
   $("#change_password").click(function(){
     $("#change_password_fields").slideToggle();
   });
+
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
 
 }
 

@@ -1,51 +1,86 @@
-%div{id: "Question#{@question.id}"}
+.whole-card{id: "Question#{@question.id}"}
+  .card.frow.header
+    %h4.title
+      =@question.title
+    .time
+      =local_relative_time(@question.created_at, type: 'time-or-date')
 
-  %h2 Question
-
-  title:
-  =@question.title
-  %br
-  body:
-  =@question.body.html_safe
-  %br
-  =link_to("#{@question.tags.first.university}", show_with_university_tag_path(@question.tags.first.university), class: "btn-sm btn-info")
-  =link_to("#{@question.tags.first.name}", show_with_tag_path(@question.tags.first.id), class: "btn-sm btn-info")
-
-  .Vote
-    =render 'likes/like', likeable: @question, path: question_likes_path(@question, Like.new)
-
-  -if owner @question
-    =link_to("Edit", edit_question_path(@question))
-    =link_to("Delete", question_path(@question), method: :delete)
-
-
-  .Comments
+  .card.frow.main
+    .profile-pic.medium
+      =link_to(image_tag("avatar-50.png"), user_path(@question.user))
+    .fcol
+      .frow.body
+        =@question.body.html_safe
+      .frow
+        .tags
+          -tag = @question.tags.first
+          =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info")
+          =link_to("#{tag.name}", show_with_tag_path(tag.id), class: "btn btn-xs btn-info stop-bubble")
+      .frow.bottom
+        .owner
+          -if owner @question
+            =link_to("Edit", edit_question_path(@question))
+            =link_to("Delete", question_path(@question), method: :delete)
+          -else
+            asked by:
+            =link_to(" " + @question.user.username, user_path(@question.user))
+            %i.fa.fa-trophy.fa-lg
+            ="+" + @question.user.score.to_s
+        .votes
+          =render 'likes/like', likeable: @question, path: question_likes_path(@question, Like.new)
+  .comments
     .ExistingComments
       =render @question.comments.includes(:user).order('id ASC')
     -if user_signed_in?
-      .NewComment
-        =render 'comments/form', resources: [@question, Comment.new]
+      .card.frow.new-comment
+        .profile-pic.small
+          =image_tag("avatar-50.png")
+        .enter-comment
+          =render 'comments/form', resources: [@question, Comment.new]
 
 
-%h2 Answers
-
+  
 -@question.answers.includes(:user).order('num_likes DESC').each do |a|
   -unless a.id.nil?
-    %div{id: "Answer#{a.id}"}
-      =a.body
-      
-      .Vote
-        =render 'likes/like', likeable: a, path: answer_likes_path(a, Like.new)
-      -if owner a
-        =link_to("Edit", edit_answer_path(a))
-        =link_to("Delete", answer_path(a), method: :delete)
-      .Comments
-        .ExistingComments
-          =render a.comments.includes(:user).order('id ASC')
-        -if user_signed_in?
-          .NewComment
-            =render 'comments/form', resources: [a, Comment.new]
-=render 'answers/form', resources: [@question, @answer]
+    .frow
+      .profile-pic.medium.standalone
+        =link_to(image_tag("avatar-50.png"), user_path(a.user))
+      .whole-card.answer{id: "Answer#{a.id}"}
+        .line
+        .card.fcol
+          .frow.body
+            =a.body
+          .frow.bottom
+            .owner
+              -if owner a
+                =link_to("Edit", edit_answer_path(a))
+                =link_to("Delete", answer_path(a), method: :delete)
+              -else
+                answered by:
+                =link_to(" " + a.user.username, user_path(a.user))
+                %i.fa.fa-trophy.fa-lg
+                ="+" + a.user.score.to_s
+            .votes
+              =render 'likes/like', likeable: a, path: answer_likes_path(a, Like.new)
+
+        .comments
+          .ExistingComments
+            =render a.comments.includes(:user).order('id ASC')
+          -if user_signed_in?
+            .card.frow.new-comment
+              .profile-pic.small
+                =link_to(image_tag("avatar-50.png"))
+              .enter-comment
+                =render 'comments/form', resources: [a, Comment.new]
+.frow
+  .profile-pic.medium.standalone
+    =image_tag("avatar-50.png")
+  -if user_signed_in?
+    .new-answer
+      =render 'answers/form', resources: [@question, @answer]
+  -else
+    .login-to-answer
+      Log in to contribute your answer!
 
 
 

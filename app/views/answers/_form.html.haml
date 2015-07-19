@@ -2,5 +2,5 @@
   .error
     =render 'partials/errors', resource: @answer
   .form-group
-    =f.text_area :body, class: "form-control"
-  =f.submit 'Post', class: 'btn btn-primary'
+    =f.text_area :body, class: "form-control", placeholder: "Enter your answer..."
+  =f.submit 'Post Answer', class: 'btn btn-primary'

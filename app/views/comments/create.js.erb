@@ -1,5 +1,5 @@
-$("#<%=@comment.commentable_type%><%=@commentable.id%> .NewComment .Errors").html("<%= j (render 'partials/errors', resource: @comment) %>");
+$("#<%=@comment.commentable_type%><%=@commentable.id%> .enter-comment .Errors").html("<%= j (render 'partials/errors', resource: @comment) %>");
 <% unless @comment.errors.any? %>
   $("#<%=@comment.commentable_type%><%=@commentable.id%> .ExistingComments").append("<%= j (render @comment) %>");
-  $("#<%=@comment.commentable_type%><%=@commentable.id%> .NewComment form").trigger("reset");
+  $("#<%=@comment.commentable_type%><%=@commentable.id%> .enter-comment form").trigger("reset");
 <%end%>
