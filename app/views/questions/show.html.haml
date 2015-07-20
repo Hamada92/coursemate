@@ -32,11 +32,7 @@
     .ExistingComments
       =render @question.comments.includes(:user).order('id ASC')
     -if user_signed_in?
-      .card.frow.new-comment
-        .profile-pic.small
-          =image_tag("avatar-50.png")
-        .enter-comment
-          =render 'comments/form', resources: [@question, Comment.new]
+      =render 'comments/form', resources: [@question, Comment.new]
 
 
   
@@ -67,11 +63,7 @@
           .ExistingComments
             =render a.comments.includes(:user).order('id ASC')
           -if user_signed_in?
-            .card.frow.new-comment
-              .profile-pic.small
-                =link_to(image_tag("avatar-50.png"))
-              .enter-comment
-                =render 'comments/form', resources: [a, Comment.new]
+            =render 'comments/form', resources: [a, Comment.new]
 .frow
   .profile-pic.medium.standalone
     =image_tag("avatar-50.png")
