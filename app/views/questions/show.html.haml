@@ -15,7 +15,7 @@
         .tags
           -tag = @question.tags.first
           =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info")
-          =link_to("#{tag.name}", show_with_tag_path(tag.id), class: "btn btn-xs btn-info stop-bubble")
+          =link_to("#{tag.name}", show_with_tag_path(tag.id), class: "btn btn-xs btn-info")
       .frow.bottom
         .owner
           -if owner @question

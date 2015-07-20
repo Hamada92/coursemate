@@ -12,7 +12,7 @@
       .tags
         -tag = question.tags.first
         =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info")
-        =link_to("#{tag.name}", show_with_tag_path(tag.id), class: "btn btn-xs btn-info stop-bubble")
+        =link_to("#{tag.name}", show_with_tag_path(tag.id), class: "btn btn-xs btn-info")
         -if question.num_answers == 0
           =link_to("Unanswered", unanswered_with_tag_path(tag.id), class: "btn btn-xs btn-success")
       .votes

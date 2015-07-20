@@ -160,7 +160,7 @@ textarea {
   -webkit-flex-shrink: 0;
   flex-shrink: 0;
 }
-.card .title, .card .time {
+.card .title, .card .time, .card .comment-body {
   line-height: 30px;
 }
 .card .title, .card .tags, .card .owner {
@@ -196,9 +196,6 @@ textarea {
 }
 .card.header .title, .card.header .time {
   line-height: 40px;
-}
-.card .comment-body {
-  line-height: 30px;
 }
 .card.new-comment{
   background-color: #F5F5F5;
