@@ -105,6 +105,14 @@ textarea {
   color: #FFA319;
 }
 
+/*user#index*/
+.card.user {
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  width: 250px;
+  margin: 0 20px 20px 0;
+}
+
 /*question#new*/
 .question-form {
   max-width: 600px;
@@ -153,14 +161,14 @@ textarea {
 .card .frow.bottom {
   margin-bottom: 0px;
 }
-.card .tags, .frow .profile-pic, .card .title, .card .votes, .card .time, .card .owner {
+.card .tags, .frow .profile-pic, .card .title, .card .votes, .card .time, .card .owner, .card .user {
   white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis; 
   -webkit-flex-shrink: 0;
   flex-shrink: 0;
 }
-.card .title, .card .time, .card .comment-body {
+.card .title, .card .time, .card .comment-body, .card .user {
   line-height: 30px;
 }
 .card .title, .card .tags, .card .owner {
