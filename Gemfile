@@ -59,4 +59,5 @@ gem 'aws-sdk', '< 2.0'
 gem 'summernote-rails'
 gem 'twitter-typeahead-rails'
 gem 'local_time'
+gem 'figaro'
 
