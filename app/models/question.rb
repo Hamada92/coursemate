@@ -12,11 +12,9 @@ class Question < ActiveRecord::Base
   validates :title, presence: true
   validates :body, presence: true
   validate :valid_tag_category
-  validate :valid_tag   
+  validate :valid_tag
 
-  after_create :create_tags
-  after_destroy :cleanup_orphan_tags
-  after_update :cleanup_orphan_tags
+  after_save :create_tags
 
   attr_writer :tag_category
   attr_writer :tag_name
@@ -77,11 +75,11 @@ class Question < ActiveRecord::Base
       elsif @tag_category == "Program Related"
         @tag_name = @tag_name.split.map(&:capitalize).join(' ')
       end
+      old_tag = self.tags.first
       self.tags = [Tag.where(category: @tag_category, name: @tag_name, university: self.user.university).first_or_create]
-    end
-
-    def cleanup_orphan_tags
-      Tag.includes(:taggings).where(taggings: { id: nil }).destroy_all
+      if not old_tag.nil? and old_tag.questions.empty?
+        old_tag.destroy
+      end
     end
 
 end
