@@ -13,6 +13,7 @@ class Question < ActiveRecord::Base
   validates :body, presence: true
   validate :valid_tag_category
   validate :valid_tag
+  before_destroy :check_if_answered
 
   after_save :create_tags
 
@@ -64,6 +65,14 @@ class Question < ActiveRecord::Base
         if @tag_name.blank?
           errors.add(:base, "Please enter a valid program")
         end
+      end
+    end
+
+    def check_if_answered
+      if self.num_answers > 0
+        return false
+      else
+        return true
       end
     end
 

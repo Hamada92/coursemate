@@ -10,7 +10,6 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answer = Answer.new
   end
 
   def new
@@ -25,7 +24,7 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.build(question_params)
     respond_to do |format|
       if @question.save
-        format.html { redirect_to @question, notice: 'Question was successfully created' }
+        format.html { redirect_to @question, notice: 'Question was successfully created.' }
       else
         format.html { render :new }
       end
@@ -35,7 +34,7 @@ class QuestionsController < ApplicationController
   def update
     respond_to do |format|
       if @question.update(question_params)
-        format.html { redirect_to @question, notice: "Question successfully updated" }
+        format.html { redirect_to @question, notice: "Question successfully updated." }
       else
         format.html { render :edit }
       end
@@ -43,9 +42,15 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
     respond_to do |format|
-      format.html { redirect_to questions_path, notice: 'questions was deleted' }
+      if @question.destroy
+        format.html { redirect_to authenticated_root_path, notice: 'Questions was deleted.' }
+      else
+        format.html {
+          flash[:alert] = 'Answered questions cannot be deleted.'
+          render :show
+        }
+      end
     end
   end
 
@@ -80,6 +85,7 @@ class QuestionsController < ApplicationController
 
     def set_question
       @question = Question.find(params[:id])
+      @answer = Answer.new
     end
 
     def set_autocomplete
@@ -90,7 +96,7 @@ class QuestionsController < ApplicationController
 
     def authorize
       unless @question.user == current_user
-        flash[:alert] = "You are not allowed to edit someone else's question"
+        flash[:alert] = "You are not allowed to edit someone else's question."
         redirect_to @question
       end
     end
