@@ -1,31 +1,33 @@
-=form_for @user  do |f|
-  =f.file_field :avatar
-  =f.submit 'Upload'
-
-%h1
-  =image_tag @user.avatar.url(:original)
-  =@user.first_name 
-  =@user.last_name
-  -if @user.first_name.nil? and @user.last_name.nil?
-    =@user.username
+.user-show
+  -if @user == current_user
+    =link_to(image_tag("avatar-300.jpg", class: "profile-pic large", data: {toggle: "tooltip", placement:"bottom"}, title: "Change your picture"), users_editprofile_path, )
   -else
-    %i= "&#40".html_safe + @user.username + "&#41".html_safe 
-  %br
-  %small
-    =@user.university
+    =image_tag("avatar-300.jpg", class: "profile-pic large")
+
+  %h3
+    -if @user.first_name.nil? or @user.first_name.blank?
+      =@user.username
+    -else
+      =@user.first_name 
+      =@user.last_name
+      %br
+      %small
+        =@user.username
 
 .score
   %i.fa.fa-trophy.fa-lg
   %span
     ="+" + @user.score.to_s
 
+%h3
+  =@user.university
 
-%h3 Questions
+%h4 Questions
 
 -@questions.each do |q|
   =render 'questions/link', question: q
 
-%h3 Answers
+%h4 Answers
 
 -@questions_he_answered.each do |q|
   =render 'questions/link', question: q

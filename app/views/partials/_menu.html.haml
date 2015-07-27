@@ -17,13 +17,18 @@
         -if user_signed_in?
           %li.dropdown
             %a.dropdown-togggle.profile-pic.small{id: "nav-profile", href: "#", role: "button", aria: {haspopup: "true", expanded: "false"}, data: {toggle: "dropdown"}}
-              =image_tag("avatar-34.png") 
+              =image_tag("avatar-50.png") 
               %span.caret
             %ul.dropdown-menu
+              %li.dropdown-header
+                Signed in as
+                .strong
+                  =current_user.username
+              %li.divider{role: "separator"}
               %li
                 =link_to('My Profile', user_path(current_user))
               %li
-                =link_to("Settings", edit_user_registration_path)
+                =link_to("Settings", users_editprofile_path)
               %li.divider{role: "separator"}
               %li
                 =link_to("Log Out", destroy_user_session_path, method: :delete)

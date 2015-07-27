@@ -14,11 +14,11 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-//= require jquery
 //= require bootstrap-sprockets
 //= require summernote
 //= require twitter/typeahead
 //= require local_time
+//= require jquery.Jcrop
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
@@ -115,15 +115,31 @@ function ready() {
     source: tags
   });
 
-  $("#change_password").click(function(){
-    $("#change_password_fields").slideToggle();
-  });
-
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
-  })
+  });
 
+  $(".user-edit, .navbar").click(function() {
+    $("#delete-confirm").collapse("hide");
+  });
+
+  $('#cropbox').Jcrop({
+    setSelect: [10, 10, 290, 290],
+    aspectRatio: 1,
+    onChange: update_crop,
+    onSelect: update_crop
+  });
 }
+
+function update_crop(coords) {
+    $('#preview').css({
+    width: Math.round(40/coords.w * $("#cropbox").width()) + 'px',
+    height: Math.round(40/coords.h * $("#cropbox").height()) + 'px',
+    marginLeft: '-' + Math.round(40/coords.w * coords.x) + 'px',
+    marginTop: '-' + Math.round(40/coords.h * coords.y) + 'px'
+  });
+}
+
 
 
 

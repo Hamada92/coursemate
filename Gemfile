@@ -61,4 +61,5 @@ gem 'summernote-rails'
 gem 'twitter-typeahead-rails'
 gem 'local_time'
 gem 'figaro'
+gem 'jcrop-rails-v2', '~> 0.9.12.3'
 

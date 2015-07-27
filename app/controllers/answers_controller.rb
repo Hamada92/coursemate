@@ -12,7 +12,7 @@ class AnswersController < ApplicationController
     @answer.user = current_user
     respond_to do |format|
       if @answer.save
-        format.html { redirect_to @question, notice: 'Answer was successfully created' }
+        format.html { redirect_to @question, notice: 'Answer was successfully created.' }
       else
         format.html { render 'questions/show' }
       end
@@ -22,7 +22,7 @@ class AnswersController < ApplicationController
   def update
     respond_to do |format|
       if @answer.update(answer_params)
-        format.html { redirect_to @question, notice: "Answer successfully updated" }
+        format.html { redirect_to @question, notice: "Answer successfully updated." }
       else
         format.html { render :edit }
       end
@@ -32,7 +32,7 @@ class AnswersController < ApplicationController
   def destroy
     @answer.destroy
     respond_to do |format|
-      format.html { redirect_to @question, notice: 'Answer was deleted' }
+      format.html { redirect_to @question, notice: 'Answer was deleted.' }
     end
   end
 
@@ -53,7 +53,7 @@ class AnswersController < ApplicationController
 
     def authorize
       unless @answer.user == current_user
-        flash[:alert] = "You are not allowed to edit someone else's answer"
+        flash[:alert] = "You are not allowed to edit someone else's answer."
         redirect_to @question
       end
     end

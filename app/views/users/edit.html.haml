@@ -1,0 +1,38 @@
+.user-edit
+  #crop-modal.modal{tabindex: "-1", role: "dialog", aria_labelledby: "crop image dialog"}
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{type: "button", class: "close", aria_label: "Close", data: {dismiss: "modal"}}
+            %span{aria_hidden: "true"} &times;
+          %h4.modal-title Crop Image
+        .modal-body
+          .center-block
+            =image_tag("avatar-300.jpg", class: "large", id: "cropbox")
+  .frow
+    .nav.nav-pills.nav-stacked.links
+      %li.active
+        %a{href:"#"}
+          Profile Settings
+      %li.inactive
+        =link_to("Account Settings", edit_user_registration_path)
+    .edit
+      .error
+        =render 'partials/errors', resource: @user
+      .form
+        %h4 Edit Profile
+        =form_for @user do |f|
+          .frow.image-upload
+            .preview-container
+              =image_tag("avatar-300.jpg", class: "profile-pic medium", id: "preview")
+            %button.btn.btn-primary{type: "button", data: {toggle: "modal", target: "#crop-modal"}} Upload
+          .form-group
+            =f.label :username
+            =f.text_field :username, placeholder: "Username", class: "form-control"
+          .form-group
+            =f.label :first_name
+            =f.text_field :first_name, class: "form-control", placeholder: "First name"
+          .form-group
+            =f.label :last_name
+            =f.text_field :last_name, class: "form-control", placeholder: "Last name"
+          =f.submit 'Update Profile', class: 'btn btn-primary'

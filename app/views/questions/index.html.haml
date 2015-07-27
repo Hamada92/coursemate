@@ -1,6 +1,6 @@
-%h2 Universities
+%h4 Universities
 -@universities.each do |u|
   =link_to("#{u}", show_with_university_tag_path(u), class: "btn btn-xs btn-info")
-%h2 Questions
+%h4 Questions
 -@questions.each do |q|
   =render 'questions/link', question: q

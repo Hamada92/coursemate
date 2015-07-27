@@ -36,7 +36,7 @@ class Like < ActiveRecord::Base
     def update_user_score sign
       user = self.likeable.user
       if self.likeable_type == 'Question'
-        delta = 5
+        delta = 3
       else
         delta = 10
       end

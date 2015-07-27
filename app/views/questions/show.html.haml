@@ -15,7 +15,7 @@
         .tags
           -tag = @question.tags.first
           =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info")
-          =link_to("#{tag.name}", show_with_tag_path(tag.id), class: "btn btn-xs btn-info")
+          =link_to("#{tag.name}", show_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info")
       .frow.bottom
         .owner
           -if owner @question
@@ -69,7 +69,7 @@
     =image_tag("avatar-50.png")
   -if user_signed_in?
     .new-answer
-      =render 'answers/form', resources: [@question, @answer]
+      =render 'answers/form', resources: [@question, Answer.new]
   -else
     .login-to-answer
       Log in to contribute your answer!

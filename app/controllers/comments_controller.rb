@@ -12,7 +12,7 @@ class CommentsController < ApplicationController
     @comment.user = current_user
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @question, notice: "Comment created for #{@commentable.class}" }
+        format.html { redirect_to @question, notice: "Comment successfully created." }
         format.js
       else
         format.html { render 'questions/show' }  
@@ -24,7 +24,7 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update(comment_params)
-        format.html { redirect_to @question, notice: "Comment successfully updated" }
+        format.html { redirect_to @question, notice: "Comment successfully updated." }
         format.js
       else
         format.html { render :edit }
@@ -36,7 +36,7 @@ class CommentsController < ApplicationController
   def destroy
     @comment.destroy
     respond_to do |format|
-      format.html { redirect_to @question, notice: 'Comment was deleted' }
+      format.html { redirect_to @question, notice: 'Comment was deleted.' }
       format.js
     end
   end
@@ -69,7 +69,7 @@ class CommentsController < ApplicationController
 
     def authorize
       unless @comment.user == current_user
-        flash[:alert] = "You are not allowed to edit someone else's comment"
+        flash[:alert] = "You are not allowed to edit someone else's comment."
         redirect_to @question
       end
     end

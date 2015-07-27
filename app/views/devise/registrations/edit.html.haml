@@ -1,0 +1,35 @@
+.user-edit
+  .frow    
+    .nav.nav-pills.nav-stacked.links
+      %li.inactive
+        =link_to("Profile Settings", users_editprofile_path)
+      %li.active
+        %a{href:"#"}
+          Account Settings   
+    .edit
+      =devise_error_messages!
+      .form
+        %h4 Edit Account
+        =form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+          .form-group
+            =f.label :email
+            =f.email_field :email, class: "form-control", placeholder: "University email"
+          -if devise_mapping.confirmable? && resource.pending_reconfirmation?
+            %div
+              Currently waiting confirmation for: #{resource.unconfirmed_email}
+          .form-group
+            =f.label :password
+            =f.password_field :current_password, class: "form-control", placeholder: "Enter current password"
+          #change-password
+            %a{role: "button", href: "#change-password-fields", aria_expanded: "false", aria_controls: "change-password-fields", data: {toggle: "collapse"}} Change Password
+          #change-password-fields.collapse
+            .form-group
+              =f.password_field :password, class: "form-control", placeholder: "Enter new password", autocomplete: "off"
+            .form-group
+              =f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm new password", autocomplete: "off"
+          .form-group
+            =f.submit "Update Account", class: 'btn btn-primary'
+        .delete-account
+          %a{role: "button", href: "#delete-confirm", aria_expanded: "false", aria_controls: "delete-link", data: {toggle: "collapse"}} Delete my account
+        #delete-confirm.collapse
+          =link_to "Delete Account", registration_path(resource_name), data: { confirm: "This action cannot be undone. Are you sure?" }, method: :delete, class: "btn btn-danger"

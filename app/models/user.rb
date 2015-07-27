@@ -1,8 +1,12 @@
 class User < ActiveRecord::Base
 
-  has_attached_file :avatar, :styles => { :original => "100x100>" }
+  def to_param
+    username
+  end
+
+  has_attached_file :avatar, :styles => { :original => "300x300>", :medium => "80x80>", :small => "60x60>" }
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
-  validates_with AttachmentSizeValidator, :attributes => :avatar, :less_than => 5.megabytes
+  validates_with AttachmentSizeValidator, :attributes => :avatar, :less_than => 2.megabytes
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
@@ -12,10 +16,12 @@ class User < ActiveRecord::Base
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
 
-  validates :username, uniqueness: true, presence: true
+  validates :username, uniqueness: true, presence: true, format: { with: /\A[a-zA-Z0-9\.]+\Z/,
+    message: "only allows letters (a-z), numbers and periods" }
   validate :valid_email
   
   before_create :set_university
+  before_validation { self.username.downcase! }
 
 
   def questions_he_answered
@@ -30,7 +36,6 @@ class User < ActiveRecord::Base
         errors.add(:base, "Please use a valid university email")
       end
     end
-
 
     def set_university
       domain = self.email.partition('@').last

@@ -1,23 +1,30 @@
+$body-bg: #F2F2F2;
+$brand-primary: #4285f4;
+$border-radius-base: 0px;
+$border-radius-large: 0px;
+$link-color: #07c;
+$link-hover-color: #30a7fc;
+$link-hover-decoration: none;
 $grid-float-breakpoint: 0px;
-$btn-primary-bg: #4285f4;
 $btn-info-bg: #64B5F6;
 $btn-success-bg: #4DD0E1;
-
+$font-family-sans-serif: 'Roboto', sans-serif;
+$nav-pills-active-link-hover-bg: #536DFE;
+$dropdown-link-hover-color: white;
+$dropdown-link-hover-bg: $brand-primary;
+$modal-content-bg: $body-bg;
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
 @import "summernote";
+@import "jquery.Jcrop";
 
 html,body {
   width: 100%;
   height: 100%;
   padding: 0;
   margin: 0;
-}
-
-body {
-  background-color: #edecec;
 }
 
 /* typeahead */
@@ -71,25 +78,35 @@ body {
 #nav-profile {
   padding: 10px;
 }
+.navbar .strong {
+  font-size: 1.1em;
+  font-weight: 900;
+}
+.navbar .dropdown-header {
+  padding-bottom: 0;
+}
 
 /*multiple pages*/
-h2 {
-  margin-bottom: 10px;
-}
-.profile-pic img {
+img.profile-pic, .profile-pic img {
   border-radius: 50%;
 }
-.profile-pic.small img {
+img.profile-pic.small, .profile-pic.small img {
   width: 30px;
   height: 30px;
 }
-.profile-pic.medium img {
+img.profile-pic.medium, .profile-pic.medium img {
   width: 40px;
   height: 40px;
 }
-
+img.profile-pic.large, .profile-pic.large img {
+  width: 150px;
+  height: 150px;
+}
 textarea {
   resize: none;
+}
+.btn-primary:hover {
+  background-color: #3a76e5
 }
 
 /*sign in*/
@@ -106,17 +123,68 @@ textarea {
 }
 
 /*user#index*/
-.card.user {
+.frow.users {
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
+}
+.card.user {
   width: 250px;
-  margin: 0 20px 20px 0;
+  margin: 0 30px 30px 0;
+}
+
+/*user#edit*/
+.user-edit .frow {
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.user-edit .image-upload {
+  align-items: center;
+}
+.user-edit .edit {
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+}
+.user-edit .links {
+  margin-right: 30px;
+}
+.user-edit .inactive a:hover, .useredit .inactive a:focus {
+  background: #E8EAF6;
+}
+.user-edit .form {
+  width: 300px;
+}
+.user-edit .preview-container {
+  height: 40px;
+  width: 40px;
+  margin: 15px 15px 15px 0px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.user-edit #preview {
+  margin: 0px;
+  border-radius: 0;
+}
+#change-password, .delete-account {
+  padding-bottom: 10px;
+}
+.user-edit .jcrop-hline, .user-edit .jcrop-vline {
+  background: #fff;
+}
+.user-edit .jcrop-keymgr {
+  opacity: 0;
+}
+.user-edit .jcrop-holder {
+  margin: 0;
+}
+.user-edit .modal-header {
+  background: #f8f8f8;
+}
+.user-edit .modal-body .center-block {
+  width: 300px;
+  height: 300px;
 }
 
 /*question#new*/
-.question-form {
-  max-width: 600px;
-}
 
 /*question#index*/
 .btn-info, .btn-success {
@@ -128,7 +196,7 @@ textarea {
 }
 .card {
   background: white;
-  box-shadow: 0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
+  box-shadow: 0 0 1px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.12);
   padding: 15px;
 }
 .whole-card {
@@ -161,7 +229,7 @@ textarea {
 .card .frow.bottom {
   margin-bottom: 0px;
 }
-.card .tags, .frow .profile-pic, .card .title, .card .votes, .card .time, .card .owner, .card .user {
+.card .tags, .frow .profile-pic, .card .title, .card .votes, .card .time, .card .owner, .card .user, .frow .links {
   white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis; 
@@ -206,10 +274,10 @@ textarea {
   line-height: 40px;
 }
 .card.new-comment{
-  background-color: #F5F5F5;
+  background-color: #F7F7F7;
 }
 .profile-pic.medium.standalone {
-  background-color: #edecec;
+  background-color: #F2F2F2;
   width: 50px;
   height: 50px;
   padding: 5px;
@@ -224,7 +292,7 @@ textarea {
   top: 20px;
   width: 2px;
   height: 100%;
-  background-color: #BDBDBD;
+  background-color: #D5D5D5;
   z-index: -1;
 }
 .new-answer {
