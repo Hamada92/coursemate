@@ -9,9 +9,10 @@
     .profile-pic.medium
       =link_to(image_tag("avatar-50.png"), user_path(@question.user))
     .fcol
-      .frow.body{:id => "output" }><
-        :preserve
-          #{@question.body}
+      .frow.body
+        #output><
+          :preserve
+            #{@question.body}
       .frow
         .tags
           -tag = @question.tags.first
@@ -46,7 +47,9 @@
         .line
         .card.fcol
           .frow.body
-            =a.body
+            #output><
+              :preserve
+                #{a.body}
           .frow.bottom
             .owner
               -if owner a

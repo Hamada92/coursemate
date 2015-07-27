@@ -29,7 +29,6 @@ function ready() {
     var converter = new Markdown.Converter();
     Markdown.Extra.init(converter)
     var content = $('#output').html();
-    alert(converter.makeHtml("**bold**\n\n**more**"));
     $('#output').html(converter.makeHtml(content));
   }
 
