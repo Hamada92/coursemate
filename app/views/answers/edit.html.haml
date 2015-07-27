@@ -2,8 +2,10 @@
 title:
 =@question.title
 %br
-body:
-=@question.body
+
+.frow.body{:id => "output" }><
+  :preserve
+    #{@question.body}
 
 %h2 Answer
 =render 'answers/form', resources: [@answer]

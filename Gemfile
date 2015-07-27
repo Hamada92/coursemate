@@ -57,9 +57,9 @@ gem 'bootstrap-sass', '~> 3.3.4'
 gem "font-awesome-rails"
 gem "paperclip", "~> 4.2"
 gem 'aws-sdk', '< 2.0'
-gem 'summernote-rails'
 gem 'twitter-typeahead-rails'
 gem 'local_time'
 gem 'figaro'
 gem 'jcrop-rails-v2', '~> 0.9.12.3'
+gem 'pagedown-bootstrap-rails'
 

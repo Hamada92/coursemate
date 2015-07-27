@@ -1,6 +1,6 @@
-=form_for resources do |f|
+=form_for resources, builder: Mybuilder do |f|
   .error
     =render 'partials/errors', resource: @answer
   .form-group
-    =f.text_area :body, class: "form-control", placeholder: "Enter your answer..."
+    =f.pagedown_editor :body, class: "form-control", placeholder: "Enter your answer..."
   =f.submit 'Post Answer', class: 'btn btn-primary'

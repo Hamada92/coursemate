@@ -17,8 +17,9 @@ $modal-content-bg: $body-bg;
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
-@import "summernote";
 @import "jquery.Jcrop";
+@import "pagedown_bootstrap";
+
 
 html,body {
   width: 100%;

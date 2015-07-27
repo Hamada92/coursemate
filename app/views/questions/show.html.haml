@@ -9,8 +9,9 @@
     .profile-pic.medium
       =link_to(image_tag("avatar-50.png"), user_path(@question.user))
     .fcol
-      .frow.body
-        =@question.body.html_safe
+      .frow.body{:id => "output" }><
+        :preserve
+          #{@question.body}
       .frow
         .tags
           -tag = @question.tags.first

@@ -15,15 +15,25 @@
 //= require turbolinks
 //= require_tree .
 //= require bootstrap-sprockets
-//= require summernote
 //= require twitter/typeahead
 //= require local_time
 //= require jquery.Jcrop
+//= require pagedown_bootstrap
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
 
 function ready() {
+
+  if($('#output').length > 0){ 
+    var converter = new Markdown.Converter();
+    Markdown.Extra.init(converter)
+    var content = $('#output').html();
+    alert(converter.makeHtml("**bold**\n\n**more**"));
+    $('#output').html(converter.makeHtml(content));
+  }
+
+
 
   var substringMatcher = function(strs) {
     return function findMatches(q, cb) {
@@ -98,12 +108,6 @@ function ready() {
       }
     }
   });
-
-  $("#question_body").summernote();
-
-   $("#question_body").keyup(function() {
-    $(".question_preview").html($("#question_body").val());
-  });
    
   $('.typeahead').typeahead({
     hint: true,
@@ -129,6 +133,10 @@ function ready() {
     onChange: update_crop,
     onSelect: update_crop
   });
+
+  var converter = Markdown.getSanitizingConverter();
+  var editor = new Markdown.Editor(converter);
+  editor.run();
 }
 
 function update_crop(coords) {
