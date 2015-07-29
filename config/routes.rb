@@ -6,10 +6,12 @@ Rails.application.routes.draw do
 
   root "questions#index"
 
-  devise_for :users
+  devise_for :users, :path => 'account', :path_names => { :edit => "edit_account" }
  
-  get 'users/editprofile', to: 'users#edit'
+  get 'account/edit_profile', to: 'users#edit'
   resources :users, param: :username, only: [:index, :show, :update]
+
+
  
   
   resources :questions, shallow: true do 

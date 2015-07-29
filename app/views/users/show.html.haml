@@ -1,6 +1,6 @@
 .user-show
   -if @user == current_user
-    =link_to(image_tag("avatar-300.jpg", class: "profile-pic large", data: {toggle: "tooltip", placement:"bottom"}, title: "Change your picture"), users_editprofile_path, )
+    =link_to(image_tag("avatar-300.jpg", class: "profile-pic large", data: {toggle: "tooltip", placement:"bottom"}, title: "Change your picture"), account_edit_profile_path, )
   -else
     =image_tag("avatar-300.jpg", class: "profile-pic large")
 
