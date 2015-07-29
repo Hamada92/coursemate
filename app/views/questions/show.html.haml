@@ -10,7 +10,7 @@
       =link_to(image_tag("avatar-50.png"), user_path(@question.user))
     .fcol
       .frow.body
-        #output><
+        #output-question><
           :preserve
             #{@question.body}
       .frow
@@ -47,7 +47,7 @@
         .line
         .card.fcol
           .frow.body
-            #output><
+            #output-answer><
               :preserve
                 #{a.body}
           .frow.bottom

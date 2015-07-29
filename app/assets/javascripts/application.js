@@ -25,12 +25,14 @@ $(document).on('page:load', ready)
 
 function ready() {
 
-  if($('#output').length > 0){ 
-    var converter = new Markdown.Converter();
-    Markdown.Extra.init(converter)
-    var content = $('#output').html();
-    $('#output').html(converter.makeHtml(content));
-  }
+  if($('div[id^="output"]').length > 0){ 
+    $('div[id^="output"]').each(function() { 
+      var converter = new Markdown.Converter();
+      Markdown.Extra.init(converter)
+      var content = $(this).html();
+      $(this).html(converter.makeHtml(content));
+    });
+  };
 
 
 
