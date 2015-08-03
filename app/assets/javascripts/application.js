@@ -133,10 +133,10 @@ function ready() {
       var content = $(this).html();
       $(this).html(converter.makeHtml(content));
     });
-    var converter = Markdown.getSanitizingConverter();
-    var editor = new Markdown.Editor(converter);
-    editor.run();
   };
+  var converter = Markdown.getSanitizingConverter();
+  var editor = new Markdown.Editor(converter);
+  editor.run();
 
 
 }

@@ -24,7 +24,7 @@
         =form_for @user do |f|
           .frow.image-upload
             .preview-container
-              =image_tag("avatar-300.jpg", id: "preview", alt: "profile pic")
+              =image_tag("avatar-300.jpg", id: "preview", alt: "profile pic", class: "img-circle")
             %button.btn.btn-primary{type: "button", data: {toggle: "modal", target: "#crop-modal"}} Upload
           .form-group
             =f.label :username

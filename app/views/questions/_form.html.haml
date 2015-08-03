@@ -10,7 +10,7 @@
     =f.text_field :title, autocomplete: "off", placeholder: "Enter a title...", class: "form-control"
 
   .form-group
-    =f.pagedown_editor :body, placeholder: "Enter you question here..."
+    =f.pagedown_editor :body, class: "form-control", placeholder: "Enter your question here..."
 
   =f.submit 'Post Question', class: 'btn btn-primary'
   

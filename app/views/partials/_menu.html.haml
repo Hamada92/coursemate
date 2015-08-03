@@ -18,7 +18,7 @@
         -if user_signed_in?
           %li.dropdown
             %a.dropdown-togggle.profile-pic.small{id: "nav-profile", href: "#", role: "button", aria: {haspopup: "true", expanded: "false"}, data: {toggle: "dropdown"}}
-              =image_tag("avatar-50.png", alt: "profile pic")
+              =image_tag("avatar-50.png", alt: "profile pic", class: "img-circle")
               %span.caret
             %ul.dropdown-menu
               %li.dropdown-header

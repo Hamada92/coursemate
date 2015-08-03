@@ -1,7 +1,7 @@
 .link
   .card.frow{id: "Question#{question.id}"}
     .profile-pic.small
-      =link_to(image_tag("avatar-50.png", alt: "profile pic"), user_path(question.user))
+      =link_to(image_tag("avatar-50.png", alt: "profile pic", class: "img-circle"), user_path(question.user))
     .fcol
       .frow.bottom-space
         %h4.title

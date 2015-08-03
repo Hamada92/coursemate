@@ -1,6 +1,6 @@
 .card.frow.new-comment
   .profile-pic.small
-    =image_tag("avatar-50.png", alt: "profile pic")
+    =image_tag("avatar-50.png", alt: "profile pic", class: "img-circle")
   .enter-comment
     =form_for resources, remote: true do |f|
       .Errors

@@ -1,8 +1,7 @@
-/* BOOTSTRAP */
-
 /* colours */
 $light-grey: #f7f7f7;
 
+/* BOOTSTRAP */
 /* general */
 $font-family-sans-serif: 'Roboto', sans-serif;
 $body-bg: #f2f2f2;
@@ -112,9 +111,6 @@ html,body {
 textarea {
   resize: none;
 }
-img.profile-pic, .profile-pic img {
-  border-radius: 50%;
-}
 img.profile-pic.small, .profile-pic.small img {
   width: 30px;
   height: 30px;
@@ -138,6 +134,18 @@ img.profile-pic.large, .profile-pic.large img {
   flex-direction: row;
   flex-wrap: nowrap;
   width: 100%;
+}
+.markdown-output {
+  white-space: normal;
+  overflow: visible;
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+.grey {
+    color: #999;
 }
 
 /*navbar*/
@@ -187,10 +195,6 @@ img.profile-pic.large, .profile-pic.large img {
   .profile-pic, .votes, .tags, .user, .links, .time {
     flex-shrink: 0;
   }
-  .title, .tags, .likeable-owner, .comment-body, .body {
-    margin-right: 10px;
-    flex-grow: 1;
-  }
 }
 .card {
   background: white;
@@ -208,13 +212,19 @@ img.profile-pic.large, .profile-pic.large img {
   .title {
     margin: 0;
   }
-  .grey {
-    color: #999;
-  }
 }
 
 /*question#new*/
 
+/*question#index+show */
+.link, .question-show {
+  .title, .tags, .likeable-owner, .body, .comment-text, .answer, .new-answer {
+    flex-grow: 1;
+  }
+  .title, .tags, .likeable-owner {
+    margin-right: 10px;
+  }
+}
 /*question#index*/
 .link {
   .card {
@@ -226,6 +236,9 @@ img.profile-pic.large, .profile-pic.large img {
   .title, .time{
     line-height: 30px;
   }
+  .time {
+    font-size: 12px;
+  }
 }
 
 /*question#show*/
@@ -234,7 +247,6 @@ img.profile-pic.large, .profile-pic.large img {
     margin: 10px 0;
   }
   .answer, .new-answer {
-    flex-grow: 1;
     position: relative;
     margin: 10px 0;
   }
@@ -247,10 +259,7 @@ img.profile-pic.large, .profile-pic.large img {
   .title, .question .time {
     line-height: 40px;
   }
-  .comment .time {
-    line-height: 30px;
-  }
-  .comment-body {
+  .comment-text {
     margin-top: 5px;
   }
   .question .body {
@@ -269,17 +278,29 @@ img.profile-pic.large, .profile-pic.large img {
   .new-comment{
     background-color: $light-grey;
   }
-  .fa-trophy, .comment-owner{
+  .left-space {
     margin-left: 5px;
   }
-  .standalone {
-    background-color: #F2F2F2;
+  .fcol.standalone {
+    width: auto;
+    align-items: center;
+  }
+  .profile-pic.standalone {
+    background-color: $body-bg;
     width: 50px;
     height: 50px;
     padding: 5px;
-    margin: 10px 10px;
+    margin: 10px 10px 0px 10px;
   }
-  .standalone.new {
+  .answer-time, .comment-time, .edit-post {
+    font-size: 12px;
+  }
+
+  .answer-time {
+    background-color: $body-bg;
+    padding-bottom: 2px;
+  }
+  .profile-pic.standalone.new {
     margin-top: 35px;
   }
   .line {
