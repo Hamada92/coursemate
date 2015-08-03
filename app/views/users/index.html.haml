@@ -4,7 +4,7 @@
     -@users.each do |u|
       .card.frow
         .profile-pic.small
-          =link_to(image_tag("avatar-50.png"), user_path(u))
+          =link_to(image_tag("avatar-50.png", alt: "profile pic"), user_path(u))
         .user
           =link_to u.username, user_path(u)
           %i.fa.fa-trophy.fa-lg

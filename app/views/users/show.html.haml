@@ -1,8 +1,8 @@
 .user-show
   -if @user == current_user
-    =link_to(image_tag("avatar-300.jpg", class: "profile-pic large", data: {toggle: "tooltip", placement:"bottom"}, title: "Change your picture"), account_edit_profile_path, )
+    =link_to(image_tag("avatar-300.jpg", alt: "profile pic", class: "profile-pic large", data: {toggle: "tooltip", placement:"bottom"}, title: "Change your picture"), account_edit_profile_path)
   -else
-    =image_tag("avatar-300.jpg", class: "profile-pic large")
+    =image_tag("avatar-300.jpg", class: "profile-pic large", alt: "profile pic")
 
   %h3
     -if @user.first_name.nil? or @user.first_name.blank?

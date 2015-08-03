@@ -8,7 +8,7 @@
 
     .card.frow.main
       .profile-pic.medium
-        =link_to(image_tag("avatar-50.png"), user_path(@question.user))
+        =link_to(image_tag("avatar-50.png", alt: "profile pic"), user_path(@question.user))
       .fcol
         .frow.body.bottom-space
           .markdown-output><
@@ -17,8 +17,8 @@
         .frow.bottom-space
           .tags
             -tag = @question.tags.first
-            =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info")
-            =link_to("#{tag.name}", show_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info")
+            =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info", role: "button")
+            =link_to("#{tag.name}", show_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info", role: "button")
         .frow
           .likeable-owner
             -if owner @question
@@ -40,7 +40,7 @@
     -unless a.id.nil?
       .frow{id: "Answer#{a.id}"}
         .profile-pic.medium.standalone
-          =link_to(image_tag("avatar-50.png"), user_path(a.user))
+          =link_to(image_tag("avatar-50.png", alt: "profile pic"), user_path(a.user))
         .answer
           .line
           .card.fcol
@@ -73,12 +73,12 @@
   .frow
     -if user_signed_in?
       .profile-pic.medium.standalone.new
-        =image_tag("avatar-50.png")
+        =image_tag("avatar-50.png", alt: "profile pic")
       .new-answer
         =render 'answers/form', resources: [@question, Answer.new]
     -else
       .profile-pic.medium.standalone
-        =image_tag("avatar-50.png")
+        =image_tag("avatar-50.png", alt: "profile pic")
       .login-to-answer
         Log in to contribute your answer!
 

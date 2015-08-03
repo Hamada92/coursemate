@@ -8,7 +8,7 @@
 
     .card.frow.main
       .profile-pic.medium
-        =link_to(image_tag("avatar-50.png"), user_path(@question.user))
+        =link_to(image_tag("avatar-50.png", alt: "profile pic"), user_path(@question.user))
       .fcol
         .frow.body.bottom-space
           .markdown-output><
@@ -17,8 +17,8 @@
         .frow.bottom-space
           .tags
             -tag = @question.tags.first
-            =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info")
-            =link_to("#{tag.name}", show_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info")
+            =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info", role: "button")
+            =link_to("#{tag.name}", show_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info", role: "button")
         .frow
           .likeable-owner
             -if owner @question
@@ -34,6 +34,6 @@
 
   .frow
     .profile-pic.medium.standalone.new
-      =image_tag("avatar-50.png")
+      =image_tag("avatar-50.png", alt: "profile pic")
     .new-answer
       =render 'answers/form', resources: [@answer]

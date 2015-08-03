@@ -1,7 +1,7 @@
 .link
   .card.frow{id: "Question#{question.id}"}
     .profile-pic.small
-      =link_to(image_tag("avatar-50.png"), user_path(question.user))
+      =link_to(image_tag("avatar-50.png", alt: "profile pic"), user_path(question.user))
     .fcol
       .frow.bottom-space
         %h4.title
@@ -12,10 +12,10 @@
       .frow
         .tags
           -tag = question.tags.first
-          =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info")
-          =link_to("#{tag.name}", show_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info")
+          =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info", role: "button")
+          =link_to("#{tag.name}", show_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info", role: "button")
           -if question.num_answers == 0
-            =link_to("unanswered", unanswered_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-success")
+            =link_to("unanswered", unanswered_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-success", role: "button")
         .votes
           =render 'likes/like', likeable: question, path: question_likes_path(question, Like.new)
 

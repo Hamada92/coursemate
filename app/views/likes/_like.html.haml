@@ -5,6 +5,6 @@
     -else
       =render 'likes/add_like', path: path, num_likes: likeable.num_likes
   -else
-    %button.btn.btn-default.btn-xs{disabled: "disabled"}
+    %button.btn.btn-default.btn-xs{disabled: "disabled", type: "button"}
       ="+ " + "#{likeable.num_likes}"
 
