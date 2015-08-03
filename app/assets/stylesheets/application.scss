@@ -1,5 +1,8 @@
 /* BOOTSTRAP */
 
+/* colours */
+$light-grey: #f7f7f7;
+
 /* general */
 $font-family-sans-serif: 'Roboto', sans-serif;
 $body-bg: #f2f2f2;
@@ -14,7 +17,7 @@ $link-color: #07c;
 $link-hover-color: #30a7fc;
 $link-hover-decoration: none;
 /* navigation */
-$navbar-default-bg: #f7f7f7;
+$navbar-default-bg: $light-grey;
 $navbar-default-link-active-bg: transparent;
 $nav-pills-active-link-hover-bg: #536dfe;
 /* dropdowns */
@@ -27,6 +30,7 @@ $btn-info-color: #01579B;
 $btn-success-bg: #B2EBF2;
 $btn-success-border: #B2EBF2;
 $btn-success-color: #004D40;
+
 
 
 
@@ -263,7 +267,7 @@ img.profile-pic.large, .profile-pic.large img {
     white-space: normal;
   }
   .new-comment{
-    background-color: #F7F7F7;
+    background-color: $light-grey;
   }
   .fa-trophy, .comment-owner{
     margin-left: 5px;
@@ -300,8 +304,21 @@ img.profile-pic.large, .profile-pic.large img {
 }
 
 /*sign in*/
-.signin {
+.sign-in {
   max-width: 400px;
+  margin-top: 50px;
+  background-color: $light-grey;
+  padding: 30px;
+
+  h3, h4 {
+    margin-bottom: 25px;
+  }
+  .bottom-spacing {
+    margin-bottom: 20px;
+  }
+  .light-grey {
+    color: #BDBDBD;
+  }
 }
 
 /*user#show*/

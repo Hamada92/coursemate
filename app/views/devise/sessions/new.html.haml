@@ -1,0 +1,25 @@
+.sign-in.center-block.card
+  %h3.text-center Sign in
+
+  =form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+    
+    .form-group.has-feedback
+      =f.email_field :email, autofocus: true, class: "form-control", placeholder: "Email"
+      %span.form-control-feedback.glyphicon.glyphicon-envelope.light-grey
+    
+    .form-group.has-feedback
+      =f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password"
+      %span.form-control-feedback.glyphicon.glyphicon-lock.light-grey
+    -if devise_mapping.rememberable?
+      .form-group
+        .checkbox
+          %label
+            =f.check_box :remember_me
+            Remember me
+    
+    .form-group
+      =button_tag(type: 'submit', class: "btn btn-primary btn-lg btn-block") do
+        Sign in
+        %i.fa.fa-sign-in
+        
+  =render "devise/shared/links"
