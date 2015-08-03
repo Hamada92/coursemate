@@ -1,82 +1,86 @@
-.whole-card{id: "Question#{@question.id}"}
-  .card.frow.header
-    %h4.title
-      =@question.title
-    .time
-      =local_relative_time(@question.created_at, type: 'time-or-date')
+.question-show
+  .question{id: "Question#{@question.id}"}
+    .card.frow.header
+      %h4.title
+        =@question.title
+      .time.grey
+        =local_relative_time(@question.created_at, type: 'time-or-date')
 
-  .card.frow.main
-    .profile-pic.medium
-      =link_to(image_tag("avatar-50.png"), user_path(@question.user))
-    .fcol
-      .frow.body
-        #output-question><
-          :preserve
-            #{@question.body}
-      .frow
-        .tags
-          -tag = @question.tags.first
-          =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info")
-          =link_to("#{tag.name}", show_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info")
-      .frow.bottom
-        .owner
-          -if owner @question
-            =link_to("Edit", edit_question_path(@question))
-            =link_to("Delete", question_path(@question), method: :delete)
-          -else
-            asked by:
-            =link_to(" " + @question.user.username, user_path(@question.user))
-            %i.fa.fa-trophy.fa-lg
-            ="+" + @question.user.score.to_s
-        .votes
-          =render 'likes/like', likeable: @question, path: question_likes_path(@question, Like.new)
-  .comments
-    .ExistingComments
-      =render @question.comments.includes(:user).order('id ASC')
+    .card.frow.main
+      .profile-pic.medium
+        =link_to(image_tag("avatar-50.png"), user_path(@question.user))
+      .fcol
+        .frow.body.bottom-space
+          .markdown-output><
+            :preserve
+              #{@question.body}
+        .frow.bottom-space
+          .tags
+            -tag = @question.tags.first
+            =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info")
+            =link_to("#{tag.name}", show_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info")
+        .frow
+          .likeable-owner
+            -if owner @question
+              =link_to("Edit", edit_question_path(@question))
+              =link_to("Delete", question_path(@question), method: :delete)
+            -else
+              %span.grey asked by:
+              =link_to(" " + @question.user.username, user_path(@question.user))
+              %i.fa.fa-trophy.fa-lg
+              ="+" + @question.user.score.to_s
+          .votes
+            =render 'likes/like', likeable: @question, path: question_likes_path(@question, Like.new)
+    .comments
+      .ExistingComments
+        =render @question.comments.includes(:user).order('id ASC')
+      -if user_signed_in?
+        =render 'comments/form', resources: [@question, Comment.new]
+  -@question.answers.includes(:user).order('num_likes DESC').each do |a|
+    -unless a.id.nil?
+      .frow{id: "Answer#{a.id}"}
+        .profile-pic.medium.standalone
+          =link_to(image_tag("avatar-50.png"), user_path(a.user))
+        .answer
+          .line
+          .card.fcol
+            .frow
+              .body
+                .markdown-output><
+                  :preserve
+                    #{a.body}
+              .time.grey
+                =local_relative_time(a.created_at, type: 'time-or-date')
+
+            .frow
+              .likeable-owner
+                -if owner a
+                  =link_to("Edit", edit_answer_path(a))
+                  =link_to("Delete", answer_path(a), method: :delete)
+                -else
+                  %span.grey answered by:
+                  =link_to(" " + a.user.username, user_path(a.user))
+                  %i.fa.fa-trophy.fa-lg
+                  ="+" + a.user.score.to_s
+              .votes
+                =render 'likes/like', likeable: a, path: answer_likes_path(a, Like.new)
+
+          .comments
+            .ExistingComments
+              =render a.comments.includes(:user).order('id ASC')
+            -if user_signed_in?
+              =render 'comments/form', resources: [a, Comment.new]
+  .frow
     -if user_signed_in?
-      =render 'comments/form', resources: [@question, Comment.new]
-
-
-  
--@question.answers.includes(:user).order('num_likes DESC').each do |a|
-  -unless a.id.nil?
-    .frow
+      .profile-pic.medium.standalone.new
+        =image_tag("avatar-50.png")
+      .new-answer
+        =render 'answers/form', resources: [@question, Answer.new]
+    -else
       .profile-pic.medium.standalone
-        =link_to(image_tag("avatar-50.png"), user_path(a.user))
-      .whole-card.answer{id: "Answer#{a.id}"}
-        .line
-        .card.fcol
-          .frow.body
-            #output-answer><
-              :preserve
-                #{a.body}
-          .frow.bottom
-            .owner
-              -if owner a
-                =link_to("Edit", edit_answer_path(a))
-                =link_to("Delete", answer_path(a), method: :delete)
-              -else
-                answered by:
-                =link_to(" " + a.user.username, user_path(a.user))
-                %i.fa.fa-trophy.fa-lg
-                ="+" + a.user.score.to_s
-            .votes
-              =render 'likes/like', likeable: a, path: answer_likes_path(a, Like.new)
-
-        .comments
-          .ExistingComments
-            =render a.comments.includes(:user).order('id ASC')
-          -if user_signed_in?
-            =render 'comments/form', resources: [a, Comment.new]
-.frow
-  .profile-pic.medium.standalone
-    =image_tag("avatar-50.png")
-  -if user_signed_in?
-    .new-answer
-      =render 'answers/form', resources: [@question, Answer.new]
-  -else
-    .login-to-answer
-      Log in to contribute your answer!
+        =image_tag("avatar-50.png")
+      .login-to-answer
+        Log in to contribute your answer!
 
 
 

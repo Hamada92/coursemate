@@ -25,17 +25,6 @@ $(document).on('page:load', ready)
 
 function ready() {
 
-  if($('div[id^="output"]').length > 0){ 
-    $('div[id^="output"]').each(function() { 
-      var converter = new Markdown.Converter();
-      Markdown.Extra.init(converter)
-      var content = $(this).html();
-      $(this).html(converter.makeHtml(content));
-    });
-  };
-
-
-
   var substringMatcher = function(strs) {
     return function findMatches(q, cb) {
       var matches, substringRegex;
@@ -129,11 +118,22 @@ function ready() {
   });
 
   $('#cropbox').Jcrop({
+    boxWidth: 150,
+    boxHeight: 150,
     setSelect: [10, 10, 290, 290],
     aspectRatio: 1,
     onChange: update_crop,
     onSelect: update_crop
   });
+
+  if($('.markdown-output').length > 0){
+    $('.markdown-output').each(function() {
+      var converter = new Markdown.Converter();
+      Markdown.Extra.init(converter)
+      var content = $(this).html();
+      $(this).html(converter.makeHtml(content));
+    });
+  };
 
   var converter = Markdown.getSanitizingConverter();
   var editor = new Markdown.Editor(converter);

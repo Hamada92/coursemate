@@ -8,7 +8,7 @@
           %h4.modal-title Crop Image
         .modal-body
           .center-block
-            =image_tag("avatar-300.jpg", class: "large", id: "cropbox")
+            =image_tag("avatar-300.jpg", id: "cropbox")
   .frow
     .nav.nav-pills.nav-stacked.links
       %li.active
@@ -16,7 +16,7 @@
           Profile Settings
       %li.inactive
         =link_to("Account Settings", edit_user_registration_path)
-    .edit
+    .edit-form
       .error
         =render 'partials/errors', resource: @user
       .form
@@ -24,7 +24,7 @@
         =form_for @user do |f|
           .frow.image-upload
             .preview-container
-              =image_tag("avatar-300.jpg", class: "profile-pic medium", id: "preview")
+              =image_tag("avatar-300.jpg", id: "preview")
             %button.btn.btn-primary{type: "button", data: {toggle: "modal", target: "#crop-modal"}} Upload
           .form-group
             =f.label :username

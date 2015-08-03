@@ -4,7 +4,6 @@
   =form_for @question, builder: Mybuilder do |f|
     .error
       =render 'partials/errors', resource: @question
-
     .form-group
       =f.select :tag_category, QuestionsHelper::CATEGORIES, {}, id: "category_select", class: "form-control"
     .form-group
@@ -14,7 +13,7 @@
       =f.text_field :title, autocomplete: "off", placeholder: "Enter a title...", class: "form-control"
 
     .form-group
-      =f.pagedown_editor :body
+      =f.pagedown_editor :body, placeholder: "Enter you question here..."
 
     =f.submit 'Post Question', class: 'btn btn-primary'
 

@@ -1,11 +1,12 @@
-%h4 Users
-.frow.users
-  -@users.each do |u|
-    .card.user.frow
-      .profile-pic.small
-        =link_to(image_tag("avatar-50.png"), user_path(u))
-      .user
-        =link_to u.username, user_path(u)
-        %i.fa.fa-trophy.fa-lg
-        ="+" + u.score.to_s
+.user-index
+  %h4 Users
+  .frow.users
+    -@users.each do |u|
+      .card.frow
+        .profile-pic.small
+          =link_to(image_tag("avatar-50.png"), user_path(u))
+        .user
+          =link_to u.username, user_path(u)
+          %i.fa.fa-trophy.fa-lg
+          ="+" + u.score.to_s
       
