@@ -1,21 +1,16 @@
-.center-block.question-form
-  %h2 Ask a question
-  %br
-  =form_for @question, builder: Mybuilder do |f|
-    .error
-      =render 'partials/errors', resource: @question
-    .form-group
-      =f.select :tag_category, QuestionsHelper::CATEGORIES, {}, id: "category_select", class: "form-control"
-    .form-group
-      =f.text_field :tag_name, autocomplete: "off", placeholder: "Enter a course name... eg. MATH 101", id: "tag_input", class: "form-control typeahead", data: {autocomplete_course: @course_tags, autocomplete_program: @program_tags}
-      
-    .form-group
-      =f.text_field :title, autocomplete: "off", placeholder: "Enter a title...", class: "form-control"
+=form_for @question, builder: Mybuilder do |f|
+  .error
+    =render 'partials/errors', resource: @question
+  .form-group
+    =f.select :tag_category, QuestionsHelper::CATEGORIES, {}, id: "category_select", class: "form-control"
+  .form-group
+    =f.text_field :tag_name, autocomplete: "off", placeholder: "Enter a course name... eg. MATH 101", id: "tag_input", class: "form-control typeahead", data: {autocomplete_course: @course_tags, autocomplete_program: @program_tags}
 
-    .form-group
-      =f.pagedown_editor :body, placeholder: "Enter you question here..."
+  .form-group
+    =f.text_field :title, autocomplete: "off", placeholder: "Enter a title...", class: "form-control"
 
-    =f.submit 'Post Question', class: 'btn btn-primary'
+  .form-group
+    =f.pagedown_editor :body, placeholder: "Enter you question here..."
 
-  .question_preview
+  =f.submit 'Post Question', class: 'btn btn-primary'
   
