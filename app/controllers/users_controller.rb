@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find_by_username(params[:username])
+    @user = User.find(params[:id])
     @questions = @user.questions
     @questions_he_answered = @user.questions_he_answered
   end
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to root_path, notice: "Profile successfully updated." }
+        format.html { redirect_to user_path(@user), notice: "Profile successfully updated." }
       else
         format.html { render :edit }
       end

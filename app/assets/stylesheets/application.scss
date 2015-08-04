@@ -17,6 +17,7 @@ $link-hover-color: #30a7fc;
 $link-hover-decoration: none;
 /* navigation */
 $navbar-default-bg: $light-grey;
+$navbar-default-border: $navbar-default-bg;
 $navbar-default-link-active-bg: transparent;
 $nav-pills-active-link-hover-bg: #536dfe;
 /* dropdowns */
@@ -29,9 +30,6 @@ $btn-info-color: #01579B;
 $btn-success-bg: #B2EBF2;
 $btn-success-border: #B2EBF2;
 $btn-success-color: #004D40;
-
-
-
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
@@ -191,11 +189,6 @@ img.profile-pic.large, .profile-pic.large img {
 }
 
 /*cards/flexboxes*/
-.frow {
-  .profile-pic, .votes, .tags, .user, .links, .time {
-    flex-shrink: 0;
-  }
-}
 .card {
   background: white;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.12);
@@ -218,6 +211,9 @@ img.profile-pic.large, .profile-pic.large img {
 
 /*question#index+show */
 .link, .question-show {
+  .profile-pic, .votes, .tags, .time {
+    flex-shrink: 0;
+}
   .title, .tags, .likeable-owner, .body, .comment-text, .answer, .new-answer {
     flex-grow: 1;
   }
@@ -356,6 +352,7 @@ img.profile-pic.large, .profile-pic.large img {
     flex-wrap: wrap;
   }
   .card {
+    flex-shrink: 0;
     width: 250px;
     margin: 0 30px 30px 0;
   }
@@ -373,6 +370,7 @@ img.profile-pic.large, .profile-pic.large img {
     flex-wrap: wrap;
   }
   .links {
+    flex-shrink: 0;
     margin-right: 30px;
   }
   .image-upload {

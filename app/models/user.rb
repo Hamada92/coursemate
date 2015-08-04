@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 
   def to_param
-    username
+    "#{id}-#{username.parameterize}"
   end
 
   has_attached_file :avatar, :styles => { :original => "300x300>", :medium => "80x80>", :small => "60x60>" }
@@ -16,12 +16,11 @@ class User < ActiveRecord::Base
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
 
-  validates :username, uniqueness: true, presence: true, format: { with: /\A[a-zA-Z0-9\.]+\Z/,
-    message: "only allows letters (a-z), numbers and periods" }
+  validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9]+\Z/,
+    message: "only allows letters (a-z) and numbers" }
   validate :valid_email
   
   before_create :set_university
-  before_validation { self.username.downcase! }
 
 
   def questions_he_answered
