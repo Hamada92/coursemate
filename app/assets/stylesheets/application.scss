@@ -1,5 +1,5 @@
 /* colours */
-$light-grey: #f7f7f7;
+$light-grey: #FAFAFA;
 
 /* BOOTSTRAP */
 /* general */
@@ -148,6 +148,11 @@ img.profile-pic.large, .profile-pic.large img {
 
 /*navbar*/
 .navbar {
+  border-bottom-color: #E0E0E0;
+
+  .navbar-right {
+    margin: 0px;
+  }
   .icon{
     padding-top: 6px;
   }
@@ -339,8 +344,14 @@ img.profile-pic.large, .profile-pic.large img {
 }
 
 /*user#show*/
-.score {
-  font-size: 1.5em;
+.user-show {
+  .profile-info {
+    align-items: center;
+    margin: 25px 0px;
+  }
+  .score {
+    font-size: 1.5em;
+  }
 }
 .fa-trophy {
   color: #FFA319;

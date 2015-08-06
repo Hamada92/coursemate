@@ -22,14 +22,21 @@
             =f.password_field :current_password, class: "form-control", placeholder: "Enter current password"
           #change-password
             %a{role: "button", href: "#change-password-fields", aria_expanded: "false", aria_controls: "change-password-fields", data: {toggle: "collapse"}} Change Password
-          #change-password-fields.collapse
-            .form-group
-              =f.password_field :password, class: "form-control", placeholder: "Enter new password", autocomplete: "off"
-            .form-group
-              =f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm new password", autocomplete: "off"
+          - if @user.errors[:password].any? or @user.errors[:password_confirmation].any?
+            #change-password-fields.collapse.in
+              .form-group
+                =f.password_field :password, class: "form-control", placeholder: "Enter new password", autocomplete: "off"
+              .form-group
+                =f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm new password", autocomplete: "off"
+          - else
+            #change-password-fields.collapse
+              .form-group
+                =f.password_field :password, class: "form-control", placeholder: "Enter new password", autocomplete: "off"
+              .form-group
+                =f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm new password", autocomplete: "off"
           .form-group
             =f.submit "Update Account", class: 'btn btn-primary'
         .delete-account
-          %a{role: "button", href: "#delete-confirm", aria_expanded: "false", aria_controls: "delete-link", data: {toggle: "collapse"}} Delete my account
+          %a{role: "button", href: "#delete-confirm", aria_expanded: "false", aria_controls: "delete-link", data: {toggle: "collapse"}} Cancel my account
         #delete-confirm.collapse
           =link_to "Delete Account", registration_path(resource_name), data: { confirm: "This action cannot be undone. Are you sure?" }, method: :delete, class: "btn btn-danger", role: "button"

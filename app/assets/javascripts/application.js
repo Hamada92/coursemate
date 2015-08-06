@@ -113,7 +113,7 @@ function ready() {
     $('[data-toggle="tooltip"]').tooltip()
   });
 
-  $(".user-edit, .navbar").click(function() {
+  $(".user-edit").click(function() {
     $("#delete-confirm").collapse("hide");
   });
 
