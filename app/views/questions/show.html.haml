@@ -1,6 +1,6 @@
 .question-show
   .question{id: "Question#{@question.id}"}
-    =render 'question_card'
+    =render 'questions/question_card'
     .comments
       .ExistingComments
         =render @question.comments.includes(:user).order('id ASC')
