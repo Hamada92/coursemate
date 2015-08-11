@@ -13,7 +13,10 @@
       .profile-pic.medium.standalone.new
         =image_tag("avatar-50.png", alt: "profile pic", class: "img-circle")
       .new-answer
-        =render 'answers/form', resources: [@question, Answer.new]
+        = simple_form_for [@question, Answer.new], remote: true do |f|
+          = f.input :body, as: :pagedown, label: false, placeholder: "Enter your answer...", input_html: { preview: true, rows: 10 }
+          %span.help-block.has-error.errors
+          = f.button :submit, 'Post Answer'
     - else
       .profile-pic.medium.standalone
         =image_tag("avatar-50.png", alt: "profile pic", class: "img-circle")
