@@ -5,4 +5,7 @@ $(".new-answer .errors").html("<%= j (render 'partials/errors', resource: @answe
   $(".existing-answers").append("<%= j (render @answer) %>");
   $(".new-answer form").trigger("reset");
   $(".wmd-preview").html("");
+  var converter = Markdown.getSanitizingConverter();
+  Markdown.Extra.init(converter);
+  $('.markdown-output:last').html(converter.makeHtml($('.markdown-output:last').html()));
 <%end%>
