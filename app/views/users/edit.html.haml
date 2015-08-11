@@ -21,10 +21,11 @@
         %h4 Edit Profile
         = simple_form_for @user do |f|
           = f.error_notification
-          .frow.image-upload
-            .preview-container
-              = image_tag "avatar-50.png", id: "preview", alt: "profile pic", class: "img-circle"
-            = f.button :button, "Upload", type: "button", data: {toggle: "modal", target: "#crop-modal"}
+          .form-group
+            .frow.image-upload
+              .preview-container
+                = image_tag "avatar-300.jpg", id: "preview", alt: "profile pic", class: "img-circle"
+              = f.button :button, "Upload", type: "button", data: {toggle: "modal", target: "#crop-modal"}
           = f.input :username, placeholder: "Username"
           = f.input :first_name, placeholder: "First name"
           = f.input :last_name, placeholder: "Last name"

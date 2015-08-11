@@ -117,15 +117,15 @@ function ready() {
     var attr, converter, editor;
     attr = $(input).attr('id').split('wmd-input')[1];
     converter = new Markdown.Converter();
-    Markdown.Extra.init(converter);
+    Markdown.Extra.init(converter, {highlighter: "highlight"});
     editor = new Markdown.Editor(converter, attr);
     return editor.run();
   });
 
-  $('.markdown-output').each(function() {
+  $('.markdown-output').each(function(i, input) {
     var converter = Markdown.getSanitizingConverter();
     Markdown.Extra.init(converter, {highlighter: "highlight"});
-    $(this).html(converter.makeHtml($(this).html()));
+    $(input).html(converter.makeHtml($(input).text()));
   });
 
   $('pre code').each(function(i, block) {

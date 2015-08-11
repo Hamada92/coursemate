@@ -401,7 +401,7 @@ img.profile-pic.large, .profile-pic.large img {
   .preview-container {
     height: 40px;
     width: 40px;
-    margin: 0 15px 15px 0px;
+    margin: 0 15px 0 0px;
     overflow: hidden;
     border-radius: 50%;
   }
@@ -414,6 +414,9 @@ img.profile-pic.large, .profile-pic.large img {
   .modal-body .center-block {
     width: 150px;
     height: 150px;
+  }
+  h3, h4 {
+    margin-bottom: 20px;
   }
 }
 
