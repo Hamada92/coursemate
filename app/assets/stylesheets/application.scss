@@ -36,6 +36,7 @@ $btn-success-color: #004D40;
 @import "font-awesome";
 @import "jquery.Jcrop";
 @import "pagedown_bootstrap";
+@import "highlight.scss";
 
 /* generala */
 html,body {
@@ -77,7 +78,6 @@ html,body {
 .tt-suggestion.tt-cursor {
   color: #fff;
   background-color: $brand-primary;
-
 }
 .tt-suggestion p {
   margin: 0;

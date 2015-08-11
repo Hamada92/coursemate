@@ -124,8 +124,12 @@ function ready() {
 
   $('.markdown-output').each(function() {
     var converter = Markdown.getSanitizingConverter();
-    Markdown.Extra.init(converter);
+    Markdown.Extra.init(converter, {highlighter: "highlight"});
     $(this).html(converter.makeHtml($(this).html()));
+  });
+
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
   });
 
 }
