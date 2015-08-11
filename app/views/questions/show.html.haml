@@ -1,52 +1,20 @@
 .question-show
   .question{id: "Question#{@question.id}"}
-    =render 'questions/question_card'
+    = render 'questions/question_card'
     .comments
       .ExistingComments
         =render @question.comments.includes(:user).order('id ASC')
-      -if user_signed_in?
+      - if user_signed_in?
         =render 'comments/form', resources: [@question, Comment.new]
-  -@question.answers.includes(:user).order('num_likes DESC').each do |a|
-    -unless a.id.nil?
-      .frow{id: "Answer#{a.id}"}
-        .fcol.standalone
-          .profile-pic.medium.standalone
-            =link_to(image_tag("avatar-50.png", alt: "profile pic", class: "img-circle"), user_path(a.user))
-          .answer-time.grey
-            =local_relative_time(a.created_at, type: 'time-or-date')
-        .answer
-          .line
-          .card.fcol
-            .body
-              .markdown-output><
-                :preserve
-                  #{a.body}
-            .frow
-              .likeable-owner
-                %span.grey answered by:
-                =link_to(" " + a.user.username, user_path(a.user))
-                %i.fa.fa-trophy.fa-lg.left-space
-                ="+" + a.user.score.to_s
-              .votes
-                =render 'likes/like', likeable: a, path: answer_likes_path(a, Like.new)
-            -if owner a
-              .frow
-                .edit-post
-                  =link_to("Edit", edit_answer_path(a))
-                  =link_to("Delete", answer_path(a), method: :delete)
-
-          .comments
-            .ExistingComments
-              =render a.comments.includes(:user).order('id ASC')
-            -if user_signed_in?
-              =render 'comments/form', resources: [a, Comment.new]
+  .existing-answers
+    = render @question.answers.includes(:user).order('num_likes DESC')
   .frow
-    -if user_signed_in?
+    - if user_signed_in?
       .profile-pic.medium.standalone.new
         =image_tag("avatar-50.png", alt: "profile pic", class: "img-circle")
       .new-answer
         =render 'answers/form', resources: [@question, Answer.new]
-    -else
+    - else
       .profile-pic.medium.standalone
         =image_tag("avatar-50.png", alt: "profile pic", class: "img-circle")
       .login-to-answer

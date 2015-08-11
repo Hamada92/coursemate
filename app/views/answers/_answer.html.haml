@@ -1,0 +1,33 @@
+-unless answer.id.nil?
+  .frow{id: "Answer#{answer.id}"}
+    .fcol.standalone
+      .profile-pic.medium.standalone
+        =link_to(image_tag("avatar-50.png", alt: "profile pic", class: "img-circle"), user_path(answer.user))
+      .answer-time.grey
+        =local_relative_time(answer.created_at, type: 'time-or-date')
+    .answer
+      .line
+      .card.fcol
+        .body
+          .markdown-output><
+            :preserve
+              #{answer.body}
+        .frow
+          .likeable-owner
+            %span.grey answered by:
+            =link_to(" " + answer.user.username, user_path(answer.user))
+            %i.fa.fa-trophy.fa-lg.left-space
+            ="+" + answer.user.score.to_s
+          .votes
+            =render 'likes/like', likeable: answer, path: answer_likes_path(answer, Like.new)
+        -if owner answer
+          .frow
+            .edit-post
+              =link_to("Edit", edit_answer_path(answer))
+              =link_to("Delete", answer_path(answer), method: :delete, remote: true)
+
+      .comments
+        .ExistingComments
+          =render answer.comments.includes(:user).order('id ASC')
+        -if user_signed_in?
+          =render 'comments/form', resources: [answer, Comment.new]

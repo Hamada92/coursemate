@@ -1,6 +1,4 @@
-=form_for resources, builder: Mybuilder do |f|
-  .error
-    =render 'partials/errors', resource: @answer
-  .form-group
-    =f.pagedown_editor :body, class: "form-control", placeholder: "Enter your answer..."
-  =f.submit 'Post Answer', class: 'btn btn-primary'
+= simple_form_for resources, remote: true do |f|
+  = f.input :body, as: :pagedown, label: false, placeholder: "Enter your answer...", input_html: { preview: true, rows: 10 }
+  %span.help-block.has-error.errors
+  = f.button :submit, 'Post Answer'

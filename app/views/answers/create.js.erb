@@ -1,0 +1,8 @@
+$(".new-answer .errors").html("<%= j (render 'partials/errors', resource: @answer, field: 'body', field_name: 'Answer') %>");
+<% if @answer.errors.any? %>
+  $(".new-answer .form-group").addClass("has-error");
+<% else %>
+  $(".existing-answers").append("<%= j (render @answer) %>");
+  $(".new-answer form").trigger("reset");
+  $(".wmd-preview").html("");
+<%end%>

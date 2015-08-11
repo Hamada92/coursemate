@@ -13,8 +13,10 @@ class AnswersController < ApplicationController
     respond_to do |format|
       if @answer.save
         format.html { redirect_to @question, notice: 'Answer was successfully created.' }
+        format.js
       else
         format.html { render 'questions/show' }
+        format.js
       end
     end
   end
@@ -33,6 +35,7 @@ class AnswersController < ApplicationController
     @answer.destroy
     respond_to do |format|
       format.html { redirect_to @question, notice: 'Answer was deleted.' }
+      format.js
     end
   end
 

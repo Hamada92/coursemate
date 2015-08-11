@@ -9,6 +9,7 @@ class Question < ActiveRecord::Base
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings
 
+  validates :tag_name, presence: true
   validates :title, presence: true
   validates :body, presence: true
   validate :valid_tag_category
@@ -48,22 +49,18 @@ class Question < ActiveRecord::Base
 
     def valid_tag_category
       unless QuestionsHelper::CATEGORIES.include?(@tag_category)
-        errors.add(:base, "Please use a valid question category")
+        errors.add(:tag_category, "is not a valid category")
       end
     end
 
     def valid_tag
       if @tag_category == "University Related"
         unless @tag_name == "General"
-          errors.add(:base, "University related questions must be tagged with \'General\'")
+          errors.add(:tag_name, "must be tagged with \'General\'")
         end
       elsif @tag_category == "Course Related"
         unless @tag_name =~ /\A *[A-Za-z0-9]+ +[A-Za-z0-9]+ *\Z/
-          errors.add(:base, "A course must be composed of a course code and a course number seperated by a space")
-        end
-      elsif @tag_category == "Program Related"
-        if @tag_name.blank?
-          errors.add(:base, "Please enter a valid program")
+          errors.add(:tag_name, "must be composed of a course code and a course number seperated by a space")
         end
       end
     end

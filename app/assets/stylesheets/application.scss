@@ -133,17 +133,25 @@ img.profile-pic.large, .profile-pic.large img {
   flex-wrap: nowrap;
   width: 100%;
 }
-.markdown-output {
-  white-space: normal;
-  overflow: visible;
+.markdown-output, #wmd-preview-body {
   img {
     max-width: 100%;
     height: auto;
     display: block;
   }
 }
+.markdown-output {
+  white-space: normal;
+  overflow: visible;
+}
+.wmd-preview {
+  background-color: $light-grey;
+}
 .grey {
     color: #999;
+}
+.help-block.has-error {
+  color: #a94442;
 }
 
 /*navbar*/
@@ -332,14 +340,11 @@ img.profile-pic.large, .profile-pic.large img {
   background-color: $light-grey;
   padding: 30px;
 
-  h3, h4 {
-    margin-bottom: 25px;
-  }
   .bottom-spacing {
     margin-bottom: 20px;
   }
-  .light-grey {
-    color: #BDBDBD;
+  h3, h4 {
+    margin-bottom: 25px;
   }
 }
 
@@ -396,7 +401,7 @@ img.profile-pic.large, .profile-pic.large img {
   .preview-container {
     height: 40px;
     width: 40px;
-    margin: 15px 15px 15px 0px;
+    margin: 0 15px 15px 0px;
     overflow: hidden;
     border-radius: 50%;
   }

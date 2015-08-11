@@ -1,16 +1,8 @@
-=form_for @question, builder: Mybuilder do |f|
-  .error
-    =render 'partials/errors', resource: @question
-  .form-group
-    =f.select :tag_category, QuestionsHelper::CATEGORIES, {}, id: "category_select", class: "form-control"
-  .form-group
-    =f.text_field :tag_name, autocomplete: "off", placeholder: "Enter a course name... eg. MATH 101", id: "tag_input", class: "form-control typeahead", data: {autocomplete_course: @course_tags, autocomplete_program: @program_tags}
-
-  .form-group
-    =f.text_field :title, autocomplete: "off", placeholder: "Enter a title...", class: "form-control"
-
-  .form-group
-    =f.pagedown_editor :body, class: "form-control", placeholder: "Enter your question here..."
-
-  =f.submit 'Post Question', class: 'btn btn-primary'
+= simple_form_for @question do |f|
+  = f.error_notification
+  = f.input :tag_category, label: "Category", collection: QuestionsHelper::CATEGORIES, include_blank: false, input_html: { id: "category_select" }
+  = f.input :tag_name, label: false, autocomplete: "off", placeholder: "Enter a course name... eg. MATH 101", input_html: { id: "tag_input", class: "typeahead", data: {autocomplete_course: @course_tags, autocomplete_program: @program_tags} }
+  = f.input :title, autocomplete: "off", placeholder: "Enter a title..."
+  = f.input :body, as: :pagedown, placeholder: "Enter your question...", input_html: { preview: true, rows: 10 }
+  = f.button :submit, 'Post Question'
   

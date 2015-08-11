@@ -1,8 +1,4 @@
--if resource.errors.any?
-  .alert.alert-danger.alert-dismissible{role: "alert"}
-    %button.close{type: "button", "data-dismiss" => "alert"}
-      %span &times;
-    %h4="#{pluralize(resource.errors.count, "error")}:"
-    -resource.errors.full_messages.each do |msg|
-      %li= msg
+- errors = resource.errors[field]
+- if errors.any?
+  = field_name + " " + errors[0]
 

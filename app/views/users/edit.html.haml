@@ -15,24 +15,17 @@
         %a{href:"#"}
           Profile Settings
       %li.inactive{role: "presentation"}
-        =link_to("Account Settings", edit_user_registration_path)
+        = link_to("Account Settings", edit_user_registration_path)
     .edit-form
-      .error
-        =render 'partials/errors', resource: @user
       .form
         %h4 Edit Profile
-        =form_for @user do |f|
+        = simple_form_for @user do |f|
+          = f.error_notification
           .frow.image-upload
             .preview-container
-              =image_tag("avatar-300.jpg", id: "preview", alt: "profile pic", class: "img-circle")
-            %button.btn.btn-primary{type: "button", data: {toggle: "modal", target: "#crop-modal"}} Upload
-          .form-group
-            =f.label :username
-            =f.text_field :username, placeholder: "Username", class: "form-control"
-          .form-group
-            =f.label :first_name
-            =f.text_field :first_name, class: "form-control", placeholder: "First name"
-          .form-group
-            =f.label :last_name
-            =f.text_field :last_name, class: "form-control", placeholder: "Last name"
-          =f.submit 'Update Profile', class: 'btn btn-primary'
+              = image_tag "avatar-50.png", id: "preview", alt: "profile pic", class: "img-circle"
+            = f.button :button, "Upload", type: "button", data: {toggle: "modal", target: "#crop-modal"}
+          = f.input :username, placeholder: "Username"
+          = f.input :first_name, placeholder: "First name"
+          = f.input :last_name, placeholder: "Last name"
+          = f.button :submit, "Update Profile"

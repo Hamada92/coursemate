@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
     def valid_email
       domain = self.email.partition('@').last
       unless UsersHelper::UNIVERSITIES.any? {|u| u[:domain] == domain}
-        errors.add(:base, "Please use a valid university email")
+        errors.add(:email, "is not a valid university email")
       end
     end
 

@@ -1,15 +1,3 @@
-// This is a manifest file that'll be compiled into application.js, which will include all the files
-// listed below.
-//
-// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
-// or any plugin's vendor/assets/javascripts directory can be referenced here using a relative path.
-//
-// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-// compiled file.
-//
-// Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
-// about supported directives.
-//
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
@@ -19,6 +7,7 @@
 //= require local_time
 //= require jquery.Jcrop
 //= require pagedown_bootstrap
+
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
@@ -124,18 +113,20 @@ function ready() {
     onSelect: update_crop
   });
 
-  if($('.markdown-output').length > 0){
-    $('.markdown-output').each(function() {
-      var converter = new Markdown.Converter();
-      Markdown.Extra.init(converter)
-      var content = $(this).html();
-      $(this).html(converter.makeHtml(content));
-    });
-  };
-  var converter = Markdown.getSanitizingConverter();
-  var editor = new Markdown.Editor(converter);
-  editor.run();
+  $('textarea.wmd-input').each(function(i, input) {
+    var attr, converter, editor;
+    attr = $(input).attr('id').split('wmd-input')[1];
+    converter = new Markdown.Converter();
+    Markdown.Extra.init(converter);
+    editor = new Markdown.Editor(converter, attr);
+    return editor.run();
+  });
 
+  $('.markdown-output').each(function() {
+    var converter = Markdown.getSanitizingConverter();
+    Markdown.Extra.init(converter);
+    $(this).html(converter.makeHtml($(this).html()));
+  });
 
 }
 

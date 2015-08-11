@@ -1,26 +1,13 @@
-=devise_error_messages!
 .sign-in.center-block.card
   %h3.text-center Create Account
-
-  =form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-
-    .form-group.has-feedback
-      =f.email_field :email, autofocus: true,  class: "form-control", placeholder: "University email"
-      %span.form-control-feedback.glyphicon.glyphicon-envelope.light-grey
-
-    .form-group.has-feedback
-      =f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password"
-      %span.form-control-feedback.glyphicon.glyphicon-lock.light-grey
-
-    .form-group.has-feedback
-      =f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "Confirm password"
-      %span.form-control-feedback.glyphicon.glyphicon-lock.light-grey
-
-    .form-group.has-feedback.bottom-spacing
-      =f.text_field :username, class: "form-control", placeholder: "Username"
-      %span.form-control-feedback.glyphicon.glyphicon-user.light-grey
-
-    .form-group
-      =f.submit "Create Account", class: "btn btn-primary btn-block btn-lg"
-
-  =render "devise/shared/links"
+  = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+    = f.error_notification
+    .form-inputs
+      = f.input :email, required: true, autofocus: true, placeholder: "University email"
+      = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), placeholder: "Password"
+      = f.input :password_confirmation, required: true, label: "Confirm password", placeholder: "Confirm password"
+      = f.input :username, placeholder: "Username"
+    .form-actions
+      .form-group
+        = f.button :submit, "Create Account", class: "btn-block btn-lg top-spacing"
+  = render "devise/shared/links"

@@ -1,42 +1,36 @@
 .user-edit
-  .frow    
+  .frow
     .nav.nav-pills.nav-stacked.links
       %li.inactive{role: "presentation"}
         =link_to("Profile Settings", account_edit_profile_path)
       %li.active{role: "presentation"}
         %a{href:"#"}
-          Account Settings   
-    .edit-form
-      =devise_error_messages!
-      .form
-        %h4 Edit Account
-        =form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-          .form-group
-            =f.label :email
-            =f.email_field :email, class: "form-control", placeholder: "University email"
-          -if devise_mapping.confirmable? && resource.pending_reconfirmation?
-            %div
+          Account Settings
+    .form
+      %h4 Edit Account
+      = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+        = f.error_notification
+        .form-inputs
+          = f.input :email, required: true, autofocus: true, placedholder: "Univeristy email"
+          - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+            %p
               Currently waiting confirmation for: #{resource.unconfirmed_email}
-          .form-group
-            =f.label :password
-            =f.password_field :current_password, class: "form-control", placeholder: "Enter current password"
+          = f.input :current_password, hint: "we need your current password to confirm your changes", required: true, placeholder: "Enter current password"
           #change-password
             %a{role: "button", href: "#change-password-fields", aria_expanded: "false", aria_controls: "change-password-fields", data: {toggle: "collapse"}} Change Password
           - if @user.errors[:password].any? or @user.errors[:password_confirmation].any?
             #change-password-fields.collapse.in
-              .form-group
-                =f.password_field :password, class: "form-control", placeholder: "Enter new password", autocomplete: "off"
-              .form-group
-                =f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm new password", autocomplete: "off"
+              = f.input :password, label: "New password", autocomplete: "off", hint: "leave it blank if you don't want to change it", required: false, placeholder: "Enter new password"
+              = f.input :password_confirmation, required: false, placeholder: "Confirm new password"
           - else
             #change-password-fields.collapse
-              .form-group
-                =f.password_field :password, class: "form-control", placeholder: "Enter new password", autocomplete: "off"
-              .form-group
-                =f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm new password", autocomplete: "off"
+              = f.input :password, label: "New password", autocomplete: "off", hint: "leave it blank if you don't want to change it", required: false, placeholder: "Enter new password"
+              = f.input :password_confirmation, required: false, placeholder: "Confirm new password"
+        .form-actions
           .form-group
-            =f.submit "Update Account", class: 'btn btn-primary'
-        .delete-account
-          %a{role: "button", href: "#delete-confirm", aria_expanded: "false", aria_controls: "delete-link", data: {toggle: "collapse"}} Cancel my account
-        #delete-confirm.collapse
-          =link_to "Delete Account", registration_path(resource_name), data: { confirm: "This action cannot be undone. Are you sure?" }, method: :delete, class: "btn btn-danger", role: "button"
+            = f.button :submit, "Update Account", class: "btm-spacing"
+      .delete-account
+        Unhappy?
+        %a{role: "button", href: "#delete-confirm", aria_expanded: "false", aria_controls: "delete-link", data: {toggle: "collapse"}} Cancel my account
+      #delete-confirm.collapse
+        =link_to "Delete Account", registration_path(resource_name), data: { confirm: "This action cannot be undone. Are you sure?" }, method: :delete, class: "btn btn-danger", role: "button"

@@ -3,8 +3,8 @@
     =image_tag("avatar-50.png", alt: "profile pic", class: "img-circle")
   .enter-comment
     =form_for resources, remote: true do |f|
-      .Errors
       .input-group
         =f.text_field :body, placeholder: 'Enter a comment...', autocomplete: "off", class: "form-control"
         %span.input-group-btn
           =f.submit 'Post Comment', class: 'btn btn-primary'
+      %span.help-block.has-error.errors
