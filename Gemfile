@@ -63,4 +63,5 @@ gem 'figaro'
 gem 'jcrop-rails-v2', '~> 0.9.12.3'
 gem 'pagedown-bootstrap-rails'
 gem 'autoprefixer-rails'
+gem 'simple_form'
 

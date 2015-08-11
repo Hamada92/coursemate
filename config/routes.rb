@@ -7,12 +7,11 @@ Rails.application.routes.draw do
   root "questions#index"
 
   devise_for :users, :path => 'account', :path_names => { :edit => "edit_account" }
+
   get 'account/edit_profile', to: 'users#edit'
+
   resources :users, only: [:index, :show, :update]
 
-
- 
-  
   resources :questions, shallow: true do 
     resources :comments, except: [:new, :show]
     resources :answers, except: [:new, :show]

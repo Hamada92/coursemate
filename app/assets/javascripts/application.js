@@ -109,9 +109,7 @@ function ready() {
     source: tags
   });
 
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  });
+  $('[data-toggle="tooltip"]').tooltip()
 
   $(".user-edit").click(function() {
     $("#delete-confirm").collapse("hide");
