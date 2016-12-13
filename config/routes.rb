@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
 
   authenticated :user do
@@ -7,6 +9,11 @@ Rails.application.routes.draw do
   root "questions#index"
 
   devise_for :users, :path => 'account', :path_names => { :edit => "edit_account" }
+
+  # SIDEKIQ
+  authenticate :user, lambda { |u| u.is_master? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
   get 'account/edit_profile', to: 'users#edit'
 

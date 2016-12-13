@@ -29,11 +29,17 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit(:username, :first_name, :last_name, :avatar)
+      params.require(:user).permit(:username, :first_name, :last_name, :avatar_temp, :crop_x, :crop_y, :crop_w, :crop_h)
     end
 
     def set_current_user
       @user = current_user
+      @s3_direct_post = S3_BUCKET.presigned_post(
+        key: "uploads/#{Time.now.to_i}-#{SecureRandom.hex}/${filename}",
+        success_action_status: '201',
+        content_length_range: 0..User::MAX_AVATAR_UPLOAD_SIZE_MB*1024**2,
+        acl: 'public-read'
+      )
     end
 
 end

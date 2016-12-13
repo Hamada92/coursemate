@@ -1,16 +1,21 @@
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
 //= require bootstrap-sprockets
+//= require jquery-fileupload/basic
+//= require jquery-fileupload/jquery.fileupload-process
+//= require jquery-fileupload/jquery.fileupload-validate
 //= require twitter/typeahead
 //= require local_time
 //= require jquery.Jcrop
 //= require pagedown_bootstrap
 //= require highlight.pack.js
+//= require_tree .
 
 $(document).ready(ready)
 
 function ready() {
+
+  userEdit();
 
   var substringMatcher = function(strs) {
     return function findMatches(q, cb) {
@@ -99,10 +104,6 @@ function ready() {
   }
 
   $('[data-toggle="tooltip"]').tooltip()
-
-  $(".user-edit").click(function() {
-    $("#delete-confirm").collapse("hide");
-  });
 
   $('textarea.wmd-input').each(function(i, input) {
     var attr, converter, editor;

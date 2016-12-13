@@ -1,0 +1,15 @@
+.user-show {
+  margin-top: 50px;
+  .profile-info {
+    margin: 25px 0px;
+    img, .letter-picture {
+      height: 200px;
+      line-height: 200px;
+      width: 200px;
+      font-size: 115px;
+    }
+  }
+  .score {
+    font-size: 1.5em;
+  }
+}

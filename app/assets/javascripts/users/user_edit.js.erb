@@ -1,0 +1,151 @@
+function userEdit() {
+
+  $(document).click(function() {
+    $("#delete-confirm").collapse("hide");
+  });
+
+  $(".user-edit .fileinput-button input").click(function() {
+    $(".upload-errors").text("");
+  });
+
+  $("#unprocessed-preview").each(function() {
+    var img = $("#preview-container");
+    var newImg = new Image();
+    newImg.onload = function() {
+      var imgHTML = $("<img></img>", {src: $("#unprocessed-preview").data('url'), alt: 'Profile Picture'});
+      img.html(imgHTML);
+      var imageWidth = newImg.width;
+      var imageHeight = newImg.height;
+      update_preview(imageWidth, imageHeight);
+    }
+    newImg.src = $("#unprocessed-preview").data('url');
+  });
+
+  $('.user-edit .directUpload').find("input:file").each(function(i, elem) {
+    var fileInput       = $(elem);
+    var form            = $(fileInput.parents('form:first'));
+    var uploadButton    = $(".fileinput-button");
+    var uploadInput     = $("#upload-input");
+    var uploadText      = $("#upload-text");
+    var submitButton    = $("#submit-button");
+    var errors          = $(".upload-errors");
+    var domain          = $("#s3-direct-post").data('url');
+    var maxUploadSizeMb = $("#s3-direct-post").data('max-upload-size-mb');
+    var jCropAPI;
+    fileInput.fileupload({
+      fileInput:       fileInput,
+      url:             domain,
+      type:            'POST',
+      autoUpload:       true,
+      formData:         $("#s3-direct-post").data('fields'),
+      paramName:        'file',
+      dropZone: null,
+      acceptFileTypes: /(\.|\/)(jpe?g)$/i,
+      maxFileSize: maxUploadSizeMb * Math.pow(10, 6),
+      send: function (e, data) {
+        uploadButton.addClass("disabled");
+        uploadText.text('Uploading...');
+        submitButton.prop("disabled", true);
+      },
+      done: function(e, data) {
+        var result = data.result;
+        var url;
+        if (result)
+          url = $(result).find("Location").text();
+        else
+          url = domain + "/" + $("#s3-direct-post").data('fields').key.replace('${filename}', encodeURIComponent(data.files[0].name))
+
+        var selectX;
+        var selectY;
+        var imageWidth;
+        var imageHeight;
+
+        var img = $("#crop-modal img")[0];
+        var newImg = new Image();
+
+        img.onload = function() {
+
+          imageWidth = newImg.width;
+          imageHeight = newImg.height;
+          minDimension = Math.min(imageWidth, imageHeight);
+
+          if (minDimension == imageWidth) {
+            selectX = 0;
+            selectY = (imageHeight - minDimension)/2;
+          }
+          else {
+            selectY = 0;
+            selectX = (imageWidth - minDimension)/2;
+          }
+
+          if (jCropAPI)
+            jCropAPI.destroy();
+
+          $('#cropbox').Jcrop({
+            boxWidth: 300,
+            boxHeight: 300,
+            setSelect: [selectX, selectY, minDimension, minDimension],
+            aspectRatio: 1,
+            onChange: update_crop,
+            onSelect: update_crop
+          }, function() {
+            jCropAPI = this;
+          });
+
+          uploadButton.removeClass("disabled");
+          uploadText.text('Upload');
+          submitButton.prop("disabled", false);
+
+          $("#crop-modal").modal('show');
+
+          $("#confirm-avatar").click(function() {
+            $("#avatar-field").val(url);
+            var imgHTML = $("<img></img>", {src: $("#crop-modal img").attr("src"), alt: 'Profile Picture'});
+            $("#preview-container").html(imgHTML);
+            update_preview(imageWidth, imageHeight);
+          });
+
+        }
+        try {
+          var localURL = URL.createObjectURL(data.files[0]);
+          newImg.src = localURL
+          img.src = localURL;
+        }
+        catch (err) {
+          newImg.src = url;
+          img.src = url;
+        }
+
+      },
+      fail: function(e, data) {
+        uploadButton.removeClass("disabled");
+        uploadText.text('Upload');
+        submitButton.prop("disabled", false);
+        errors.text('Uploads must be jpg/jpeg images smaller than ' + maxUploadSizeMb + 'MB. ' + 'If you have been on this page for more than one hour, please refresh the page.')
+      },
+      processfail: function(e, data) {
+        errors.text('Uploads must be jpg/jpeg images smaller than ' + maxUploadSizeMb + 'MB.');
+      }
+    });
+  });
+}
+
+function update_crop(coords) {
+  $('#user_crop_x').val(coords.x);
+  $('#user_crop_y').val(coords.y);
+  $('#user_crop_w').val(coords.w);
+  $('#user_crop_h').val(coords.h);
+}
+
+function update_preview(imageWidth, imageHeight) {
+  var x = $('#user_crop_x').val();
+  var y = $('#user_crop_y').val();
+  var w = $('#user_crop_w').val();
+  var h = $('#user_crop_h').val();
+  $('#preview-container img').css({
+    width: Math.round(50/w * imageWidth) + 'px',
+    height: Math.round(50/h * imageHeight) + 'px',
+    marginLeft: '-' + Math.round(50/w * x) + 'px',
+    marginTop: '-' + Math.round(50/h * y) + 'px'
+  });
+}

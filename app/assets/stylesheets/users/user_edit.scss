@@ -1,0 +1,73 @@
+.user-edit {
+  max-width: 400px;
+  padding-left: 30px;
+  padding-right: 30px;
+  @media (min-width: 450px) {
+    background-color: $light-grey;
+    border: 1px solid #dce0e0;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    margin-top: 80px;
+  }
+  h1, h2 {
+    margin-bottom: 25px;
+  }
+  .image-upload {
+    position: relative;
+  }
+  #preview-container {
+    display: inline-block;
+    position: relative;
+    background: #E0E0E0;
+    overflow: hidden;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    margin: 0 15px 0 0px;
+    img, .letter-picture {
+      height: 50px;
+      line-height: 50px;
+      width: 50px;
+      font-size: 25px;
+    }
+  }
+  .fileinput-button {
+    position: absolute;
+    left: 70px;
+    top: 8px;
+  }
+  #change-password, .delete-account {
+    margin-bottom: 10px;
+  }
+  .jcrop-keymgr {
+    opacity: 0;
+  }
+  #crop-modal {
+    h2 {
+      margin: 0px;
+    }
+    .modal-header, .modal-footer {
+      color: #9E9E9E;
+      background-color: $light-grey;
+    }
+    .modal-body, {
+      background-color: $body-bg;
+    }
+    .jcrop-holder {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+  #submit-button {
+    margin-top: 5px;
+  }
+  @media (max-width: 375px) {
+    .modal-dialog {
+      margin: 10px 0 10px 0;
+    }
+    .modal-body {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+  }
+}

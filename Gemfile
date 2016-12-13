@@ -49,19 +49,28 @@ group :development, :test do
   gem 'spring'
 end
 
-gem "passenger"
-gem "haml-rails"
+gem 'passenger'
+gem 'haml-rails'
 gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.4'
-gem "font-awesome-rails"
-gem "paperclip", "~> 4.2"
-gem 'aws-sdk', '< 2.0'
+gem 'font-awesome-rails'
+gem 'paperclip', '~> 4.2'
 gem 'twitter-typeahead-rails'
 gem 'local_time'
 gem 'figaro'
-gem 'jcrop-rails-v2', '~> 0.9.12.3'
 gem 'pagedown-bootstrap-rails'
 gem 'autoprefixer-rails'
 gem 'simple_form'
 gem 'will_paginate-bootstrap'
 gem 'rack-mini-profiler'
+gem 'aws-sdk', '~> 2'
+gem 'fog-aws'
+gem 'jcrop-rails-v2'
+gem 'jquery-fileupload-rails'
+gem 'carrierwave', '~> 1.0.0.rc'
+gem 'mini_magick'
+gem 'sidekiq'
+gem 'sinatra', :require => nil
+group :production do
+  gem 'rails_12factor'
+end

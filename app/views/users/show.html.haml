@@ -1,11 +1,20 @@
 .user-show
-  .profile-info.fcol
-    -if @user == current_user
-      =link_to(image_tag("avatar-300.jpg", alt: "profile pic", class: "profile-pic large img-circle", data: {toggle: "tooltip", placement:"bottom"}, title: "Change your picture"), account_edit_profile_path)
-    -else
-      =image_tag("avatar-300.jpg", class: "profile-pic large img-circle", alt: "profile pic")
+  .profile-info.text-center
+    - if @user == current_user
+      - if @user.avatar_url.present?
+        = link_to(image_tag(@user.avatar_url(:large), alt: 'Profile Picture', class: "img-circle", data: {toggle: "tooltip", placement:"bottom"}, title: 'Change your picture'), account_edit_profile_path)
+      - else
+        = link_to account_edit_profile_path do
+          .letter-picture.text-center.img-circle.center-block{data: {toggle: "tooltip", placement:"bottom"}, title: 'Change your picture'}
+            = @user.username.first.match(/^[[:alpha:]]$/) ? @user.username.first.upcase : "A"
+    - else
+      - if @user.avatar_url.present?
+        = image_tag(@user.avatar_url(:large), class: "img-circle", alt: 'Profile Picure')
+      - else
+        .letter-picture.text-center.img-circle.center-block
+          = @user.username.first.match(/^[[:alpha:]]$/) ? @user.username.first.upcase : "A"
     .title
-      %h3.text-center
+      %h1.text-center
         -if @user.first_name.nil? or @user.first_name.blank?
           =@user.username
         -else
@@ -20,16 +29,14 @@
       %span
         ="+" + @user.score.to_s
 
-    %h4
+    %h2
       =@user.university
 
-%h4 Questions
-
+%h2 Questions
 - @questions.each do |q|
   =render 'questions/question', question: q
 
-%h4 Answers
-
+%h2 Answers
 - @questions_he_answered.each do |q|
   =render 'questions/question', question: q
 

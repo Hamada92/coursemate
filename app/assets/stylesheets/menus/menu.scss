@@ -1,0 +1,33 @@
+.menu {
+  .navbar.navbar-default.navbar-static-top {
+    border-bottom: 1px solid #dddddd;
+    padding: 0 10px;
+    margin-bottom: 0px;
+  }
+
+  .profile-dropdown {
+    padding: 8px;
+    .avatar {
+      display: inline-block;
+    }
+    img, .letter-picture {
+      height: 35px;
+      line-height: 35px;
+      width: 35px;
+      font-size: 19px;
+    }
+  }
+  .dropdown-menu.dropdown-menu-right, .dropdown-menu.dropdown-menu-left {
+    margin-top: 3px;
+  }
+  .dropdown-menu.dropdown-menu-right {
+    margin-right: 3px;
+  }
+  .icon{
+    padding-top: 6px;
+  }
+  .strong {
+    font-size: 1.1em;
+    font-weight: bold;
+  }
+}

@@ -1,32 +1,48 @@
-.user-edit
+.user-edit.center-block
   #crop-modal.modal{tabindex: "-1", role: "dialog", aria_labelledby: "crop image dialog"}
     .modal-dialog
       .modal-content
         .modal-header
-          %button.close{type: "button", class: "close", aria_label: "Close", data: {dismiss: "modal"}}
+          %button.close{type: "button", class: "close", aria_label: 'Close', data: {dismiss: "modal"}}
             %span{aria_hidden: "true"} &times;
-          %h4.modal-title Crop Image
+          %h2.modal-title 
+            Crop your profile picture
         .modal-body
-          .center-block
-            =image_tag("avatar-300.jpg", id: "cropbox", alt: "profile pic")
-  .frow
-    .nav.nav-pills.nav-stacked.links
-      %li.active{role: "presentation"}
-        %a{href:"#"}
-          Profile Settings
-      %li.inactive{role: "presentation"}
-        = link_to("Account Settings", edit_user_registration_path)
-    .edit-form
-      .form
-        %h4 Edit Profile
-        = simple_form_for @user do |f|
-          = f.error_notification
-          .form-group
-            .frow.image-upload
-              .preview-container
-                = image_tag "avatar-300.jpg", id: "preview", alt: "profile pic", class: "img-circle"
-              = f.button :button, "Upload", type: "button", data: {toggle: "modal", target: "#crop-modal"}
-          = f.input :username, placeholder: "Username"
-          = f.input :first_name, placeholder: "First name"
-          = f.input :last_name, placeholder: "Last name"
-          = f.button :submit, "Update Profile"
+          =image_tag("", id: "cropbox", alt: t('main.profile_pic_alt'))
+        .modal-footer
+          %button.btn.btn-default{type: "button", data: {dismiss: "modal"}} 
+            Cancel
+          %button.btn.btn-primary#confirm-avatar{type: "button", data: {dismiss: "modal"}} 
+            OK
+
+  .form
+    %h1
+      Profile Settings
+    #s3-direct-post{data: {url: "#{@s3_direct_post.url}", fields: "#{@s3_direct_post.fields.to_json}", max_upload_size_mb: User::MAX_AVATAR_UPLOAD_SIZE_MB}}
+    = simple_form_for @user, html: { class: "directUpload" } do |f|
+      = f.error_notification
+      .form-group
+        .image-upload
+          #preview-container
+            - if @user.processing_avatar || (@user.avatar_temp_changed? && @user.avatar_temp.present?)
+              #unprocessed-preview.hidden{data: {url: "#{@user.avatar_temp}"}}
+            - else
+              - if @user.avatar_url.blank?
+                .letter-picture.text-center
+                  = @user.username.first.match(/^[[:alpha:]]$/) ? @user.username.first.upcase : "A"
+              - else
+                = image_tag @user.avatar_url(:large), alt: 'Profile Picture'
+          .btn.btn-primary.fileinput-button
+            %input{type: "file", name: "avatar_temp", id: "upload-input", accept: "image/*"}
+              %span#upload-text
+                Upload
+      %p.upload-errors.errors
+        - if @user.errors[:avatar_temp].any?
+          profile picture uploads must be jpg/jpeg files less than 2MB
+      = f.input :avatar_temp, as: :hidden, input_html: { id: 'avatar-field' }
+      = f.input :username, placeholder: "Username"
+      = f.input :first_name, placeholder: "First name"
+      = f.input :last_name, placeholder: "Last name"
+      - %w[x y w h].each do |attribute|
+        = f.input "crop_#{attribute}", as: 'hidden'
+      = f.button :submit, 'Update Profile', id: 'submit-button'
