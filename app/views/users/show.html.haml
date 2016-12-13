@@ -25,11 +25,11 @@
 
 %h4 Questions
 
--@questions.each do |q|
-  =render 'questions/link', question: q
+- @questions.each do |q|
+  =render 'questions/question', question: q
 
 %h4 Answers
 
--@questions_he_answered.each do |q|
-  =render 'questions/link', question: q
+- @questions_he_answered.each do |q|
+  =render 'questions/question', question: q
 

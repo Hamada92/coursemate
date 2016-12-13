@@ -7,7 +7,8 @@
       - if user_signed_in?
         =render 'comments/form', resources: [@question, Comment.new]
   .existing-answers
-    = render @question.answers.includes(:user).order('num_likes DESC')
+    = render @question.answers.includes(:user, :likes, {comments: :user}).order('num_likes DESC')
+
   .frow
     - if user_signed_in?
       .profile-pic.medium.standalone.new

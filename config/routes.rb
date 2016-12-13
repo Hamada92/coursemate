@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   get 'account/edit_profile', to: 'users#edit'
 
   resources :users, only: [:index, :show, :update]
+  resources :notifications, only: [:index] do 
+    member do 
+      patch 'mark_read'
+    end
+  end
 
   resources :questions, shallow: true do 
     resources :comments, except: [:new, :show]

@@ -420,12 +420,34 @@ img.profile-pic.large, .profile-pic.large img {
   }
 }
 
+.notification-question-title {
+  color: #18529A
+}
 
+.notifier-type {
+  color: #848d95;
+  font-size: 12px
+}
 
+.notifier-body{
+  font-size: 13px
+}
 
+.dropdown-menu.notifications{
+  width: 375px;
+  height: 300px;
+  overflow: auto;
+}
 
+.no-notifications {
+  text-align: center;
+  height: 30px;
+  border-bottom: 1px solid #e5e5e5 ;
+  color: rgba(128,128,128,0.7);
+  padding-top: 4px;
+  padding-bottom: 4px
+}
 
-
-
-
-
+.unread{
+  background-color: #eff0f1
+}

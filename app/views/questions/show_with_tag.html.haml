@@ -3,5 +3,7 @@
   %br
   %small
     =@tag.university
--@questions_with_tag.each do |q|
-  =render 'questions/link', question: q
+
+- @questions_with_tag.each do |q|
+  =render 'question', question: q
+=will_paginate @questions_with_tag, renderer: BootstrapPagination::Rails

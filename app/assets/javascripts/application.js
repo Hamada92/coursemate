@@ -1,22 +1,20 @@
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require_tree .
 //= require bootstrap-sprockets
 //= require twitter/typeahead
 //= require local_time
 //= require jquery.Jcrop
 //= require pagedown_bootstrap
-
+//= require highlight.pack.js
 
 $(document).ready(ready)
-$(document).on('page:load', ready)
 
 function ready() {
 
   var substringMatcher = function(strs) {
     return function findMatches(q, cb) {
-      var matches, substringRegex;
+      var matches, substrRegex;
    
       // an array that will be populated with substring matches
       matches = [];
@@ -88,29 +86,22 @@ function ready() {
     }
   });
    
-  $('.typeahead').typeahead({
-    hint: true,
-    highlight: true,
-    minLength: 1
-  },
-  {
-    name: 'tags',
-    source: tags
-  });
+  if ($("#category_select").val() != "University Related") {
+    $('.typeahead').typeahead({
+      hint: true,
+      highlight: true,
+      minLength: 1
+    },
+    {
+      name: 'tags',
+      source: tags
+    });
+  }
 
   $('[data-toggle="tooltip"]').tooltip()
 
   $(".user-edit").click(function() {
     $("#delete-confirm").collapse("hide");
-  });
-
-  $('#cropbox').Jcrop({
-    boxWidth: 150,
-    boxHeight: 150,
-    setSelect: [10, 10, 290, 290],
-    aspectRatio: 1,
-    onChange: update_crop,
-    onSelect: update_crop
   });
 
   $('textarea.wmd-input').each(function(i, input) {
@@ -133,22 +124,3 @@ function ready() {
   });
 
 }
-
-function update_crop(coords) {
-    $('#preview').css({
-    width: Math.round(40/coords.w * $("#cropbox").width()) + 'px',
-    height: Math.round(40/coords.h * $("#cropbox").height()) + 'px',
-    marginLeft: '-' + Math.round(40/coords.w * coords.x) + 'px',
-    marginTop: '-' + Math.round(40/coords.h * coords.y) + 'px'
-  });
-}
-
-
-
-
-
-
-
-
-
-

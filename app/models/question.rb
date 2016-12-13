@@ -1,6 +1,6 @@
 class Question < ActiveRecord::Base
 
-  default_scope { order(created_at: :desc) }
+  default_scope { order(id: :desc) }
 
   belongs_to :user
   has_many :answers, dependent: :destroy
@@ -8,6 +8,8 @@ class Question < ActiveRecord::Base
   has_many :likes, as: :likeable, dependent: :destroy
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings
+  has_many :notifications, dependent: :destroy
+
 
   validates :tag_name, presence: true
   validates :title, presence: true
@@ -20,21 +22,13 @@ class Question < ActiveRecord::Base
 
   attr_writer :tag_category
   attr_writer :tag_name
-  
-  def self.unanswered_with_tag id
-    includes(:answers, :taggings).where(answers: { id: nil }).where(taggings: { tag_id: id})
-  end
-
-  def self.tagged_with id
-    joins(:taggings).where(taggings: { tag_id: id })
-  end
 
   def self.tagged_with_university university
     joins(:taggings, :tags).where(tags: { university: university })
   end
 
-  def likes_by user
-    self.likes.where(user_id: user.id)
+  def like_by user_id
+    likes.find{ |like| like.user_id == user_id }
   end
 
   def tag_category

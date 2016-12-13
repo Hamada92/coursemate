@@ -1,7 +1,7 @@
 .link
   .card.frow{id: "Question#{question.id}"}
     .profile-pic.small
-      =link_to(image_tag("avatar-50.png", alt: "profile pic", class: "img-circle"), user_path(question.user))
+      =link_to(image_tag("avatar-50.png", alt: "profile pic", class: "img-circle"), user_path(question.user_id))
     .fcol
       .frow.bottom-space
         %h4.title
@@ -11,7 +11,7 @@
 
       .frow
         .tags
-          -tag = question.tags.first
+          - tag = @tag ? @tag : question.tags.first
           =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info", role: "button")
           =link_to("#{tag.name}", show_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info", role: "button")
           -if question.num_answers == 0

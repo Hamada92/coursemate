@@ -1,0 +1,16 @@
+$(".dropdown-menu.notifications").html("<%= j (render 'notifications/notifications') %>");
+//remove remote to stop fetching on subsequent clicks
+$(".dropdown.notifications a").removeAttr("data-remote");
+
+//attach event handler after fetching the notifications
+$("a[data-unread]").click(function(e) {
+	var notification = $(this).data("unread");
+	markRead(notification);
+});
+
+function markRead(notification){
+  $.ajax({
+    method: "PATCH",
+    url: "/notifications/" + notification + "/mark_read",
+  });
+};

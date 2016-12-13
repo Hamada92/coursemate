@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
   before_action :set_autocomplete, only: [:new, :edit, :create, :update]
 
   def index
-    @questions = Question.all.includes(:tags)
+    @questions = Question.paginate(per_page: 10, page: params[:page]).includes(:tags, :likes)
     @universities = Tag.all_universities
   end
 
@@ -55,26 +55,26 @@ class QuestionsController < ApplicationController
   end
 
   def unanswered_with_tag
-    @unanswered_questions = Question.unanswered_with_tag params[:tag_id]
-    @tag = @unanswered_questions.first.tags.first
+    @tag = Tag.find(params[:tag_id])
+    @unanswered_questions = @tag.unanswered_questions.paginate(per_page: 10, page: params[:page])
   end
 
   def show_from_my_university
     @university = current_user.university
-    @questions_from_university = Question.tagged_with_university(@university).includes(:tags)
+    @questions_from_university = Question.tagged_with_university(@university).paginate(per_page: 10, page: params[:page]).includes(:tags, :likes)
     @tags = Tag.with_university @university
     render :show_from_university
   end
 
   def show_from_university
     @university = params[:university]
-    @questions_from_university = Question.tagged_with_university(@university).includes(:tags)
+    @questions_from_university = Question.tagged_with_university(@university).paginate(per_page: 10, page: params[:page]).includes(:tags, :likes)
     @tags = Tag.with_university @university
   end
 
   def show_with_tag
-    @questions_with_tag = Question.tagged_with params[:tag_id]
-    @tag = @questions_with_tag.first.tags.first
+    @tag = Tag.find(params[:tag_id])
+    @questions_with_tag = @tag.questions.includes(:likes).paginate(per_page: 10, page: params[:page])
   end
 
   private

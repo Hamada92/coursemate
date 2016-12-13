@@ -3,11 +3,7 @@ class User < ActiveRecord::Base
   def to_param
     "#{id}-#{username.parameterize}"
   end
-
-  has_attached_file :avatar, :styles => { :original => "300x300>", :medium => "80x80>", :small => "60x60>" }
-  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
-  validates_with AttachmentSizeValidator, :attributes => :avatar, :less_than => 2.megabytes
-
+  
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
@@ -15,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :answers, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9]+\Z/,
     message: "only allows letters (a-z) and numbers" }
@@ -22,6 +19,9 @@ class User < ActiveRecord::Base
   
   before_create :set_university
 
+   def unread_notifications_count
+    notifications.where(read: false).count
+  end
 
   def questions_he_answered
     Question.joins(:answers).where(answers: { user_id: self.id} ).distinct

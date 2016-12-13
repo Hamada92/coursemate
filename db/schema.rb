@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150611235143) do
+ActiveRecord::Schema.define(version: 20161211214203) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,33 +22,42 @@ ActiveRecord::Schema.define(version: 20150611235143) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.integer  "num_likes",   default: 0
+    t.index ["question_id"], name: "index_answers_on_question_id", using: :btree
+    t.index ["user_id"], name: "index_answers_on_user_id", using: :btree
   end
-
-  add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
-  add_index "answers", ["user_id"], name: "index_answers_on_user_id", using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.text     "body"
-    t.integer  "commentable_id"
     t.string   "commentable_type"
+    t.integer  "commentable_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.integer  "user_id"
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
+    t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
-  add_index "comments", ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
-
   create_table "likes", force: :cascade do |t|
-    t.integer  "likeable_id"
     t.string   "likeable_type"
+    t.integer  "likeable_id"
     t.integer  "user_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.index ["likeable_type", "likeable_id"], name: "index_likes_on_likeable_type_and_likeable_id", using: :btree
+    t.index ["user_id"], name: "index_likes_on_user_id", using: :btree
   end
 
-  add_index "likes", ["likeable_type", "likeable_id"], name: "index_likes_on_likeable_type_and_likeable_id", using: :btree
-  add_index "likes", ["user_id"], name: "index_likes_on_user_id", using: :btree
+  create_table "notifications", force: :cascade do |t|
+    t.string   "notifier_type"
+    t.integer  "notifier_id"
+    t.integer  "user_id"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.integer  "question_id"
+    t.boolean  "read",          default: false
+    t.index ["notifier_type", "notifier_id"], name: "index_notifications_on_notifier_type_and_notifier_id", using: :btree
+    t.index ["user_id"], name: "index_notifications_on_user_id", using: :btree
+  end
 
   create_table "questions", force: :cascade do |t|
     t.string   "title"
@@ -59,19 +67,17 @@ ActiveRecord::Schema.define(version: 20150611235143) do
     t.datetime "updated_at",              null: false
     t.integer  "num_likes",   default: 0
     t.integer  "num_answers", default: 0
+    t.index ["user_id"], name: "index_questions_on_user_id", using: :btree
   end
-
-  add_index "questions", ["user_id"], name: "index_questions_on_user_id", using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "question_id"
     t.integer  "tag_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["question_id"], name: "index_taggings_on_question_id", using: :btree
+    t.index ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
   end
-
-  add_index "taggings", ["question_id"], name: "index_taggings_on_question_id", using: :btree
-  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
 
   create_table "tags", force: :cascade do |t|
     t.string   "name"
@@ -79,11 +85,10 @@ ActiveRecord::Schema.define(version: 20150611235143) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "category"
+    t.index ["category"], name: "index_tags_on_category", using: :btree
+    t.index ["name"], name: "index_tags_on_name", using: :btree
+    t.index ["university"], name: "index_tags_on_university", using: :btree
   end
-
-  add_index "tags", ["category"], name: "index_tags_on_category", using: :btree
-  add_index "tags", ["name"], name: "index_tags_on_name", using: :btree
-  add_index "tags", ["university"], name: "index_tags_on_university", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -107,12 +112,19 @@ ActiveRecord::Schema.define(version: 20150611235143) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string   "avatar"
+    t.string   "avatar_temp"
+    t.boolean  "processing_avatar"
+    t.float    "crop_x"
+    t.float    "crop_y"
+    t.float    "crop_w"
+    t.float    "crop_h"
+    t.integer  "privileges",             default: 0
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.index ["university"], name: "index_users_on_university", using: :btree
+    t.index ["username"], name: "index_users_on_username", using: :btree
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["university"], name: "index_users_on_university", using: :btree
-  add_index "users", ["username"], name: "index_users_on_username", using: :btree
 
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"

@@ -1,0 +1,14 @@
+%li.dropdown-header
+  -if @notifications.length == 0
+    %li.no-notifications
+      No Notifications Yet
+  -else
+    - @notifications.each do |n|
+      %li{class: (n.read? ? "notifications-item" : "notifications-item unread")}
+        =link_to question_path(n.question_id), data: {"unread": n.read? ? nil : n.id } do 
+          .notifier-type
+            =n.notifier_type.downcase
+          .notification-question-title
+            =n.question.title
+          .notifier-body
+            =n.notifier.body[0..60]
