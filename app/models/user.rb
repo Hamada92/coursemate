@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   
   before_create :set_university
 
-   def unread_notifications_count
+  def unread_notifications_count
     notifications.where(read: false).count
   end
 
