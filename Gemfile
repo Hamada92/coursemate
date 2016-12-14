@@ -73,4 +73,5 @@ gem 'sidekiq'
 gem 'sinatra', :require => nil
 group :production do
   gem 'rails_12factor'
+  gem 'newrelic_rpm'
 end
