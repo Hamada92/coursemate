@@ -2,7 +2,7 @@ class NotificationsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @notifications = current_user.notifications.includes(:notifier, :question)
+    @notifications = current_user.notifications.includes(:notifier, :question).order('id DESC')
     respond_to do |format|
       format.js
     end
