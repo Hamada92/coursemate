@@ -11,12 +11,12 @@ class Answer < ActiveRecord::Base
   after_create :notify_question_owner, unless: :answer_owner_is_question_owner?
 
   def notify_question_owner
-    receiver = self.question.user
-    self.notifications.create(user_id: receiver.id, question_id: self.question.id)
+    receiver = question.user
+    notifications.create(user_id: receiver.id, question_id: self.question.id)
   end
 
   def answer_owner_is_question_owner?
-    self.user == self.question.user
+    user == question.user
   end
 
   def like_by user_id

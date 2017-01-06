@@ -1,12 +1,13 @@
 class Like < ActiveRecord::Base
 
+  has_many :notifications, as: :notifier, dependent: :destroy
   belongs_to :likeable, counter_cache: :num_likes, polymorphic: true
   belongs_to :user
 
   validate :has_not_voted
   validate :does_not_own_post
 
-  after_create :increase_user_score
+  after_create :increase_user_score, :notify_likeable_owner
   before_destroy :decrease_user_score
 
   def has_not_voted
@@ -21,6 +22,11 @@ class Like < ActiveRecord::Base
     if @likeable.user == self.user
       errors.add(:base, "You can't vote on your own post") 
     end
+  end
+
+  def notify_likeable_owner
+    question_id = likeable_type == 'Question' ? likeable_id : likeable.question_id
+    notifications.create(user_id: likeable.user_id, question_id: question_id)
   end
 
   private

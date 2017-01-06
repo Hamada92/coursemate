@@ -10,5 +10,12 @@
             =n.notifier_type.downcase
           .notification-question-title
             =n.question.title
-          .notifier-body
-            =n.notifier.body[0..60]
+          - if n.notifier_type == 'Like'
+            .notifier-body
+              - if n.notifier.likeable_type == 'Question'
+                You have earned 3 points
+              - else
+                You have earned 10 points
+          - else
+            .notifier-body
+              =n.notifier.body[0..60]
