@@ -1,32 +1,33 @@
-.card.frow.header
-  %h4.title
-    =@question.title
-  .time.grey
-    =local_relative_time(@question.created_at, type: 'time-or-date')
+- cache_unless user_signed_in?, ['question_card', @question, @question.user.avatar_url, @question.user.score, @question.user.username] do 
+  .card.frow.header
+    %h4.title
+      =@question.title
+    .time.grey
+      =local_relative_time(@question.created_at, type: 'time-or-date')
 
-.card.frow.main
-  .profile-pic.medium
-    =link_to(image_tag("avatar-50.png", alt: "profile pic", class: "img-circle"), user_path(@question.user))
-  .fcol
-    .frow.body
-      .markdown-output><
-        :preserve
-          #{@question.body}
-    .frow.bottom-space
-      .tags
-        -tag = @question.tags.first
-        =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info", role: "button")
-        =link_to("#{tag.name}", show_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info", role: "button")
-    .frow
-      .likeable-owner
-        %span.grey asked by:
-        =link_to(" " + @question.user.username, user_path(@question.user))
-        %i.fa.fa-trophy.fa-lg.left-space
-        ="+" + @question.user.score.to_s
-      .votes
-        =render 'likes/like', likeable: @question, path: question_likes_path(@question, Like.new)
-    -if owner @question
+  .card.frow.main
+    .profile-pic.medium
+      =link_to(image_tag("avatar-50.png", alt: "profile pic", class: "img-circle"), user_path(@question.user))
+    .fcol
+      .frow.body
+        .markdown-output><
+          :preserve
+            #{@question.body}
+      .frow.bottom-space
+        .tags
+          -tag = @question.tags.first
+          =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info", role: "button")
+          =link_to("#{tag.name}", show_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info", role: "button")
       .frow
-        .edit-post
-          =link_to("Edit", edit_question_path(@question))
-          =link_to("Delete", question_path(@question), method: :delete)
+        .likeable-owner
+          %span.grey asked by:
+          =link_to(" " + @question.user.username, user_path(@question.user))
+          %i.fa.fa-trophy.fa-lg.left-space
+          ="+" + @question.user.score.to_s
+        .votes
+          =render 'likes/like', likeable: @question, path: question_likes_path(@question, Like.new)
+      -if owner @question
+        .frow
+          .edit-post
+            =link_to("Edit", edit_question_path(@question))
+            =link_to("Delete", question_path(@question), method: :delete)

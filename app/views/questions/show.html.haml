@@ -3,11 +3,12 @@
     = render 'questions/question_card'
     .comments
       .ExistingComments
-        =render @question.comments.includes(:user).order('id ASC')
+        =render @question_comments
+
       - if user_signed_in?
         =render 'comments/form', resources: [@question, Comment.new]
   .existing-answers
-    = render @question.answers.includes(:user, :likes, {comments: :user}).order('num_likes DESC')
+    =render @answers
 
   .frow
     - if user_signed_in?

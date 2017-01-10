@@ -5,6 +5,5 @@
   =link_to("#{t.name}", show_with_tag_path(t.id, t.name.gsub(" ", "-")), class: "btn btn-xs btn-info", role: "button")
 %h4 Questions
 
-- @questions_from_university.each do |q|
-  =render 'question', question: q
+=render @questions_from_university
 =will_paginate @questions_from_university, renderer: BootstrapPagination::Rails

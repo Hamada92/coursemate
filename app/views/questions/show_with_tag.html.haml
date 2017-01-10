@@ -4,6 +4,5 @@
   %small
     =@tag.university
 
-- @questions_with_tag.each do |q|
-  =render 'question', question: q
+= render @questions_with_tag
 =will_paginate @questions_with_tag, renderer: BootstrapPagination::Rails

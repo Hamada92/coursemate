@@ -1,6 +1,6 @@
 class Tagging < ActiveRecord::Base
   
-  belongs_to :question
+  belongs_to :question, touch: true
   belongs_to :tag
 
   after_destroy :cleanup_orphan_tags

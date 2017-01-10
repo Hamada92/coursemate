@@ -9,8 +9,8 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @questions = @user.questions
-    @questions_he_answered = @user.questions_he_answered
+    @questions = @user.questions.includes(:tags, :likes, :user)
+    @questions_he_answered = @user.questions_he_answered.includes(:tags, :likes, :user)
   end
 
   def edit

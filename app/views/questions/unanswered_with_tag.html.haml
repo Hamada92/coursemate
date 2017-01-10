@@ -4,7 +4,5 @@
   %small
     =@tag.university
 
-- @unanswered_questions.each do |q|
-  =render 'question', question: q
-
+=render @unanswered_questions
 =will_paginate @unanswered_questions, renderer: BootstrapPagination::Rails

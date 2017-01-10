@@ -5,11 +5,13 @@ class QuestionsController < ApplicationController
   before_action :set_autocomplete, only: [:new, :edit, :create, :update, :set_university_autocomplete]
 
   def index
-    @questions = Question.paginate(per_page: 10, page: params[:page]).includes(:tags, :likes)
+    @questions = Question.paginate(per_page: 10, page: params[:page]).includes(:tags, :likes, :user)
     @universities = Tag.all_universities
   end
 
   def show
+    @answers = @question.answers.includes(:user, :likes, {comments: :user}).order('num_likes DESC')
+    @question_comments = @question.comments.includes(:user).order('id ASC')
   end
 
   def new
@@ -56,25 +58,25 @@ class QuestionsController < ApplicationController
 
   def unanswered_with_tag
     @tag = Tag.find(params[:tag_id])
-    @unanswered_questions = @tag.unanswered_questions.paginate(per_page: 10, page: params[:page])
+    @unanswered_questions = @tag.unanswered_questions.paginate(per_page: 10, page: params[:page]).includes(:likes, :user)
   end
 
   def show_from_my_university
     @university = current_user.university
-    @questions_from_university = Question.tagged_with_university(@university).paginate(per_page: 10, page: params[:page]).includes(:tags, :likes)
+    @questions_from_university = Question.tagged_with_university(@university).paginate(per_page: 10, page: params[:page]).includes(:tags, :likes, :user)
     @tags = Tag.with_university @university
     render :show_from_university
   end
 
   def show_from_university
     @university = params[:university]
-    @questions_from_university = Question.tagged_with_university(@university).paginate(per_page: 10, page: params[:page]).includes(:tags, :likes)
+    @questions_from_university = Question.tagged_with_university(@university).paginate(per_page: 10, page: params[:page]).includes(:tags, :likes, :user)
     @tags = Tag.with_university @university
   end
 
   def show_with_tag
     @tag = Tag.find(params[:tag_id])
-    @questions_with_tag = @tag.questions.includes(:likes).paginate(per_page: 10, page: params[:page])
+    @questions_with_tag = @tag.questions.paginate(per_page: 10, page: params[:page]).includes(:likes, :user)
   end
 
   #used to retrieve tags in javascript via ajax when the user changes the university in the dropdown

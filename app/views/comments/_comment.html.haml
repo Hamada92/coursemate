@@ -1,20 +1,21 @@
--unless comment.id.nil?
-  %div{id: "Comment#{comment.id}"}
-    .card.frow.comment
-      .profile-pic.small
-        =link_to(image_tag("avatar-50.png", alt: "profile pic", class: "img-circle"), user_path(comment.user))
-      .comment-text
-        %span.comment-body
-          =comment.body
-        %span.comment-signature
-          = "- "
-          =link_to(comment.user.username, user_path(comment.user))
-          %span.comment-time.grey.left-space
-            =local_relative_time(comment.created_at, type: 'time-or-date')
-          -if owner comment
-            %span.edit-post.left-space
-              =link_to("Edit", edit_comment_path(comment), remote: true)
-              =link_to("Delete", comment_path(comment), method: :delete,  remote: true)
+-cache_unless user_signed_in?, ['comment', comment, comment.user.username, comment.user.avatar_url] do 
+  -unless comment.id.nil?
+    %div{id: "Comment#{comment.id}"}
+      .card.frow.comment
+        .profile-pic.small
+          =link_to(image_tag("avatar-50.png", alt: "profile pic", class: "img-circle"), user_path(comment.user))
+        .comment-text
+          %span.comment-body
+            =comment.body
+          %span.comment-signature
+            = "- "
+            =link_to(comment.user.username, user_path(comment.user))
+            %span.comment-time.grey.left-space
+              =local_relative_time(comment.created_at, type: 'time-or-date')
+            -if owner comment
+              %span.edit-post.left-space
+                =link_to("Edit", edit_comment_path(comment), remote: true)
+                =link_to("Delete", comment_path(comment), method: :delete,  remote: true)
 
 
 

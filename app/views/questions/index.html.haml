@@ -3,6 +3,6 @@
   =link_to("#{u}", show_with_university_tag_path(u), class: "btn btn-xs btn-info", role: "button")
 
 %h4 Questions
-- @questions.each do |q|
-  =render 'question', question: q
+
+=render @questions
 =will_paginate @questions, renderer: BootstrapPagination::Rails

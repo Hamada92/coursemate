@@ -1,6 +1,6 @@
 class Answer < ActiveRecord::Base
   
-  belongs_to :question, counter_cache: :num_answers
+  belongs_to :question, counter_cache: :num_answers, touch: true
   belongs_to :user
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :likes, as: :likeable, dependent: :destroy

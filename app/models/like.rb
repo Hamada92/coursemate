@@ -1,7 +1,7 @@
 class Like < ActiveRecord::Base
 
   has_many :notifications, as: :notifier, dependent: :destroy
-  belongs_to :likeable, counter_cache: :num_likes, polymorphic: true
+  belongs_to :likeable, counter_cache: :num_likes, polymorphic: true, touch: true
   belongs_to :user
 
   validate :has_not_voted
