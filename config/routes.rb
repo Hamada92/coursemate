@@ -28,6 +28,9 @@ Rails.application.routes.draw do
     resources :comments, except: [:new, :show]
     resources :answers, except: [:new, :show]
     resources :likes, only: [:create, :destroy]
+    collection do 
+      get 'autocomplete', to: 'questions#set_university_autocomplete'
+    end
   end
 
   resources :answers, only: [], shallow: true do
@@ -38,5 +41,4 @@ Rails.application.routes.draw do
   get 'questions/tags/:tag_id', to: 'questions#show_with_tag', as: 'show_with_tag'
   get 'questions/universities/:university', to: 'questions#show_from_university', as: 'show_with_university_tag'
   get 'questions/unanswered/:tag_id', to: 'questions#unanswered_with_tag', as: 'unanswered_with_tag'
-
 end

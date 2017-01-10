@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy, :show_from_my_university]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :authorize, only: [:edit, :update, :destroy]
-  before_action :set_autocomplete, only: [:new, :edit, :create, :update]
+  before_action :set_autocomplete, only: [:new, :edit, :create, :update, :set_university_autocomplete]
 
   def index
     @questions = Question.paginate(per_page: 10, page: params[:page]).includes(:tags, :likes)
@@ -77,10 +77,15 @@ class QuestionsController < ApplicationController
     @questions_with_tag = @tag.questions.includes(:likes).paginate(per_page: 10, page: params[:page])
   end
 
+  #used to retrieve tags in javascript via ajax when the user changes the university in the dropdown
+  def set_university_autocomplete
+    render json: {"course_tags": @course_tags, "program_tags": @program_tags}
+  end
+
   private
 
     def question_params
-      params.require(:question).permit(:title, :body, :tag_category, :tag_name)
+      params.require(:question).permit(:title, :body, :tag_university, :tag_category, :tag_name)
     end
 
     def set_question
@@ -89,9 +94,9 @@ class QuestionsController < ApplicationController
     end
 
     def set_autocomplete
-      university = current_user.university
-      @course_tags = Tag.names_with(university, "Course Related")
-      @program_tags = Tag.names_with(university, "Program Related")
+      @university = params[:university] || @question && @question.tag_university || current_user.university
+      @course_tags = Tag.names_with(@university, "Course Related")
+      @program_tags = Tag.names_with(@university, "Program Related")
     end
 
     def authorize

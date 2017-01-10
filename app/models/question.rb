@@ -14,12 +14,12 @@ class Question < ActiveRecord::Base
   validates :tag_name, presence: true
   validates :title, presence: true
   validates :body, presence: true
-  validate :valid_tag_category
+  validate :valid_tag_category, :valid_tag_university
   validate :valid_tag
-  before_destroy :check_if_answered
 
   after_save :create_tags
 
+  attr_writer :tag_university
   attr_writer :tag_category
   attr_writer :tag_name
 
@@ -29,6 +29,10 @@ class Question < ActiveRecord::Base
 
   def like_by user_id
     likes.find{ |like| like.user_id == user_id }
+  end
+
+  def tag_university
+    @tag_university || self.tags.first.university
   end
 
   def tag_category
@@ -47,23 +51,21 @@ class Question < ActiveRecord::Base
       end
     end
 
+     def valid_tag_university
+      unless UsersHelper::UNIVERSITIES.map{ |u| u[:name] }.include?(@tag_university)
+        errors.add(:tag_university, "is not a valid university")
+      end
+    end
+
     def valid_tag
       if @tag_category == "University Related"
         unless @tag_name == "General"
           errors.add(:tag_name, "must be tagged with \'General\'")
         end
       elsif @tag_category == "Course Related"
-        unless @tag_name =~ /\A *[A-Za-z0-9]+ +[A-Za-z0-9]+ *\Z/
-          errors.add(:tag_name, "must be composed of a course code and a course number seperated by a space")
+        unless @tag_name =~ /\A *[A-Za-z0-9]+( )?+[A-Za-z0-9]+ *\Z/ 
+          errors.add(:tag_name, "must be composed of a course code and a course number")
         end
-      end
-    end
-
-    def check_if_answered
-      if self.num_answers > 0
-        return false
-      else
-        return true
       end
     end
 
@@ -76,7 +78,7 @@ class Question < ActiveRecord::Base
         @tag_name = @tag_name.split.map(&:capitalize).join(' ')
       end
       old_tag = self.tags.first
-      self.tags = [Tag.where(category: @tag_category, name: @tag_name, university: self.user.university).first_or_create]
+      self.tags = [Tag.where(category: @tag_category, name: @tag_name, university: @tag_university).first_or_create]
       if not old_tag.nil? and old_tag.questions.empty?
         old_tag.destroy
       end
