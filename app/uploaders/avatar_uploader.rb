@@ -33,8 +33,8 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # end
 
   # Process files as they are uploaded:
-  process :crop
   process :fix_exif_rotation
+  process :crop
   process :strip
   process interlace: "Plane"
   process quality: 75

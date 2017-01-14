@@ -10,9 +10,16 @@ function userEdit() {
 
   $("#unprocessed-preview").each(function() {
     var img = $("#preview-container");
+    var previewImg = $("#unprocessed-preview");
     var newImg = new Image();
     newImg.onload = function() {
-      var imgHTML = $("<img></img>", {src: $("#unprocessed-preview").data('url'), alt: 'Profile Picture'});
+      var imgHTML = $("<img></img>", 
+        {
+          src: previewImg.data('url'), 
+          class: previewImg.data('transform'),
+          alt: 'Profile Picture'
+        }
+      );
       img.html(imgHTML);
       var imageWidth = newImg.width;
       var imageHeight = newImg.height;
@@ -63,7 +70,7 @@ function userEdit() {
         var img = $("#crop-modal img")[0];
         var newImg = new Image();
 
-        img.onload = function() {
+        newImg.onload = function() {
 
           imageWidth = newImg.width;
           imageHeight = newImg.height;
@@ -78,31 +85,39 @@ function userEdit() {
             selectX = (imageWidth - minDimension)/2;
           }
 
-          if (jCropAPI)
-            jCropAPI.destroy();
+          // gets EXIF metadata from image (set as this parameter in callback)
+          EXIF.getData(newImg, function() {
+            data.transform = getOrientation(this);
+            url += '?transform=' + data.transform;
 
-          $('#cropbox').Jcrop({
-            boxWidth: 300,
-            boxHeight: 300,
-            setSelect: [selectX, selectY, minDimension, minDimension],
-            aspectRatio: 1,
-            onChange: update_crop,
-            onSelect: update_crop
-          }, function() {
-            jCropAPI = this;
-          });
+            if (jCropAPI)
+              jCropAPI.destroy();
 
-          uploadButton.removeClass("disabled");
-          uploadText.text('Upload');
-          submitButton.prop("disabled", false);
+            $('#cropbox').Jcrop({
+              boxWidth: 300,
+              boxHeight: 300,
+              setSelect: [selectX, selectY, minDimension, minDimension],
+              aspectRatio: 1,
+              onChange: update_crop,
+              onSelect: update_crop
+            }, function() {
+              jCropAPI = this;
+            });
+            $('.jcrop-holder').find('img').addClass(data.transform);
 
-          $("#crop-modal").modal('show');
+            uploadButton.removeClass("disabled");
+            uploadText.text('Upload');
+            submitButton.prop("disabled", false);
 
-          $("#confirm-avatar").click(function() {
-            $("#avatar-field").val(url);
-            var imgHTML = $("<img></img>", {src: $("#crop-modal img").attr("src"), alt: 'Profile Picture'});
-            $("#preview-container").html(imgHTML);
-            update_preview(imageWidth, imageHeight);
+            $("#crop-modal").modal('show');
+
+            $("#confirm-avatar").click(function() {
+              $("#avatar-field").val(url);
+              var imgHTML = $("<img></img>", {src: $("#crop-modal img").attr("src"), alt: 'Profile Picture'});
+              imgHTML.addClass(data.transform);
+              $("#preview-container").html(imgHTML);
+              update_preview(imageWidth, imageHeight);
+            });
           });
 
         }

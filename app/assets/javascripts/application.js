@@ -9,6 +9,7 @@
 //= require jquery.Jcrop
 //= require pagedown_bootstrap
 //= require highlight.pack.js
+//= require exif
 //= require_tree .
 
 $(document).ready(ready)
@@ -42,3 +43,23 @@ function ready() {
 
 }
 
+function getOrientation(exifOrientation) {
+  // gets orientation tag from image EXIF metadata
+  var orientation = parseInt(EXIF.getTag(exifOrientation, 'Orientation'));
+  switch(orientation) {
+    case 2:
+      return 'flip';
+    case 3:
+      return 'rotate-180';
+    case 4:
+      return 'flip-and-rotate-180';
+    case 5:
+      return 'flip-and-rotate-270';
+    case 6:
+      return 'rotate-90';
+    case 7:
+      return 'flip-and-rotate-90';
+    case 8:
+      return 'rotate-270';
+  }
+}

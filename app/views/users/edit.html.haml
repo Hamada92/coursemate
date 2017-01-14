@@ -25,7 +25,8 @@
         .image-upload
           #preview-container
             - if @user.processing_avatar || (@user.avatar_temp_changed? && @user.avatar_temp.present?)
-              #unprocessed-preview.hidden{data: {url: "#{@user.avatar_temp}"}}
+              - transform = URI.parse(@user.avatar_temp).query.present? ? CGI.parse(URI.parse(@user.avatar_temp).query)['transform'][0] : nil
+              #unprocessed-preview.hidden{data: {url: @user.avatar_temp, transform: transform}}
             - else
               - if @user.avatar_url.blank?
                 .letter-picture.text-center

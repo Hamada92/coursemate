@@ -71,6 +71,8 @@ gem 'carrierwave', '~> 1.0.0.rc'
 gem 'mini_magick'
 gem 'sidekiq'
 gem 'sinatra', :require => nil
+gem 'exifjs-rails'
+
 group :production do
   gem 'rails_12factor'
   gem 'newrelic_rpm'

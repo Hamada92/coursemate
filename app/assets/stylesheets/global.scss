@@ -1,4 +1,6 @@
-/* general */
+/*---------------------------------------------------------------------------*/
+
+/* body */
 html,body {
   width: 100%;
   padding: 0;
@@ -11,6 +13,11 @@ html {
 body {
   min-height: 100%;
 }
+/* body */
+
+/*---------------------------------------------------------------------------*/
+
+/* buttons */
 .btn:focus:hover:active, .btn:focus:active, .btn:focus {
   outline: 0;
 }
@@ -33,9 +40,11 @@ body {
   background-color: darken($btn-primary-bg, 5%);
   border-color: darken($btn-primary-bg, 5%);
 }
-textarea {
-  resize: none;
-}
+/* buttons */
+
+/*---------------------------------------------------------------------------*/
+
+/* ie */
 .not-old-ie {
   select:not([multiple]) {
     -webkit-appearance: none;
@@ -50,6 +59,11 @@ textarea {
     display: none;
   }
 }
+/* ie */
+
+/*---------------------------------------------------------------------------*/
+
+/* dropdowns */
 .dropdown-menu {
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 10px 0px;
 }
@@ -84,6 +98,40 @@ textarea {
 .dropdown-menu.dropdown-menu-right::after {
   right: 10px
 }
+/* dropdowns */
+
+/*---------------------------------------------------------------------------*/
+
+/* flips and rotations */
+.rotate-90 {
+  transform: rotate(90deg) !important;
+}
+.rotate-180 {
+  transform: rotate(180deg) !important;
+}
+.rotate-270 {
+  transform: rotate(270deg) !important;
+}
+.flip {
+  transform: scaleX(-1) !important;
+}
+.flip-and-rotate-90 {
+  transform: rotate(90deg) scaleX(-1) !important;
+}
+.flip-and-rotate-180 {
+  transform: rotate(180deg) scaleX(-1) !important;
+}
+.flip-and-rotate-270 {
+  transform: rotate(270deg) scaleX(-1) !important;
+}
+/* flips and rotations */
+
+/*---------------------------------------------------------------------------*/
+
+/* randoms */
+textarea {
+  resize: none;
+}
 .alert.alert-success, .alert.alert-warning {
   margin-bottom: 0;
 }
@@ -95,3 +143,4 @@ textarea {
 .errors {
   color: #a94442;
 }
+/* randoms */
