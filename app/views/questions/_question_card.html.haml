@@ -6,8 +6,8 @@
       =local_relative_time(@question.created_at, type: 'time-or-date')
 
   .card.frow.main
-    .profile-pic.medium
-      =link_to(image_tag("avatar-50.png", alt: "profile pic", class: "img-circle"), user_path(@question.user))
+    .profile-pic.size-40px
+      = render 'partials/profile_picture', user: @question.user, size: :small
     .fcol
       .frow.body
         .markdown-output><

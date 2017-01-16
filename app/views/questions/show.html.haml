@@ -12,15 +12,15 @@
 
   .frow
     - if user_signed_in?
-      .profile-pic.medium.standalone.new
-        =image_tag("avatar-50.png", alt: "profile pic", class: "img-circle")
+      .profile-pic.size-40px.standalone.new
+        = render 'partials/profile_picture', user: current_user, size: :small
       .new-answer
         = simple_form_for [@question, Answer.new], remote: true do |f|
           = f.input :body, as: :pagedown, label: false, placeholder: "Enter your answer...", input_html: { preview: true, rows: 10 }
           %span.help-block.has-error.errors
           = f.button :submit, 'Post Answer'
     - else
-      .profile-pic.medium.standalone
+      .profile-pic.size-40px.standalone
         =image_tag("avatar-50.png", alt: "profile pic", class: "img-circle")
       .login-to-answer
         Log in to contribute your answer!

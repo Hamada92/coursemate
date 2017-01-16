@@ -3,8 +3,8 @@
   -unless answer.id.nil?
     .frow{id: "Answer#{answer.id}"}
       .fcol.standalone
-        .profile-pic.medium.standalone
-          =link_to(image_tag("avatar-50.png", alt: "profile pic", class: "img-circle"), user_path(answer.user_id))
+        .profile-pic.size-40px.standalone
+          = render 'partials/profile_picture', user: answer.user, size: :small
         .answer-time.grey
           =local_relative_time(answer.created_at, type: 'time-or-date')
       .answer

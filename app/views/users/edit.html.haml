@@ -23,16 +23,12 @@
       = f.error_notification
       .form-group
         .image-upload
-          #preview-container
+          #preview-container.profile-pic.size-50px
             - if @user.processing_avatar || (@user.avatar_temp_changed? && @user.avatar_temp.present?)
               - transform = URI.parse(@user.avatar_temp).query.present? ? CGI.parse(URI.parse(@user.avatar_temp).query)['transform'][0] : nil
               #unprocessed-preview.hidden{data: {url: @user.avatar_temp, transform: transform}}
             - else
-              - if @user.avatar_url.blank?
-                .letter-picture.text-center
-                  = @user.username.first.match(/^[[:alpha:]]$/) ? @user.username.first.upcase : "A"
-              - else
-                = image_tag @user.avatar_url(:large), alt: 'Profile Picture'
+              = render 'partials/profile_picture', user: @user, size: :small
           .btn.btn-primary.fileinput-button
             %input{type: "file", name: "avatar_temp", id: "upload-input", accept: "image/*"}
               %span#upload-text

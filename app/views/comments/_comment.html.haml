@@ -2,8 +2,8 @@
   -unless comment.id.nil?
     %div{id: "Comment#{comment.id}"}
       .card.frow.comment
-        .profile-pic.small
-          =link_to(image_tag("avatar-50.png", alt: "profile pic", class: "img-circle"), user_path(comment.user))
+        .profile-pic.size-30px
+          = render 'partials/profile_picture', user: comment.user, size: :small
         .comment-text
           %span.comment-body
             =comment.body

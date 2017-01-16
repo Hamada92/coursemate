@@ -1,0 +1,6 @@
+- if user.avatar_url.present?
+  = image_tag user.avatar_url(size), class: 'img-circle', alt: 'Profile Picure'
+- else
+  - letter = user.username.first.match(/^[[:alpha:]]$/) ? user.username.first.upcase : '?'
+  .letter-picture.text-center.img-circle{class: letter}
+    = letter

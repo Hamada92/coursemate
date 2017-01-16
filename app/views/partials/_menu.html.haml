@@ -31,12 +31,8 @@
             -if user_signed_in?
               %li.dropdown
                 %a.dropdown-togggle.profile-dropdown{id: "nav-profile", href: "#", role: "button", aria: {haspopup: "true", expanded: "false"}, data: {toggle: "dropdown"}}
-                  .avatar
-                    - if current_user.avatar_url.blank?
-                      .letter-picture.img-circle.text-center
-                        = current_user.username.first.match(/^[[:alpha:]]$/) ? current_user.username.first.upcase : "A"
-                    - else
-                      = image_tag current_user.avatar_url(:small), alt: 'Profile Picture', class: "img-circle"
+                  .profile-pic.size-35px
+                    = render 'partials/profile_picture', user: current_user, size: :small
                   %span.caret
                 %ul.dropdown-menu.dropdown-menu-right
                   %li.dropdown-header

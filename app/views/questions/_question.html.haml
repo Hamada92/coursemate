@@ -1,8 +1,8 @@
 - cache_unless user_signed_in?, ['question', question, question.user.avatar_url] do 
   .link
     .card.frow{id: "Question#{question.id}"}
-      .profile-pic.small
-        =link_to(image_tag("avatar-50.png", alt: "profile pic", class: "img-circle"), user_path(question.user_id))
+      .profile-pic.size-30px
+        = render 'partials/profile_picture', user: question.user, size: :small
       .fcol
         .frow.bottom-space
           %h4.title
