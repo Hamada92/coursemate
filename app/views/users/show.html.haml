@@ -1,9 +1,9 @@
 .user-show
   .profile-info.text-center
-    .profile-pic-container.center-block
+    .profile-pic.size-200px.center-block
       - if @user == current_user
         = link_to account_edit_profile_path do
-          .profile-pic.size-200px{data: {toggle: "tooltip", placement:"bottom"}, title: 'Change your picture'}
+          .link{data: {toggle: "tooltip", placement:"bottom"}, title: 'Change your picture'}
             = render 'partials/profile_picture', user: @user, size: :large
       - else
         = render 'partials/profile_picture', user: @user, size: :large
