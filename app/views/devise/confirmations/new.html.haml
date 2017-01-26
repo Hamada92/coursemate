@@ -1,10 +1,12 @@
-%h2 Resend confirmation instructions
-= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
-  = devise_error_messages!
-  .field
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true
-  .actions
-    = f.submit "Resend confirmation instructions"
-= render "devise/shared/links"
+.sign-in.center-block
+  %h1.smaller Resend confirmation instructions
+  %p
+    Please check your junk mail if you can't find the email in your inbox.
+  = simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+    = f.full_error :confirmation_token, class: 'errors'
+    .form-inputs
+      = f.input :email, required: true, autofocus: true
+    .form-actions
+      .form-group
+        = f.button :submit, "Resend confirmation instructions"
+  = link_to "Log in", new_session_path(resource_name)

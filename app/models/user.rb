@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   MAX_AVATAR_UPLOAD_SIZE_MB = 10.freeze
   DIRECT_UPLOAD_URL_FORMAT = %r{\Ahttps:\/\/#{ENV['S3_BUCKET_CACHE_NAME']}\.s3\.amazonaws\.com\/.*\.(jpg|jpeg|JPG|JPEG)(\?transform=[0-9a-z\-]+)?\z}.freeze
 
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, :confirmable, 
          :recoverable, :rememberable, :trackable, :validatable
 
   mount_uploader :avatar, AvatarUploader
@@ -25,6 +25,11 @@ class User < ActiveRecord::Base
   
   before_create :set_university
   after_commit :enqueue_image, on: :update
+
+  # override the send_devise_notification to use ActiveJob
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
 
   def is_ambassador?
     privileges >= 1

@@ -1,13 +1,13 @@
-.sign-in.center-block.card
-  %h3.text-center Create Account
+.sign-in.center-block
+  %h1.text-center Sign up
   = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
     = f.error_notification
     .form-inputs
-      = f.input :email, required: true, autofocus: true, placeholder: "University email"
-      = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), placeholder: "Password"
-      = f.input :password_confirmation, required: true, label: "Confirm password", placeholder: "Confirm password"
       = f.input :username, placeholder: "Username"
+      = f.input :email, required: true, autofocus: true, label: "University email", placeholder: "University email"
+      = f.input :password, required: true, placeholder: "Password"
     .form-actions
       .form-group
-        = f.button :submit, "Create Account", class: "btn-block btn-lg top-spacing"
-  = render "devise/shared/links"
+        = f.button :submit, "Sign up", class: "btn-block btn-lg"
+  Already a Coursemate member?
+  = link_to "Log in", new_session_path(resource_name)

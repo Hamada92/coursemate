@@ -3,9 +3,11 @@ $light-grey: #fafafa;
 
 /* BOOTSTRAP */
 /* general */
-$font-family-sans-serif: 'Roboto', sans-serif;
 $body-bg: #f2f2f2;
 $brand-primary: #4285f4;
+/* font */
+$font-family-sans-serif: 'Roboto', sans-serif;
+$headings-font-weight: 300;
 /* grid */
 $grid-float-breakpoint: 450px;
 /* borders */
@@ -38,11 +40,6 @@ $btn-success-color: #004D40;
 @import "jquery.fileupload";
 @import "pagedown_bootstrap";
 @import "highlight.scss";
-
-@import "global";
-@import "menus/*";
-@import "users/*";
-
 
 /* typeahead */
 .twitter-typeahead {
@@ -246,21 +243,6 @@ $btn-success-color: #004D40;
   }
 }
 
-/*sign in*/
-.sign-in {
-  max-width: 400px;
-  margin-top: 50px;
-  background-color: $light-grey;
-  padding: 30px;
-
-  .bottom-spacing {
-    margin-bottom: 20px;
-  }
-  h3, h4 {
-    margin-bottom: 25px;
-  }
-}
-
 .fa-trophy {
   color: #FFA319;
 }
@@ -314,3 +296,7 @@ $btn-success-color: #004D40;
 .unread{
   background-color: #eff0f1
 }
+
+@import "global";
+@import "menus/*";
+@import "users/*";
