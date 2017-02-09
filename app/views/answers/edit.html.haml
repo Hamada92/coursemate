@@ -4,7 +4,7 @@
 
   .frow
     .profile-pic.size-40px.standalone.new
-      =image_tag("avatar-50.png", alt: "profile pic", class: "img-circle")
+      = render 'partials/profile_picture', user: current_user, size: :small
     .new-answer
       = simple_form_for @answer do |f|
         = f.input :body, as: :pagedown, label: false, placeholder: "Enter your answer...", input_html: { preview: true, rows: 10 }
