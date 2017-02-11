@@ -64,8 +64,7 @@ class User < ActiveRecord::Base
   private
 
     def valid_email
-      domain = self.email.partition('@').last
-      unless UsersHelper::UNIVERSITIES.any? {|u| u[:domain] == domain}
+      unless UsersHelper::UNIVERSITIES.any? {|u| self.email.end_with?(u[:domain])}
         errors.add(:email, "is not a valid university email")
       end
     end
