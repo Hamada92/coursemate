@@ -64,14 +64,13 @@ class User < ActiveRecord::Base
   private
 
     def valid_email
-      unless UsersHelper::UNIVERSITIES.any? {|u| self.email.end_with?(u[:domain])}
+      unless UsersHelper::UNIVERSITIES.any? { |u| self.email.end_with?(u[:domain]) }
         errors.add(:email, "is not a valid university email")
       end
     end
 
     def set_university
-      domain = self.email.partition('@').last
-      self.university = UsersHelper::UNIVERSITIES.select{|u| u[:domain] == domain}.map{|u| u[:name]}.first
+      self.university = UsersHelper::UNIVERSITIES.select{ |u| self.email.end_with?(u[:domain]) }.map{|u| u[:name]}.first
     end
 
     def enqueue_image
