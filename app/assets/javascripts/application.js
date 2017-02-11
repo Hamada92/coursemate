@@ -10,15 +10,32 @@
 //= require pagedown_bootstrap
 //= require highlight.pack.js
 //= require exif
+//= require moment
+//= require bootstrap-datetimepicker
+
 //= require_tree .
 
 $(document).ready(ready)
 
 function ready() {
 
+  $('#starttimepicker').datetimepicker({
+    format: 'LT'
+  });
+
+  $('#datepicker').datetimepicker({
+    format: 'MMM Do YYYY'
+  });
+
   userEdit();
   
-  set_autocomplete();
+  if($('#category_select').length){ // question form has the category_select input
+    set_question_tag_autocomplete();
+  };
+
+  if($('#group_tag_input').length){ //group tag has the group_tag_input field
+    set_group_tag_autocomplete();
+  };
 
   $('[data-toggle="tooltip"]').tooltip()
 

@@ -1,0 +1,47 @@
+.card.frow.header
+  %h4.title
+    =@group.title
+  .time.grey
+    =local_relative_time(@group.created_at, type: 'time-or-date')
+
+.card.frow-group.main
+  .fcol
+    .frow
+      %i.fa.fa-clock-o.date-time
+        %span.group-date
+          =@group.date.strftime("%A, %B %d, %Y")
+        %p.group-time
+          =@group.start_time
+    .frow.place
+      %i.fa.fa-map-marker
+        %span.location
+          =@group.location
+    .frow.fee
+      %i.fa.fa-usd
+        %span.amount
+          %span
+            ="Price: CAD#{@group.admission_fee.to_f}"
+        %span.per-student
+          &#47;per student
+
+    .frow.description
+      %i
+        =@group.description
+    
+    .frow.bottom-space
+      .tags
+        -tag = @group.group_tags.first
+        =link_to("#{tag.university}", show_groups_with_university_tag_path(tag.university), class: "btn btn-xs btn-info", role: "button")
+        =link_to("#{tag.name}", show_groups_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info", role: "button")
+    .frow
+      .likeable-owner
+        %span.grey created by:
+        =link_to(" " + @group.creator.username, user_path(@group.creator))
+        %i.fa.fa-trophy.fa-lg.left-space
+        ="+" + @group.creator.score.to_s
+
+    -if user_signed_in? and current_user.id == @group.creator.id
+      .frow
+        .edit-post
+          =link_to("Edit", edit_group_path(@group))
+          =link_to("Delete", group_path(@group), method: :delete)

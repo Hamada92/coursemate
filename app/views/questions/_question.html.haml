@@ -18,5 +18,5 @@
             -if question.num_answers == 0
               =link_to("unanswered", unanswered_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-success", role: "button")
           .votes
-            =render 'likes/like', likeable: question, path: question_likes_path(question, Like.new)
+            =render 'likes/like', likeable: question, path: question_likes_path(question)
 

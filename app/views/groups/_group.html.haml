@@ -1,0 +1,29 @@
+.link
+  .card.frow.bottom-space
+    .profile-pic.size-30px
+      = render 'partials/profile_picture', user: group.creator, size: :small
+    .fcol
+      .frow.bottom-space
+        %h4.title
+          =link_to("#{group.title}", group_path(group))
+        .time.black
+          %b happening on:
+          =group.date.strftime("%A, %B %d, %Y")
+
+      .frow
+        .tags
+          - tag = @tag ? @tag : group.group_tags.first
+          =link_to("#{tag.university}", show_groups_with_university_tag_path(tag.university), class: "btn btn-xs btn-info", role: "button")
+          =link_to("#{tag.name}", show_groups_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info", role: "button")
+          %span.label.label-success.btn-xs
+            Available Seats:
+            = group.available_seats
+      .attendees-count
+        - attendees_count = group.users.size
+        = "#{attendees_count} #{"Student".pluralize(attendees_count)} going "
+
+
+
+
+
+

@@ -1,0 +1,8 @@
+%h4
+  =@tag.name
+  %br
+  %small
+    =@tag.university
+
+= render @groups_with_tag
+=will_paginate @groups_with_tag, renderer: BootstrapPagination::Rails

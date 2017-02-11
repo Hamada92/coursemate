@@ -1,31 +1,9 @@
-function set_autocomplete(){
-
-  var substringMatcher = function(strs) {
-    return function findMatches(q, cb) {
-      var matches, substrRegex;
-   
-      // an array that will be populated with substring matches
-      matches = [];
-   
-      // regex used to determine if a string contains the substring `q`
-      substrRegex = new RegExp(q, 'i');
-   
-      // iterate through the pool of strings and for any string that
-      // contains the substring `q`, add it to the `matches` array
-      $.each(strs, function(i, str) {
-        if (substrRegex.test(str)) {
-          matches.push(str);
-        }
-      });
-   
-      cb(matches);
-    };
-  };
+function set_question_tag_autocomplete(){
 
   var course_tags = substringMatcher($('.typeahead').data('autocomplete-course'));
   var program_tags = substringMatcher($('.typeahead').data('autocomplete-program'));
 
-  //set autocomplete for when the page renders.
+  //set autocomplete for when the questions/new page renders.
   if ($("#category_select").val() == "Course Related") {
     set_typeahead(course_tags);
   }
@@ -79,17 +57,57 @@ function set_autocomplete(){
     }
   });
 
-  function set_typeahead(source){
-    $(".typeahead").typeahead("destroy");
-    $('.typeahead').typeahead({
-      hint: true,
-      highlight: true,
-      minLength: 1
-    },
-    {
-      name: 'tags',
-      source: source
-    });
-  };
+}
 
+var substringMatcher = function(strs) {
+  return function findMatches(q, cb) {
+    var matches, substrRegex;
+ 
+    // an array that will be populated with substring matches
+    matches = [];
+ 
+    // regex used to determine if a string contains the substring `q`
+    substrRegex = new RegExp(q, 'i');
+ 
+    // iterate through the pool of strings and for any string that
+    // contains the substring `q`, add it to the `matches` array
+    $.each(strs, function(i, str) {
+      if (substrRegex.test(str)) {
+        matches.push(str);
+      }
+    });
+ 
+    cb(matches);
+  };
+};
+
+function set_typeahead(source){
+  $(".typeahead").typeahead("destroy");
+  $('.typeahead').typeahead({
+    hint: true,
+    highlight: true,
+    minLength: 1
+  },
+  {
+    name: 'tags',
+    source: source
+  });
+};
+
+function set_group_tag_autocomplete(){
+  var course_tags = substringMatcher($('.typeahead').data('autocomplete-course'));
+  set_typeahead(course_tags);
+
+  $("#university_select").change(function (){
+    $.ajax({
+      method: 'GET',
+      url: '/groups/autocomplete',
+      dataType: 'json',
+      data: { university: this.value },
+      success: function(data){
+        course_tags = substringMatcher(data);
+        set_typeahead(course_tags);
+      }
+    });
+  })
 }

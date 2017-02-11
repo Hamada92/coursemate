@@ -12,10 +12,9 @@ class CommentsController < ApplicationController
     @comment.user = current_user
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @question, notice: "Comment successfully created." }
+        create_proper_notification
         format.js
       else
-        format.html { render 'questions/show' }  
         format.js
       end
     end 
@@ -24,10 +23,8 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update(comment_params)
-        format.html { redirect_to @question, notice: "Comment successfully updated." }
         format.js
       else
-        format.html { render :edit }
         format.js
       end
     end
@@ -36,12 +33,20 @@ class CommentsController < ApplicationController
   def destroy
     @comment.destroy
     respond_to do |format|
-      format.html { redirect_to @question, notice: 'Comment was deleted.' }
       format.js
     end
   end
 
   private
+
+    def create_proper_notification
+      if @commentable.is_a?(Question) || @commentable.is_a?(Answer)
+        #a notification that will redirect to the question show page where the comment was left.
+        QuestionCommentNotification.new.send(@comment, @question) unless current_user.id == @commentable.user_id
+      elsif @commentable.is_a?(Group)
+        #GroupCommentNotification.new.send(@comment)
+      end
+    end
 
     def set_commentable
       if params[:question_id]
@@ -50,6 +55,8 @@ class CommentsController < ApplicationController
       elsif params[:answer_id]
         @commentable = Answer.find(params[:answer_id])
         @question = @commentable.question
+      elsif params[:group_id]
+        @commentable = Group.find(params[:group_id])
       end
     end
 
@@ -57,9 +64,11 @@ class CommentsController < ApplicationController
       @comment = Comment.find(params[:id])
       if @comment.commentable_type == 'Question'
         @question = @comment.commentable
-      else
+      elsif @comment.commentable_type == 'Answer'
         @answer = @comment.commentable
         @question = @answer.question
+      elsif @comment.commentable_type == 'Group'
+        @group = @comment.commentable
       end
     end 
         

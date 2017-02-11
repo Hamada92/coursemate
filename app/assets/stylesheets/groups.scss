@@ -1,0 +1,67 @@
+.group-show { 
+  .time, .profile-pic {
+    flex-shrink: 0;
+  }
+  .date-time{
+    margin-bottom: 10px;
+    flex-grow: .75;
+  }
+  .description, .place, .fee{
+    margin-bottom: 20px;
+  }
+  .group-date, .location, .amount {
+    font-size: 20px;
+    padding-left: 10px;
+    line-height: 1.25;
+    font-weight: 500;
+  }
+  .group-time{
+    font-size: 15px;
+    padding-left: 25px;
+  }
+  .title, .time {
+    line-height: 40px;
+  }
+  .title {
+    flex-grow: 1;
+  }
+  h3 {
+    font-size: 20px;
+    line-height: 1.25;
+    font-weight: 500;
+    letter-spacing: -.02em;
+  }
+  .attendees {
+    margin-top: 10px;
+
+    .profile-pic{
+      margin-left: 5px;
+    }
+  }
+  .bottom-space{
+  margin-bottom: 10px;
+  }
+  .enrollment-button{
+    margin-top: 20px;
+  }
+  .login-to-join{
+    margin: 25px 0;
+  }
+  .available-seats{
+    margin-top: 10px;
+  }
+}
+
+.link {
+  .attendees-count{
+    stroke: transparent;
+    fill: rgba(0,0,0,.54);
+    color: rgba(0,0,0,.54);
+    margin-top: 5px;
+  }
+}
+
+.group-show { 
+  margin: 10px 0;
+}
+

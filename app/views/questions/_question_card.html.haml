@@ -25,7 +25,7 @@
           %i.fa.fa-trophy.fa-lg.left-space
           ="+" + @question.user.score.to_s
         .votes
-          =render 'likes/like', likeable: @question, path: question_likes_path(@question, Like.new)
+          =render 'likes/like', likeable: @question, path: question_likes_path(@question)
       -if owner @question
         .frow
           .edit-post

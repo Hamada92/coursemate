@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170121235310) do
+ActiveRecord::Schema.define(version: 20170128174941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,47 @@ ActiveRecord::Schema.define(version: 20170121235310) do
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
+  create_table "group_enrollments", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_group_enrollments_on_group_id", using: :btree
+    t.index ["user_id"], name: "index_group_enrollments_on_user_id", using: :btree
+  end
+
+  create_table "group_taggings", force: :cascade do |t|
+    t.integer  "group_id"
+    t.integer  "group_tag_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["group_id"], name: "index_group_taggings_on_group_id", using: :btree
+    t.index ["group_tag_id"], name: "index_group_taggings_on_group_tag_id", using: :btree
+  end
+
+  create_table "group_tags", force: :cascade do |t|
+    t.string   "name"
+    t.string   "university"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_group_tags_on_name", using: :btree
+    t.index ["university"], name: "index_group_tags_on_university", using: :btree
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "seats"
+    t.string   "location"
+    t.integer  "creator_id"
+    t.date     "date"
+    t.string   "start_time"
+    t.string   "title"
+    t.text     "description"
+    t.integer  "admission_fee"
+    t.index ["creator_id"], name: "index_groups_on_creator_id", using: :btree
+  end
+
   create_table "likes", force: :cascade do |t|
     t.string   "likeable_type"
     t.integer  "likeable_id"
@@ -55,7 +96,11 @@ ActiveRecord::Schema.define(version: 20170121235310) do
     t.datetime "updated_at",                    null: false
     t.integer  "question_id"
     t.boolean  "read",          default: false
+    t.string   "source_type"
+    t.integer  "source_id"
     t.index ["notifier_type", "notifier_id"], name: "index_notifications_on_notifier_type_and_notifier_id", using: :btree
+    t.index ["source_id"], name: "index_notifications_on_source_id", using: :btree
+    t.index ["source_type"], name: "index_notifications_on_source_type", using: :btree
     t.index ["user_id"], name: "index_notifications_on_user_id", using: :btree
   end
 
@@ -127,6 +172,7 @@ ActiveRecord::Schema.define(version: 20170121235310) do
     t.integer  "failed_attempts",        default: 0,  null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
+    t.text     "about_me"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
@@ -137,6 +183,8 @@ ActiveRecord::Schema.define(version: 20170121235310) do
 
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
+  add_foreign_key "group_taggings", "group_tags"
+  add_foreign_key "group_taggings", "groups"
   add_foreign_key "likes", "users"
   add_foreign_key "questions", "users"
   add_foreign_key "taggings", "questions"

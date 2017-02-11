@@ -1,56 +1,58 @@
-//cache the whole menu partial always
--cache_unless user_signed_in?, 'menu' do
-  .menu
-    %nav.navbar.navbar-default.navbar-static-top
-      .container-fluid
-        .navbar-header
-          %button.navbar-toggle.collapsed{type: "button", aria_expanded: "false", data: {toggle: "collapse", target: "#navbar"}}
-            %span.sr-only Toggle navigation
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
-          =link_to(image_tag("logo.png", alt: "site logo"), root_path, class: "navbar-brand icon")
-          =link_to("Coursemate", root_path, class: "navbar-brand title")
-        .collapse.navbar-collapse#navbar
-          %ul.nav.navbar-nav
+.menu
+  %nav.navbar.navbar-default.navbar-static-top
+    .container-fluid
+      .navbar-header
+        %button.navbar-toggle.collapsed{type: "button", aria_expanded: "false", data: {toggle: "collapse", target: "#navbar"}}
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        =link_to(image_tag("logo.png", alt: "site logo"), root_path, class: "navbar-brand icon")
+        =link_to("Coursemate", root_path, class: "navbar-brand title")
+      .collapse.navbar-collapse#navbar
+        %ul.nav.navbar-nav
+          %li
+            =link_to('Ask a question', new_question_path)
+          %li
+            =link_to('Create a session', new_group_path)
+          %li
+            =render 'partials/sessions_or_questions_link'            
+
+          -if user_signed_in?
+            %li.dropdown.notifications
+              %a.dropdown-togggle{id: "nav-profile", href: "/notifications", role: "button", aria: {haspopup: "true", expanded: "false"}, data: {toggle: "dropdown", remote: true}}
+                Notifications
+                %span.badge.alert-danger
+                  =current_user.unread_notifications_count
+              %ul.dropdown-menu.notifications
+                //index.js.erb will be rendered here on click
+
+        %ul.nav.navbar-nav.navbar-right
+          -if user_signed_in?
+            %li.dropdown
+              %a.dropdown-togggle.profile-dropdown{id: "nav-profile", href: "#", role: "button", aria: {haspopup: "true", expanded: "false"}, data: {toggle: "dropdown"}}
+                .profile-pic.size-35px
+                  = render 'partials/profile_picture', user: current_user, size: :small
+                %span.caret
+              %ul.dropdown-menu.dropdown-menu-right
+                %li.dropdown-header
+                  Logged in as
+                  .strong
+                    =current_user.username_was
+                %li.divider{role: "separator"}
+                %li
+                  =link_to('My Profile', user_path(current_user))
+                %li.divider{role: "separator"}
+                %li
+                  =link_to("Profile Settings", account_edit_profile_path)
+                %li
+                  =link_to("Account Settings", edit_user_registration_path)
+                %li.divider{role: "separator"}
+                %li
+                  =link_to("Log Out", destroy_user_session_path, method: :delete)
+          - else
             %li
-              =link_to('Ask a question', new_question_path)
-
-            -if user_signed_in?
-              %li.dropdown.notifications
-                %a.dropdown-togggle{id: "nav-profile", href: "/notifications", role: "button", aria: {haspopup: "true", expanded: "false"}, data: {toggle: "dropdown", remote: true}}
-                  Notifications
-                  %span.badge.alert-danger
-                    =current_user.unread_notifications_count
-                %ul.dropdown-menu.notifications
-                  //index.js.erb will be rendered here on click
-
-          %ul.nav.navbar-nav.navbar-right
-            -if user_signed_in?
-              %li.dropdown
-                %a.dropdown-togggle.profile-dropdown{id: "nav-profile", href: "#", role: "button", aria: {haspopup: "true", expanded: "false"}, data: {toggle: "dropdown"}}
-                  .profile-pic.size-35px
-                    = render 'partials/profile_picture', user: current_user, size: :small
-                  %span.caret
-                %ul.dropdown-menu.dropdown-menu-right
-                  %li.dropdown-header
-                    Logged in as
-                    .strong
-                      =current_user.username_was
-                  %li.divider{role: "separator"}
-                  %li
-                    =link_to('My Profile', user_path(current_user))
-                  %li.divider{role: "separator"}
-                  %li
-                    =link_to("Profile Settings", account_edit_profile_path)
-                  %li
-                    =link_to("Account Settings", edit_user_registration_path)
-                  %li.divider{role: "separator"}
-                  %li
-                    =link_to("Log Out", destroy_user_session_path, method: :delete)
-            - else
-              %li
-                = link_to "Sign up", new_user_registration_path
-              %li
-                = link_to("Log in", new_user_session_path)
+              = link_to "Sign up", new_user_registration_path
+            %li
+              = link_to("Log in", new_user_session_path)
 

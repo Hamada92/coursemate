@@ -1,0 +1,8 @@
+.enrollment-button
+  -if current_user.in_group?(@group.id)
+    =render 'group_enrollments/attending_label'
+  -else
+    - if !@group.is_full?
+      =render 'group_enrollments/add_enrollment', group: @group
+    -else 
+      This group is full, check later please.

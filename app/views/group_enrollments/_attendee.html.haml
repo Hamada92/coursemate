@@ -1,0 +1,4 @@
+%span.profile-pic.size-40px{id: "Users#{u.id}"}
+  = link_to u do 
+    = render 'partials/profile_picture', user: u, size: :small
+  

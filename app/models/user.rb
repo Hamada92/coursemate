@@ -17,6 +17,9 @@ class User < ActiveRecord::Base
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :created_groups, class_name: 'Group', foreign_key: 'creator_id', dependent: :destroy
+  has_many :group_enrollments, dependent: :destroy
+  has_many :groups, through: :group_enrollments
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9]+\Z/,
     message: "only allows letters (a-z) and numbers" }
@@ -49,6 +52,13 @@ class User < ActiveRecord::Base
 
   def questions_he_answered
     Question.joins(:answers).where(answers: { user_id: self.id} ).distinct
+  end
+
+  #is this user enrolled in the passed group?
+  def in_group?(group_id)
+    groups.any? do |group|
+      group.id == group_id
+    end
   end
 
   private

@@ -35,11 +35,17 @@ $btn-success-color: #004D40;
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import 'bootstrap-datetimepicker';
 @import "font-awesome";
 @import "jquery.Jcrop";
 @import "jquery.fileupload";
 @import "pagedown_bootstrap";
 @import "highlight.scss";
+
+@import "global";
+@import "menus/*";
+@import "users/*";
+@import "groups";
 
 /* typeahead */
 .twitter-typeahead {
@@ -136,7 +142,7 @@ $btn-success-color: #004D40;
 .link, .question-show {
   .profile-pic, .votes, .tags, .time {
     flex-shrink: 0;
-}
+  }
   .title, .tags, .likeable-owner, .body, .comment-text, .answer, .new-answer {
     flex-grow: 1;
   }
@@ -236,8 +242,8 @@ $btn-success-color: #004D40;
   }
 }
 
-/*question form*/
-.question-form {
+/*question and group form*/
+.question-form, .group-form {
   h4 {
     margin-bottom: 20px;
   }

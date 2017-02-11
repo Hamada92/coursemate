@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :authenticate_user!, except: [:index]
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_current_user, only: [:edit, :update]
 
   def index
@@ -9,8 +9,9 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @questions = @user.questions.includes(:tags, :likes, :user)
-    @questions_he_answered = @user.questions_he_answered.includes(:tags, :likes, :user)
+    @questions = @user.questions.includes(:tags, :likes, :user).limit(10)
+    @questions_he_answered = @user.questions_he_answered.includes(:tags, :likes, :user).limit(10)
+    @groups = @user.groups.includes(:group_tags, :users, :creator).limit(10)
   end
 
   def edit
@@ -29,7 +30,7 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit(:username, :first_name, :last_name, :avatar_temp, :crop_x, :crop_y, :crop_w, :crop_h)
+      params.require(:user).permit(:username, :first_name, :last_name, :about_me, :avatar_temp, :crop_x, :crop_y, :crop_w, :crop_h)
     end
 
     def set_current_user

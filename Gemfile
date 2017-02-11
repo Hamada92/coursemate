@@ -31,6 +31,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :test do 
   gem 'factory_girl_rails'
   gem 'rails-controller-testing'
+  gem 'mocha'
 end
 
 group :development do
@@ -47,6 +48,11 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+end
+
+group :production do
+  gem 'rails_12factor'
+  gem 'newrelic_rpm'
 end
 
 gem 'passenger'
@@ -72,8 +78,6 @@ gem 'mini_magick'
 gem 'sidekiq'
 gem 'sinatra', :require => nil
 gem 'exifjs-rails'
-
-group :production do
-  gem 'rails_12factor'
-  gem 'newrelic_rpm'
-end
+gem 'momentjs-rails', '>= 2.9.0'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.17.43'
+gem 'stripe'

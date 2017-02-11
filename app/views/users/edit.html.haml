@@ -40,6 +40,7 @@
       = f.input :username, placeholder: "Username"
       = f.input :first_name, placeholder: "First name"
       = f.input :last_name, placeholder: "Last name"
+      = f.input :about_me, placeholder: "Tell other students a bit about you, year of study, major, etc.."
       - %w[x y w h].each do |attribute|
         = f.input "crop_#{attribute}", as: 'hidden'
       = f.button :submit, 'Update Profile', id: 'submit-button'

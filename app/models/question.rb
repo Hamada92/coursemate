@@ -8,7 +8,7 @@ class Question < ActiveRecord::Base
   has_many :likes, as: :likeable, dependent: :destroy
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings
-  has_many :notifications, dependent: :destroy
+  has_many :notifications, as: :source, dependent: :destroy
 
 
   validates :tag_name, presence: true

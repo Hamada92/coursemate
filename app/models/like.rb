@@ -25,8 +25,8 @@ class Like < ActiveRecord::Base
   end
 
   def notify_likeable_owner
-    question_id = likeable_type == 'Question' ? likeable_id : likeable.question_id
-    notifications.create(user_id: likeable.user_id, question_id: question_id)
+    question = likeable_type == 'Question' ? likeable : likeable.question
+    notifications.create(user_id: likeable.user_id, source: question)
   end
 
   private

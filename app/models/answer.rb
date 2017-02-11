@@ -12,7 +12,7 @@ class Answer < ActiveRecord::Base
 
   def notify_question_owner
     receiver = question.user
-    notifications.create(user_id: receiver.id, question_id: self.question.id)
+    notifications.create(user_id: receiver.id, source: self.question)
   end
 
   def answer_owner_is_question_owner?

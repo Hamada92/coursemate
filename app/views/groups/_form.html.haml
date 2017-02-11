@@ -1,0 +1,13 @@
+= simple_form_for @group do |f|
+  = f.error_notification
+  = f.input :tag_university, label: "University", collection: UsersHelper::UNIVERSITIES.map{ |u| u[:name] }, include_blank: false, input_html: { id: "university_select" }, selected: @group.tag_university || current_user.university
+  = f.input :tag_name, label: false, autocomplete: "off", placeholder: "Enter a course name... eg. MATH 101", input_html: { id: "group_tag_input", class: "typeahead", data: {autocomplete_course: @group_tags} }
+  = f.input :date, as: :string, input_html: { id: 'datepicker' }
+  = f.input :start_time, label: 'Start Time', input_html: { id: 'starttimepicker' }
+  = f.input :admission_fee, label: 'Admission Fee', placeholder: "Fee per student in dollars..... e.g. 5"
+  = f.input :title, label: "Title", autocomplete: "off", placeholder: "Enter a title.... eg. Test 2 review session"
+  = f.input :description, label: "Description", autocomplete: "off", placeholder: "Short description about what you want to go through in the session"
+  = f.input :seats, label: "Seats", placeholder: "Maximum number of allowed students including yourself"
+  = f.input :location, label: 'Location', placeholder: "Enter the location of the session... eg. Douglas Library, room 304"
+
+  = f.button :submit, 'Publish Group'

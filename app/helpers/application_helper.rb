@@ -1,6 +1,6 @@
 module ApplicationHelper
   def owner(post)
-    current_user == post.user
+    user_signed_in? && current_user.id == post.user_id
   end
 
   def bootstrap_class_for flash_type

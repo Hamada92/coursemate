@@ -25,12 +25,23 @@
 
     %h2
       =@user.university
+    %p
+      =@user.about_me
 
-%h2 Questions
-- @questions.each do |q|
-  =render 'questions/question', question: q
+%div
+  %ul.nav.nav-tabs{role: "tablist"}
+    %li.active{role: "presentation"}
+      %a{"aria-controls": "questions", "data-toggle": "tab", href: "#user-questions", role: "tab" } Questions
+    %li{role: "presentation"}
+      %a{"aria-controls": "answers", "data-toggle": "tab", href: "#user-answers", role: "tab"} Answers
+    %li{role: "presentation"}
+      %a{"aria-controls": "groups", "data-toggle": "tab", href: "#user-groups", role: "tab"} Groups
 
-%h2 Answers
-- @questions_he_answered.each do |q|
-  =render 'questions/question', question: q
-
+  / Tab panes
+  .tab-content
+    #user-questions.tab-pane.active{role: "tabpanel"}
+      =render @questions
+    #user-answers.tab-pane{role: "tabpanel"} 
+      =render @questions_he_answered
+    #user-groups.tab-pane{role: "tabpanel"} 
+      =render @groups
