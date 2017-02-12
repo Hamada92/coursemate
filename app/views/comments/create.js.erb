@@ -1,7 +1,12 @@
-$("#<%=@comment.commentable_type%><%=@commentable.id%> .enter-comment .errors").html("<%= j (render 'partials/errors', resource: @comment, field: 'body', field_name: 'Comment') %>");
-<% if @comment.errors.any? %>
-$("#<%=@comment.commentable_type%><%=@commentable.id%> .enter-comment .input-group").addClass("has-error");
+<% if @comment.commentable_type == 'Group' %> 
+  $(".ExistingComments").append("<%= j (render @comment) %>");
+  $(".enter-comment form").trigger("reset");
 <% else %>
-  $("#<%=@comment.commentable_type%><%=@commentable.id%> .ExistingComments").append("<%= j (render @comment) %>");
-  $("#<%=@comment.commentable_type%><%=@commentable.id%> .enter-comment form").trigger("reset");
-<%end%>
+  $("#<%=@comment.commentable_type%><%=@commentable.id%> .enter-comment .errors").html("<%= j (render 'partials/errors', resource: @comment, field: 'body', field_name: 'Comment') %>");
+  <% if @comment.errors.any? %>
+  $("#<%=@comment.commentable_type%><%=@commentable.id%> .enter-comment .input-group").addClass("has-error");
+  <% else %>
+    $("#<%=@comment.commentable_type%><%=@commentable.id%> .ExistingComments").append("<%= j (render @comment) %>");
+    $("#<%=@comment.commentable_type%><%=@commentable.id%> .enter-comment form").trigger("reset");
+  <%end%>
+<% end %>

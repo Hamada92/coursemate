@@ -11,6 +11,7 @@ class GroupsController < ApplicationController
 
   def show
     @attendees = @group.users
+    @comments = @group.comments.includes(:user).order('id ASC')
   end
 
   def new
