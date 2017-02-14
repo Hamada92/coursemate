@@ -11,5 +11,9 @@ FactoryGirl.define do
       association :commentable, factory: :question
     end
 
+    factory :group_comment do 
+      association :commentable, factory: :group
+    end
+
   end
 end

@@ -5,7 +5,7 @@
   -else
     - @notifications.each do |n|
       %li{class: (n.read? ? "notifications-item" : "notifications-item unread")}
-        =link_to question_path(n.source_id), data: {"unread": n.read? ? nil : n.id } do 
+        =link_to polymorphic_url(n.source), data: {"unread": n.read? ? nil : n.id } do 
           .notifier-type
             =n.notifier_type.downcase
           .notification-question-title

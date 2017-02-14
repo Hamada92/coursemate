@@ -44,7 +44,8 @@ class CommentsController < ApplicationController
         #a notification that will redirect to the question show page where the comment was left.
         QuestionCommentNotification.new.send(@comment, @question) unless current_user.id == @commentable.user_id
       elsif @commentable.is_a?(Group)
-        #GroupCommentNotification.new.send(@comment)
+        #a notification that will redirect to the group show page where the comment was left.
+        GroupCommentNotification.new.send(@commentable, @comment)
       end
     end
 
