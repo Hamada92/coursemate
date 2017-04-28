@@ -2,17 +2,32 @@ require 'test_helper'
 
 class GroupEnrollmentsControllerTest < ActionController::TestCase
 
-  test '#create charges the card and enrolls the student' do 
-    user = create(:user)
-    group = create(:group)
-    sign_in user
-
-    Stripe::Charge.expects(:create).with({amount: group.admission_fee * 100, currency: 'cad', description: "payment for group  #{group.id}", source: '123123123123'}).returns(true)
-
-    assert_difference 'GroupEnrollment.count', 1 do 
-      post :create, params: { group_id: group.id, stripeToken: "123123123123" }
-    end
-
-    assert_redirected_to group
+  def setup
+    @user = create(:user)
+    @group = create(:group)
+    sign_in @user
   end
+
+  test '#create enrolls the user in the group' do
+    assert_difference 'GroupEnrollment.count', 1 do 
+      post :create, params: { group_id: @group.id }, xhr: true
+    end
+  end
+
+  test '#create does not enroll the user if the user is already enrolled' do 
+    enrollment = create(:group_enrollment, user: @user, group: @group)
+
+    assert_no_difference 'GroupEnrollment.count' do 
+      post :create, params: { group_id: @group.id }, xhr: true
+    end
+  end
+
+  test '#destroy unenrolls the user from the group' do 
+    enrollment = create(:group_enrollment, user: @user, group: @group)
+
+    assert_difference 'GroupEnrollment.count', -1 do 
+      delete :destroy, params: { id: enrollment.id }, xhr: true
+    end
+  end
+
 end

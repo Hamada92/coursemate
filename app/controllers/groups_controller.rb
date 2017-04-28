@@ -86,7 +86,7 @@ class GroupsController < ApplicationController
   end
 
   def group_params
-    params.require(:group).permit(:seats, :location, :date, :start_time, :tag_name, :tag_university, :title, :description, :admission_fee)
+    params.require(:group).permit(:seats, :location, :date, :start_time, :tag_name, :tag_university, :title, :description)
   end
 
   def set_group

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170212150344) do
+ActiveRecord::Schema.define(version: 20170424043509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(version: 20170212150344) do
   end
 
   create_table "groups", force: :cascade do |t|
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "seats"
     t.string   "location"
     t.integer  "creator_id"
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 20170212150344) do
     t.string   "title"
     t.text     "description"
     t.integer  "admission_fee"
+    t.integer  "num_group_enrollments", default: 0
     t.index ["creator_id"], name: "index_groups_on_creator_id", using: :btree
   end
 

@@ -12,17 +12,11 @@
           =@group.date.strftime("%A, %B %d, %Y")
         %p.group-time
           =@group.start_time
+          
     .frow.place
       %i.fa.fa-map-marker
         %span.location
           =@group.location
-    .frow.fee
-      %i.fa.fa-usd
-        %span.amount
-          %span
-            ="Price: CAD#{@group.admission_fee.to_f}"
-        %span.per-student
-          &#47;per student
 
     .frow.description
       %i
@@ -51,10 +45,6 @@
     .frow.attendees
       -@attendees.each do |u|
         = render 'group_enrollments/attendee', u: u
-    .available-seats
-    Available Seats: 
-    %span.seats
-      = @group.available_seats
  
   - if user_signed_in?
     = render 'group_enrollments/enrollment'

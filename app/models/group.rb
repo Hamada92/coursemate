@@ -1,13 +1,14 @@
 class Group < ApplicationRecord
   belongs_to :creator, class_name: 'User'
+  
   has_many :group_enrollments, dependent: :destroy
   has_many :users, through: :group_enrollments
   has_many :group_taggings, dependent: :destroy
   has_many :group_tags, through: :group_taggings
   has_many :comments, as: :commentable, dependent: :destroy
 
-  validates :tag_university, :tag_name, :title, :description, :seats, :location, :date, :start_time, :admission_fee, presence: true
-  validates :seats, :admission_fee, numericality: { only_integer: true }
+  validates :tag_university, :tag_name, :title, :description, :seats, :location, :date, :start_time, presence: true
+  validates :seats, numericality: { only_integer: true }
   validate :date_in_future
   validate :start_time_in_future, if: lambda{ |group| group.date == Date.today }
   validate :valid_tag
@@ -32,12 +33,8 @@ class Group < ApplicationRecord
     @tag_university || self.group_tags.first.university
   end
 
-  def enrollment_by(user_id)
-    group_enrollments.find{ |en| en.user_id == user_id }
-  end
-
   def available_seats
-    seats - users.size
+    seats - num_group_enrollments
   end
 
   def is_full?
