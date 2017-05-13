@@ -78,7 +78,7 @@ class Question < ActiveRecord::Base
         @tag_name = @tag_name.split.map(&:capitalize).join(' ')
       end
       old_tag = self.tags.first
-      self.tags = [Tag.where(category: @tag_category, name: @tag_name, university: @tag_university).first_or_create]
+      self.tags = [Tag.where(name: @tag_name, category: @tag_category, university: @tag_university).first_or_create]
       if not old_tag.nil? and old_tag.questions.empty?
         old_tag.destroy
       end

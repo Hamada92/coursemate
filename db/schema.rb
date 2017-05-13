@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170424043509) do
+ActiveRecord::Schema.define(version: 20170513020814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,8 +130,8 @@ ActiveRecord::Schema.define(version: 20170424043509) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "category"
-    t.index ["category"], name: "index_tags_on_category", using: :btree
-    t.index ["name"], name: "index_tags_on_name", using: :btree
+    t.index ["name", "category", "university"], name: "index_tags_on_name_and_category_and_university", using: :btree
+    t.index ["university", "category"], name: "index_tags_on_university_and_category", using: :btree
     t.index ["university"], name: "index_tags_on_university", using: :btree
   end
 
