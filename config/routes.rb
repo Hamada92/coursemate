@@ -46,6 +46,14 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :groups do 
+    resources :cancelations, only: [] do 
+      member do 
+        patch 'cancel'
+      end
+    end
+  end
+
   get 'groups/tags/:tag_id', to: 'groups#show_with_tag', as: 'show_groups_with_tag'
   get 'groups/universities/:university', to: 'groups#show_from_university', as: 'show_groups_with_university_tag'
 
@@ -54,4 +62,5 @@ Rails.application.routes.draw do
   get 'questions/tags/:tag_id', to: 'questions#show_with_tag', as: 'show_with_tag'
   get 'questions/universities/:university', to: 'questions#show_from_university', as: 'show_with_university_tag'
   get 'questions/unanswered/:tag_id', to: 'questions#unanswered_with_tag', as: 'unanswered_with_tag'
+
 end

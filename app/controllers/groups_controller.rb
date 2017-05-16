@@ -1,7 +1,8 @@
 class GroupsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy, :show_from_my_university]
-  before_action :set_group, only: [:show, :edit, :update, :destroy]
-  before_action :authorize, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :edit, :create, :update, :show_from_my_university]
+  before_action :set_group, only: [:show, :edit, :update]
+  before_action :authorize, only: [:edit, :update]
+  before_action :check_if_cancelled, only: [:edit, :update]
   before_action :set_autocomplete, only: [:new, :edit, :create, :update, :set_university_autocomplete]
 
   def index
@@ -40,16 +41,6 @@ class GroupsController < ApplicationController
         format.html { redirect_to @group, notice: "Group successfully updated." }
       else
         format.html { render :edit }
-      end
-    end
-  end
-
-  def destroy
-    respond_to do |format|
-      if @group.destroy
-        format.html { redirect_to authenticated_root_path, notice: 'Group was deleted.' }
-      else
-        format.html { render :show }
       end
     end
   end
@@ -96,6 +87,13 @@ class GroupsController < ApplicationController
   def authorize
     unless @group.creator_id == current_user.id
       flash[:alert] = "You are not allowed to edit someone else's group."
+      redirect_to @group
+    end
+  end
+
+  def check_if_cancelled
+    if @group.cancelled?
+      flash[:alert] = "You are not allowed to edit cancelled groups"
       redirect_to @group
     end
   end

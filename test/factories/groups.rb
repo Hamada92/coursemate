@@ -10,5 +10,6 @@ FactoryGirl.define do
     start_time "2:30"
     tag_name "MATH 101"
     tag_university "Queen's University"
+    status "active"
   end
 end

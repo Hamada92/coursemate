@@ -14,6 +14,7 @@ class Group < ApplicationRecord
   validate :valid_tag
   validate :valid_tag_university
 
+  before_create :set_active
   after_save :create_tags
 
   attr_writer :tag_name
@@ -39,6 +40,18 @@ class Group < ApplicationRecord
 
   def is_full?
     available_seats == 0
+  end
+
+  def cancel!
+    update!(status: 'cancelled')
+  end
+
+  def cancelled?
+    status == 'cancelled'
+  end
+
+  def set_active
+    self.status = 'active'
   end
 
   private
