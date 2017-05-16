@@ -10,6 +10,13 @@ class GroupEnrollmentTest < ActiveSupport::TestCase
     assert_not enrollment.valid?, 'Should not allow enrollments in full groups'
   end
 
+  test 'Does not allow enrolling in a cancelled or completed group' do 
+    group = create(:cancelled_group)
+    enrollment = build(:group_enrollment, group: group)
+
+    assert_not enrollment.valid?, 'Should not allow enrollments in cancelled groups'
+  end
+
   test 'Does not allow user to enroll twice' do 
     group = create(:group)
     user = create(:user)

@@ -11,5 +11,15 @@ FactoryGirl.define do
     tag_name "MATH 101"
     tag_university "Queen's University"
     status "active"
+
+    factory :cancelled_group do
+      status "cancelled"
+      after(:build) { |obj| obj.class.skip_callback(:create, :before, :set_active) }
+    end
+
+    factory :completed_group do
+      status "completed"
+      after(:build) { |obj| obj.class.skip_callback(:create, :before, :set_active) }
+    end
   end
 end

@@ -50,6 +50,10 @@ class Group < ApplicationRecord
     status == 'cancelled'
   end
 
+  def active?
+    status == 'active'
+  end
+
   def set_active
     self.status = 'active'
   end

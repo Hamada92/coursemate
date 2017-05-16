@@ -3,7 +3,7 @@
     - unless current_user == @group.creator
       =render 'group_enrollments/remove_enrollment', group: @group
   -else
-    - unless @group.is_full?
+    - if @group.active? && !@group.is_full?
       =render 'group_enrollments/add_enrollment', group: @group
     -else 
       This group is full, check later please.
