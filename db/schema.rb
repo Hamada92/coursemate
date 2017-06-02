@@ -137,9 +137,9 @@ ActiveRecord::Schema.define(version: 20170602140605) do
     t.index ["university"], name: "index_tags_on_university", using: :btree
   end
 
-  create_table "universities", primary_key: "domain", id: :string, limit: 50, force: :cascade do |t|
-    t.string "name",    limit: 50, null: false
-    t.string "country", limit: 30, null: false
+  create_table "universities", primary_key: "domain", id: :text, force: :cascade do |t|
+    t.text "name",    null: false
+    t.text "country", null: false
     t.index ["name", "country"], name: "universities_name_country_key", unique: true, using: :btree
   end
 

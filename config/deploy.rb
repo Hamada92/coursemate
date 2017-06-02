@@ -4,6 +4,7 @@ set :application, "coursemate"
 set :repo_url, "git@github.com:coursemate/coursemate.git"
 set :user, "ahmad"
 set :conditionally_migrate, true
+set :migration_role, :all
 set :assets_roles, [:all]
 set :deploy_to, "/var/www/coursemate/"
 append :linked_files, "config/database.yml", "config/application.yml"
@@ -18,4 +19,23 @@ namespace :deploy do
   end
 end
 
+namespace :deploy do 
+  task :stop_sidekiq do 
+    on roles(:all) do 
+      info "stopping sidekiq"
+      execute "sudo systemctl stop sidekiq.service"
+    end
+  end
+
+  task :start_sidekiq do 
+    on roles(:all) do 
+      info "starting sidekiq"
+      execute "sudo systemctl start sidekiq.service"
+    end
+  end
+end
+
 after 'deploy:symlink:release', 'deploy:reload_unicorn'
+after 'deploy:reload_unicorn', 'deploy:stop_sidekiq'
+after 'deploy:stop_sidekiq', 'deploy:start_sidekiq'
+
