@@ -37,7 +37,6 @@ group :development do
   gem 'capistrano', '~> 3.1'
   gem 'capistrano-rbenv', '~> 2.0'
   gem "capistrano-rails"
-  gem 'capistrano-unicorn'
   gem 'web-console'
 end
 

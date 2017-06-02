@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170515131857) do
+ActiveRecord::Schema.define(version: 20170602140605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,6 +135,12 @@ ActiveRecord::Schema.define(version: 20170515131857) do
     t.index ["name", "category", "university"], name: "index_tags_on_name_and_category_and_university", using: :btree
     t.index ["university", "category"], name: "index_tags_on_university_and_category", using: :btree
     t.index ["university"], name: "index_tags_on_university", using: :btree
+  end
+
+  create_table "universities", primary_key: "domain", id: :string, limit: 50, force: :cascade do |t|
+    t.string "name",    limit: 50, null: false
+    t.string "country", limit: 30, null: false
+    t.index ["name", "country"], name: "universities_name_country_key", unique: true, using: :btree
   end
 
   create_table "users", force: :cascade do |t|
