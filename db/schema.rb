@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170602140605) do
+ActiveRecord::Schema.define(version: 20170602173250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,12 @@ ActiveRecord::Schema.define(version: 20170602140605) do
     t.integer  "user_id"
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
+  end
+
+  create_table "courses", primary_key: ["name", "university_domain"], force: :cascade do |t|
+    t.text "name",              null: false
+    t.text "university_domain", null: false
+    t.index ["university_domain"], name: "univresities_domain", using: :btree
   end
 
   create_table "group_enrollments", force: :cascade do |t|
@@ -191,6 +197,7 @@ ActiveRecord::Schema.define(version: 20170602140605) do
 
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
+  add_foreign_key "courses", "universities", column: "university_domain", primary_key: "domain", name: "courses_university_domain_fkey"
   add_foreign_key "group_taggings", "group_tags"
   add_foreign_key "group_taggings", "groups"
   add_foreign_key "likes", "users"

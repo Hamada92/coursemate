@@ -88,6 +88,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.11.1)
+    composite_primary_keys (9.0.4)
+      activerecord (~> 5.0.0)
     concurrent-ruby (1.0.2)
     connection_pool (2.2.1)
     debug_inspector (0.0.2)
@@ -317,6 +319,7 @@ DEPENDENCIES
   capistrano-rbenv (~> 2.0)
   carrierwave (~> 1.0.0.rc)
   coffee-rails (~> 4.1.0)
+  composite_primary_keys (= 9.0.4)
   devise
   exifjs-rails
   factory_girl_rails
