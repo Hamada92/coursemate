@@ -1,6 +1,6 @@
 = simple_form_for @group do |f|
   = f.error_notification
-  = f.input :tag_university, label: "University", collection: UsersHelper::UNIVERSITIES.map{ |u| u[:name] }, include_blank: false, input_html: { id: "university_select" }, selected: @group.tag_university || current_user.university
+  = f.input :tag_university, label: "University", collection: University.all.pluck(:name), include_blank: false, input_html: { id: "university_select" }, selected: @group.tag_university || current_user.university
   = f.input :tag_name, label: false, autocomplete: "off", placeholder: "Enter a course name... eg. MATH 101", input_html: { id: "group_tag_input", class: "typeahead", data: {autocomplete_course: @group_tags} }
   = f.input :date, as: :string, input_html: { id: 'datepicker' }
   = f.input :start_time, label: 'Start Time', input_html: { id: 'starttimepicker' }
