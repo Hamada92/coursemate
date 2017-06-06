@@ -11,6 +11,8 @@ module AnswerMe
 
     config.active_job.queue_adapter = :sidekiq
 
+    config.active_record.time_zone_aware_types = [:datetime]
+
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
       user_name: 'apikey',

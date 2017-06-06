@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :course do 
-    university
+    university_domain 'queensu.ca'
     name 'cisc 121'
   end
 end

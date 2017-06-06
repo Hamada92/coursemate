@@ -1,12 +1,35 @@
-= simple_form_for @group do |f|
-  = f.error_notification
-  = f.input :tag_university, label: "University", collection: University.all.pluck(:name), include_blank: false, input_html: { id: "university_select" }, selected: @group.tag_university || current_user.university
-  = f.input :tag_name, label: false, autocomplete: "off", placeholder: "Enter a course name... eg. MATH 101", input_html: { id: "group_tag_input", class: "typeahead", data: {autocomplete_course: @group_tags} }
-  = f.input :date, as: :string, input_html: { id: 'datepicker' }
-  = f.input :start_time, label: 'Start Time', input_html: { id: 'starttimepicker' }
-  = f.input :title, label: "Title", autocomplete: "off", placeholder: "Enter a title.... eg. Test 2 review session"
-  = f.input :description, label: "Description", autocomplete: "off", placeholder: "Short description about what you want to go through in the session"
-  = f.input :seats, label: "Seats", placeholder: "Maximum number of allowed students including yourself"
-  = f.input :location, label: 'Location', placeholder: "Enter the location of the session... eg. Douglas Library, room 304"
-
-  = f.button :submit, 'Publish Group'
+=form_tag(groups_path, method: :post, class: 'form-group') do
+  =label_tag 'University'
+  %br
+  =select_tag :university_domain, options_from_collection_for_select(University.all, "domain", "name"), class: 'form-control'
+  %br
+  =label_tag 'Course'
+  %br
+  =text_field_tag :course_name, nil, class: 'form-control'
+  %br
+  =fields_for :group do |g_fields|
+    =label_tag 'Title'
+    %br
+    =g_fields.text_field :title, class: 'form-control'
+    %br
+    =label_tag 'Description'
+    %br
+    =g_fields.text_area :description, class: 'form-control'
+    %br
+    =label_tag 'Day'
+    %br
+    =g_fields.text_field :day, id: 'datepicker', class: 'form-control'
+    %br
+    =label_tag 'Start Time'
+    %br
+    =g_fields.text_field :start_time, id: 'starttimepicker', class: 'form-control'
+    %br
+    =label_tag 'Seats'
+    %br
+    =g_fields.text_field :seats, class: 'form-control'
+    %br
+    =label_tag 'Location'
+    %br
+    =g_fields.text_field :location, class: 'form-control'
+    %br
+  =submit_tag 'Publish Group', class: 'btn btn-primary'

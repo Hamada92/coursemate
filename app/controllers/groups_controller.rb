@@ -17,17 +17,17 @@ class GroupsController < ApplicationController
 
   def new
     @group = Group.new
-    @group.group_tags.build
   end
 
   def edit
   end
 
   def create
-    @group = current_user.created_groups.build(group_params)
+    course = Course.where(university_domain: params[:university_domain], name: params[:course_name]).first_or_create
+    @group = course.groups.new(group_params)
+    @group.creator = current_user
     respond_to do |format|
       if @group.save
-        GroupEnrollment.create(user_id: current_user.id, group_id: @group.id) #creator is attending the group (enrolled)
         format.html { redirect_to @group, notice: 'Group was successfully published.' }
       else
         format.html { render :new }
@@ -72,12 +72,12 @@ class GroupsController < ApplicationController
   private
 
   def set_autocomplete
-    @university = params[:university] || @group && @group.tag_university || current_user.university
-    @group_tags = GroupTag.names_with(@university)
+    #@university = params[:university] || @group && @group.tag_university || current_user.university
+    #@group_tags = GroupTag.names_with(@university)
   end
 
   def group_params
-    params.require(:group).permit(:seats, :location, :date, :start_time, :tag_name, :tag_university, :title, :description)
+    params.require(:group).permit(:seats, :location, :day, :start_time, :title, :description)
   end
 
   def set_group

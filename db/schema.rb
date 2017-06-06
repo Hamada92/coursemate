@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170603144915) do
+ActiveRecord::Schema.define(version: 20170603181850) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,47 +43,18 @@ ActiveRecord::Schema.define(version: 20170603144915) do
     t.index ["university_domain"], name: "univresities_domain", using: :btree
   end
 
-  create_table "group_enrollments", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "group_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["group_id"], name: "index_group_enrollments_on_group_id", using: :btree
-    t.index ["user_id"], name: "index_group_enrollments_on_user_id", using: :btree
-  end
-
-  create_table "group_taggings", force: :cascade do |t|
-    t.integer  "group_id"
-    t.integer  "group_tag_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["group_id"], name: "index_group_taggings_on_group_id", using: :btree
-    t.index ["group_tag_id"], name: "index_group_taggings_on_group_tag_id", using: :btree
-  end
-
-  create_table "group_tags", force: :cascade do |t|
-    t.string   "name"
-    t.string   "university"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_group_tags_on_name", using: :btree
-    t.index ["university"], name: "index_group_tags_on_university", using: :btree
-  end
-
   create_table "groups", force: :cascade do |t|
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
-    t.integer  "seats"
-    t.string   "location"
-    t.integer  "creator_id"
-    t.date     "date"
-    t.string   "start_time"
-    t.string   "title"
-    t.text     "description"
-    t.integer  "admission_fee"
-    t.integer  "num_group_enrollments",            default: 0
-    t.string   "status",                limit: 20
-    t.index ["creator_id"], name: "index_groups_on_creator_id", using: :btree
+    t.text    "university_domain",            null: false
+    t.text    "course_name",                  null: false
+    t.integer "creator_id"
+    t.string  "status",            limit: 20
+    t.integer "seats"
+    t.text    "location",                     null: false
+    t.date    "day",                          null: false
+    t.text    "title",                        null: false
+    t.text    "description",                  null: false
+    t.time    "start_time",                   null: false
+    t.index ["creator_id"], name: "groups_creator_id", using: :btree
     t.index ["status"], name: "groups_status", using: :btree
   end
 
@@ -197,8 +168,9 @@ ActiveRecord::Schema.define(version: 20170603144915) do
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
   add_foreign_key "courses", "universities", column: "university_domain", primary_key: "domain", name: "courses_university_domain_fkey"
-  add_foreign_key "group_taggings", "group_tags"
-  add_foreign_key "group_taggings", "groups"
+  add_foreign_key "groups", "courses", column: "course_name", primary_key: "name", name: "groups_course_name_fkey"
+  add_foreign_key "groups", "universities", column: "university_domain", primary_key: "domain", name: "groups_university_domain_fkey"
+  add_foreign_key "groups", "users", column: "creator_id", name: "groups_creator_id_fkey"
   add_foreign_key "likes", "users"
   add_foreign_key "questions", "users"
   add_foreign_key "taggings", "questions"
