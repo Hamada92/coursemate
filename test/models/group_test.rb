@@ -4,7 +4,6 @@ class GroupTest < ActiveSupport::TestCase
   def setup
     Rails.application.load_seed #populate universities
     @course = create(:course, name: 'cisc 121')
-    @group = create(:group, course: @course)
   end
 
   #db tests raise exceptions
@@ -31,11 +30,9 @@ class GroupTest < ActiveSupport::TestCase
     assert_raises(ActiveRecord::StatementInvalid, "Seats must be at least 2") { group.save(validate: false) }
   end
 
-  test 'date must be in future, or later time today' do 
+  test 'date must be in future' do 
     group = build(:group, day: Date.yesterday)
-    group_2 = build(:group, day: Date.today, start_time: 1.hour.ago.strftime("%I:%M%p"))
-    group_3 = build(:group)
-    assert_raises(ActiveRecord::StatementInvalid) { group.save(validate: false) }
+    group_3 = build(:group, day: Date.today)
     assert_raises(ActiveRecord::StatementInvalid) { group.save(validate: false) }
     assert group_3.save(validate: false)
   end
@@ -43,8 +40,9 @@ class GroupTest < ActiveSupport::TestCase
 
   #application layer tests
   test '#cancel! updates the group status to cancelled' do 
-    @group.cancel!
-    assert_equal 'cancelled', @group.reload.status
+    group = create(:group)
+    group.cancel!
+    assert_equal 'cancelled', group.reload.status
   end
 
   test 'invalid if no creator_id is present' do 
@@ -77,7 +75,7 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   test 'invalid if today but past time' do 
-    group = build(:group, day: Date.today, start_time: 10.minutes.ago.strftime("%I:%M%p"))
+    group = build(:group, day: Date.today, start_time: Time.now - 60)
     assert group.invalid?, 'should be invalid but was valid'
   end
 
@@ -86,5 +84,4 @@ class GroupTest < ActiveSupport::TestCase
 
     assert_equal 'active', group.status
   end
-  
 end

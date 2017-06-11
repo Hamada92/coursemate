@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170603181850) do
+ActiveRecord::Schema.define(version: 20170610140217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,23 +38,35 @@ ActiveRecord::Schema.define(version: 20170603181850) do
   end
 
   create_table "courses", primary_key: ["name", "university_domain"], force: :cascade do |t|
-    t.text "name",              null: false
-    t.text "university_domain", null: false
+    t.text     "name",              null: false
+    t.text     "university_domain", null: false
+    t.datetime "created_at"
     t.index ["university_domain"], name: "univresities_domain", using: :btree
   end
 
+  create_table "group_enrollments", primary_key: ["user_id", "group_id"], force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.integer  "group_id",   null: false
+    t.datetime "created_at"
+    t.index ["group_id", "user_id"], name: "group_enrollments_group_id_user_id", using: :btree
+  end
+
   create_table "groups", force: :cascade do |t|
-    t.text    "university_domain",            null: false
-    t.text    "course_name",                  null: false
-    t.integer "creator_id"
-    t.string  "status",            limit: 20
-    t.integer "seats"
-    t.text    "location",                     null: false
-    t.date    "day",                          null: false
-    t.text    "title",                        null: false
-    t.text    "description",                  null: false
-    t.time    "start_time",                   null: false
+    t.text     "university_domain",                        null: false
+    t.text     "course_name",                              null: false
+    t.integer  "creator_id"
+    t.string   "status",            limit: 20
+    t.integer  "seats"
+    t.text     "location",                                 null: false
+    t.date     "day",                                      null: false
+    t.text     "title",                                    null: false
+    t.text     "description",                              null: false
+    t.time     "start_time",                               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "num_enrollments",              default: 0
     t.index ["creator_id"], name: "groups_creator_id", using: :btree
+    t.index ["num_enrollments"], name: "num_enrollments_groups", using: :btree
     t.index ["status"], name: "groups_status", using: :btree
   end
 
@@ -168,7 +180,9 @@ ActiveRecord::Schema.define(version: 20170603181850) do
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
   add_foreign_key "courses", "universities", column: "university_domain", primary_key: "domain", name: "courses_university_domain_fkey"
-  add_foreign_key "groups", "courses", column: "course_name", primary_key: "name", name: "groups_course_name_fkey"
+  add_foreign_key "group_enrollments", "groups", name: "group_enrollments_group_id_fkey"
+  add_foreign_key "group_enrollments", "users", name: "group_enrollments_user_id_fkey"
+  add_foreign_key "groups", "courses", column: "course_name", primary_key: "name", name: "groups_course_name_fkey", on_delete: :cascade
   add_foreign_key "groups", "universities", column: "university_domain", primary_key: "domain", name: "groups_university_domain_fkey"
   add_foreign_key "groups", "users", column: "creator_id", name: "groups_creator_id_fkey"
   add_foreign_key "likes", "users"

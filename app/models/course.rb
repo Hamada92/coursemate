@@ -4,9 +4,4 @@ class Course < ApplicationRecord
   has_many :groups, foreign_key: [:course_name, :university_domain]
 
   validates :name, presence: true
-  validates :name, uniqueness: { scope: :university_domain }
-
-  def to_param  # overridden
-    "#{name},#{university_domain}"
-  end
 end

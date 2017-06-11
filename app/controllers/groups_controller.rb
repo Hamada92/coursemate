@@ -6,8 +6,8 @@ class GroupsController < ApplicationController
   before_action :set_autocomplete, only: [:new, :edit, :create, :update, :set_university_autocomplete]
 
   def index
-    @groups = Group.paginate(per_page: 10, page: params[:page]).includes(:group_tags, :users, :creator)
-    @universities = GroupTag.all_universities
+    @groups = Group.paginate(per_page: 10, page: params[:page]).includes(:users, :creator, :course, :university)
+    @universities = University.take(10)
   end
 
   def show
@@ -23,7 +23,11 @@ class GroupsController < ApplicationController
   end
 
   def create
-    course = Course.where(university_domain: params[:university_domain], name: params[:course_name]).first_or_create
+    course = Course.where(
+      name: params[:course_name],
+      university_domain: params[:university_domain],
+    ).first_or_create
+
     @group = course.groups.new(group_params)
     @group.creator = current_user
     respond_to do |format|
@@ -50,23 +54,24 @@ class GroupsController < ApplicationController
     render json: @group_tags
   end
 
-  def show_with_tag
-    @tag = GroupTag.find(params[:tag_id])
-    @groups_with_tag = @tag.groups.paginate(per_page: 10, page: params[:page]).includes(:group_tags, :users, :creator)
-    render :show_with_tag
+  def show_from_course
+    @course = Course.find(params[:course])
+    @groups = @course.groups.paginate(per_page: 10, page: params[:page]).includes(:users, :creator, :course, :university)
+    @university = @course.university
+    render :show_with_course
   end
 
   def show_from_my_university
     @university = current_user.university
-    @groups_from_university = Group.tagged_with_university(@university).paginate(per_page: 10, page: params[:page]).includes(:group_tags, :users, :creator)
-    @tags = GroupTag.with_university @university
+    @groups = @university.groups.paginate(per_page: 10, page: params[:page]).includes(:users, :creator, :course, :university)
+    @courses = @university.courses
     render :show_from_university
   end
 
   def show_from_university
-    @university = params[:university]
-    @groups_from_university = Group.tagged_with_university(@university).paginate(per_page: 10, page: params[:page]).includes(:group_tags, :users, :creator)
-    @tags = GroupTag.with_university @university
+    @university = University.find(params[:university])
+    @courses = @university.courses
+    @groups = @university.groups.paginate(per_page: 10, page: params[:page]).includes(:users, :creator, :course, :university)
   end
 
   private

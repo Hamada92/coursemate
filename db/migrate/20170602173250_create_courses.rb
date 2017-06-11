@@ -7,7 +7,8 @@ class CreateCourses < ActiveRecord::Migration[5.0]
         university_domain text not null,
         primary key(name, university_domain),
         foreign key(university_domain)
-          references universities(domain)
+          references universities(domain),
+        created_at timestamp
       );
       create index univresities_domain on courses(university_domain);
     SQL
@@ -15,7 +16,7 @@ class CreateCourses < ActiveRecord::Migration[5.0]
 
   def down
     execute <<-SQL
-      drop table courses;
+      drop table courses CASCADE;
     SQL
   end
 end

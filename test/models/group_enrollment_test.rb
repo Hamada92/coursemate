@@ -2,9 +2,14 @@ require 'test_helper'
 
 class GroupEnrollmentTest < ActiveSupport::TestCase
 
+  def setup
+    Rails.application.load_seed
+    @course = create(:course)
+  end
+
   test 'Does not allow enrolling in a full group' do 
-    group = create(:group, seats: 1)
-    create(:group_enrollment, group: group)
+    group = create(:group, seats: 2, course: @course)
+    create_list(:group_enrollment, 2, group: group)
     enrollment = build(:group_enrollment, group: group)
 
     assert_not enrollment.valid?, 'Should not allow enrollments in full groups'
@@ -17,13 +22,13 @@ class GroupEnrollmentTest < ActiveSupport::TestCase
     assert_not enrollment.valid?, 'Should not allow enrollments in cancelled groups'
   end
 
-  test 'Does not allow user to enroll twice' do 
+  test 'DB raises an error if user_id/group_id is not unique' do 
     group = create(:group)
     user = create(:user)
     first_enrollment = create(:group_enrollment, user: user, group: group)
     second_enrollment = build(:group_enrollment, user: user, group: group)
 
-    assert_not second_enrollment.valid?, 'Should not allow user to enroll twice'
+    assert_raises(ActiveRecord::RecordNotUnique) { second_enrollment.save(validate: false) }
   end
  
 end

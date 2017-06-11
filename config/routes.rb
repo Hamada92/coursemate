@@ -54,8 +54,8 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'groups/tags/:tag_id', to: 'groups#show_with_tag', as: 'show_groups_with_tag'
-  get 'groups/universities/:university', to: 'groups#show_from_university', as: 'show_groups_with_university_tag'
+  get 'groups/courses/:course', to: 'groups#show_from_course', as: 'show_groups_in_course', constraints: { course: /[0-z\s\.\,\%]+/ }
+  get 'groups/universities/:university', to: 'groups#show_from_university', as: 'show_groups_in_university', constraints: { university:  /[0-z\.]+/ }
 
 
 

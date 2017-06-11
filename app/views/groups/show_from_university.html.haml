@@ -1,9 +1,9 @@
 %h3
   =@university.name
-%h4 Tags
--@tags.each do |t|
-  =link_to("#{t.name}", show_groups_with_tag_path(t.id, t.name.gsub(" ", "-")), class: "btn btn-xs btn-info", role: "button")
-%h4 Sessions
+%h4 Courses
+-@courses.each do |c|
+  =link_to("#{c.name}", show_groups_in_course_path(c.to_param), class: "btn btn-xs btn-info", role: "button")
+%h4 Groups
 
-=render @groups_from_university
-=will_paginate @groups_from_university, renderer: BootstrapPagination::Rails
+=render @groups
+=will_paginate @groups, renderer: BootstrapPagination::Rails

@@ -14,9 +14,9 @@
           %li
             =link_to('Ask a question', new_question_path)
           %li
-            =link_to('Create a session', new_group_path)
+            =link_to('Create a group', new_group_path)
           %li
-            =render 'partials/sessions_or_questions_link'            
+            =render 'partials/groups_or_questions_link'            
 
           -if user_signed_in?
             %li.dropdown.notifications

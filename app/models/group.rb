@@ -7,6 +7,7 @@ class Group < ApplicationRecord
   has_many :users, through: :group_enrollments
   has_many :comments, as: :commentable, dependent: :destroy
 
+  validates :title, :description, :day, :start_time, :location, presence: true
   validates :seats, numericality: { only_integer: true, greater_than: 1 }
   validate :day_in_future, if: lambda{|object| object.errors.empty?}
   validate :start_time_in_future, if: lambda{ |group| group.day == Date.today }
@@ -16,7 +17,7 @@ class Group < ApplicationRecord
   default_scope { order(id: :desc) }
 
   def available_seats
-    seats - num_group_enrollments
+    seats - num_enrollments
   end
 
   def is_full?
@@ -35,22 +36,24 @@ class Group < ApplicationRecord
     status == 'active'
   end
 
-  def set_active
-    self.status = 'active'
-  end
-
   private
 
-  def day_in_future
-    if day < Date.today
-      errors.add(:date, "Must be in the future")
+    def set_active
+      self.status = 'active'
     end
-  end
 
-  def start_time_in_future
-    if start_time.present? && start_time < Time.now
-      errors.add(:start_time, "Must be in the future")
+    def day_in_future
+      if day < Date.today
+        errors.add(:date, "Must be in the future")
+      end
     end
-  end
+
+    def start_time_in_future
+      if start_time.present? && start_time.strftime("%I:%M%p") < Time.now.strftime("%I:%M%p")
+        errors.add(:start_time, "Must be in the future")
+      end
+    end
+
+
 
 end

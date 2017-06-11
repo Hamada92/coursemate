@@ -1,4 +1,4 @@
-class ModifyGroups < ActiveRecord::Migration[5.0]
+class CreateGroups < ActiveRecord::Migration[5.0]
   def up
     execute <<-SQL
       create sequence groups_id_seq;
@@ -9,13 +9,15 @@ class ModifyGroups < ActiveRecord::Migration[5.0]
         creator_id integer references users(id),
         status varchar(20) check(status IN ('active', 'cancelled', 'completed')),
         foreign key (university_domain) references universities(domain),
-        foreign key (course_name, university_domain) references courses(name, university_domain),
+        foreign key (course_name, university_domain) references courses(name, university_domain) on delete cascade,
         seats integer CHECK(seats > 1),
         location text not null CHECK(length(location) > 1),
-        day date not null CHECK(day >= current_date),
+        day date not null CONSTRAINT day_at_leat_today CHECK(day >= current_date),
         title text not null CHECK(length(title) > 0),
         description text not null CHECK(length(description) > 0),
-        start_time time not null CHECK(start_time > localtime OR day > current_date),
+        start_time time not null,
+        created_at timestamp,
+        updated_at timestamp,
         primary key (id)
 
       );

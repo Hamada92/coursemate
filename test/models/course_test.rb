@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class CourseTest < ActiveSupport::TestCase
+
+  def setup
+    Rails.application.load_seed
+  end
+
   test 'name must be present' do 
     course = build(:course, name: nil)
 
@@ -21,7 +26,7 @@ class CourseTest < ActiveSupport::TestCase
 
   test 'db name and university domain should be a unique combination' do 
     course = create(:course)
-    course_2 = build(:course, university: nil, university_domain: course.university_domain)
+    course_2 = build(:course, university_domain: course.university_domain)
 
     assert_raises(ActiveRecord::RecordNotUnique) { course_2.save(validate: false) }
   end

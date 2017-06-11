@@ -6,7 +6,7 @@ FactoryGirl.define do
     seats 5
     location 'Stauffer Library'
     day Date.tomorrow
-    start_time 10.minutes.from_now.strftime("%I:%M%p")
+    start_time (Time.now+60).strftime("%I:%M%p")
     course_name 'cisc 121'
     university_domain 'queensu.ca'
 
