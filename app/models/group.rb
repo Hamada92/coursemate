@@ -12,8 +12,6 @@ class Group < ApplicationRecord
   validate :day_in_future, if: lambda{|object| object.errors.empty?}
   validate :start_time_in_future, if: lambda{ |group| group.day == Date.today }
 
-  before_create :set_active
-
   default_scope { order(id: :desc) }
 
   def available_seats
@@ -25,7 +23,7 @@ class Group < ApplicationRecord
   end
 
   def cancel!
-    update!(status: 'cancelled')
+    update(status: 'cancelled')
   end
 
   def cancelled?
@@ -38,10 +36,6 @@ class Group < ApplicationRecord
 
   private
 
-    def set_active
-      self.status = 'active'
-    end
-
     def day_in_future
       if day < Date.today
         errors.add(:date, "Must be in the future")
@@ -53,7 +47,5 @@ class Group < ApplicationRecord
         errors.add(:start_time, "Must be in the future")
       end
     end
-
-
-
+    
 end

@@ -1,9 +1,10 @@
 require 'test_helper'
 
 class GroupTest < ActiveSupport::TestCase
+
   def setup
     Rails.application.load_seed #populate universities
-    @course = create(:course, name: 'cisc 121')
+    create(:course)
   end
 
   #db tests raise exceptions
@@ -81,7 +82,6 @@ class GroupTest < ActiveSupport::TestCase
 
   test 'groups status is set to active when created' do 
     group = create(:group)
-
     assert_equal 'active', group.status
   end
 end

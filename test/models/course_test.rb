@@ -37,4 +37,10 @@ class CourseTest < ActiveSupport::TestCase
 
     assert course_2.invalid?, "Should not allow duplicate combinations of name/domain"
   end
+
+  test 'course names are cpaitalized and white spaces are striped upon creation' do 
+    course = create(:course, name: 'cisc 121 ')
+
+    assert_equal 'CISC121', course.name
+  end
 end

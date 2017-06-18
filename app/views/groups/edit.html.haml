@@ -1,3 +1,35 @@
 .group-form
   %h4 Edit Group
-  =render 'form'
+  -if @group.errors.any?
+    %ul.alert.alert-danger
+      .container
+        -@group.errors.full_messages.each do |msg|
+          %li
+            =msg
+=form_tag(group_path(@group), method: :put, class: 'form-group') do
+  =fields_for :group do |g_fields|
+    =label_tag 'Title'
+    %br
+    =g_fields.text_field :title, class: 'form-control', placeholder: "Enter a title for the group (e.g. Exam review session)"
+    %br
+    =label_tag 'Description'
+    %br
+    =g_fields.text_area :description, class: 'form-control', placeholder: "Enter a discription (e.g. Hi friends, let's meet and prepare for the test together, we can review chapter 1 and 2 and do previous tests"
+    %br
+    =label_tag 'Day'
+    %br
+    =g_fields.text_field :day, id: 'datepicker', class: 'form-control'
+    %br
+    =label_tag 'Start Time'
+    %br
+    =g_fields.text_field :start_time, id: 'starttimepicker', class: 'form-control'
+    %br
+    =label_tag 'Seats'
+    %br
+    =g_fields.text_field :seats, class: 'form-control', placeholder: 'Enter the number of seats including you, minimum 2'
+    %br
+    =label_tag 'Location'
+    %br
+    =g_fields.text_field :location, class: 'form-control', placeholder: "Enter the location where student will meet (e.g. Public Library, Room 232"
+    %br
+  =submit_tag 'Update Group', class: 'btn btn-primary'

@@ -29,7 +29,9 @@
     .frow.bottom-space
       .tags
         - university = @group.university
+        - course     = @group.course
         =link_to("#{university.name}", show_groups_in_university_path(university.domain), class: "btn btn-xs btn-info", role: "button")
+        =link_to("#{course.name}", show_groups_in_course_path(course), class: "btn btn-xs btn-info", role: "button")
         
     .frow
       .likeable-owner
@@ -44,15 +46,16 @@
           =link_to("Edit", edit_group_path(@group))
           =link_to("Cancel", cancel_groups_cancelation_path(@group), method: :patch, data: { confirm: 'Are you sure you want to cancel this group?' })
 
+  - if user_signed_in?
+    = render 'group_enrollments/enrollment'
+
   %h3
-    Students attending: 
+    Going: 
     .frow.attendees
       -@attendees.each do |u|
         = render 'group_enrollments/attendee', u: u
  
-  - if user_signed_in?
-    = render 'group_enrollments/enrollment'
-  - else
+  - unless user_signed_in?
     .login-to-join
       Sign in to attend this group.
 

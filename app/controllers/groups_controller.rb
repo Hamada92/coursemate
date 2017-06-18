@@ -23,15 +23,20 @@ class GroupsController < ApplicationController
   end
 
   def create
+    #courses are unique
     course = Course.where(
-      name: params[:course_name],
+      name: params[:course_name].upcase.strip.gsub(/ +/,""),
       university_domain: params[:university_domain],
     ).first_or_create
 
     @group = course.groups.new(group_params)
     @group.creator = current_user
+    @group.status = 'active'
+    
     respond_to do |format|
       if @group.save
+        #enroll the creator in the group 
+        GroupEnrollment.create!(user: current_user, group: @group)
         format.html { redirect_to @group, notice: 'Group was successfully published.' }
       else
         format.html { render :new }
@@ -49,9 +54,9 @@ class GroupsController < ApplicationController
     end
   end
 
-  #used to retrieve tags in javascript via ajax when the user changes the university in the dropdown
+  #used to retrieve courses in javascript via ajax when the user changes the university in the dropdown
   def set_university_autocomplete
-    render json: @group_tags
+    render json: @courses
   end
 
   def show_from_course
@@ -77,8 +82,8 @@ class GroupsController < ApplicationController
   private
 
   def set_autocomplete
-    #@university = params[:university] || @group && @group.tag_university || current_user.university
-    #@group_tags = GroupTag.names_with(@university)
+    @university = params[:domain] && University.find(params[:domain]) || @group && @group.university || current_user.university
+    @courses = @university.courses.pluck(:name)
   end
 
   def group_params

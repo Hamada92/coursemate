@@ -3,12 +3,12 @@ require 'test_helper'
 class GroupEnrollmentTest < ActiveSupport::TestCase
 
   def setup
-    Rails.application.load_seed
-    @course = create(:course)
+    create(:university)
+    create(:course)
   end
 
   test 'Does not allow enrolling in a full group' do 
-    group = create(:group, seats: 2, course: @course)
+    group = create(:group, seats: 2)
     create_list(:group_enrollment, 2, group: group)
     enrollment = build(:group_enrollment, group: group)
 
@@ -16,8 +16,8 @@ class GroupEnrollmentTest < ActiveSupport::TestCase
   end
 
   test 'Does not allow enrolling in a cancelled or completed group' do 
-    group = create(:cancelled_group)
-    enrollment = build(:group_enrollment, group: group)
+    cancelled_group = create(:cancelled_group)
+    enrollment = build(:group_enrollment, group: cancelled_group)
 
     assert_not enrollment.valid?, 'Should not allow enrollments in cancelled groups'
   end

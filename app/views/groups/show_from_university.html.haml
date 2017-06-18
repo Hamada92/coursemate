@@ -2,7 +2,7 @@
   =@university.name
 %h4 Courses
 -@courses.each do |c|
-  =link_to("#{c.name}", show_groups_in_course_path(c.to_param), class: "btn btn-xs btn-info", role: "button")
+  =link_to("#{c.name}", show_groups_in_course_path(c), class: "btn btn-xs btn-info", role: "button")
 %h4 Groups
 
 =render @groups

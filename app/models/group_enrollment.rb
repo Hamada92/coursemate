@@ -15,7 +15,7 @@ class GroupEnrollment < ApplicationRecord
   end
 
   def group_active
-    unless group.status == 'active' 
+    unless group.status == 'active'
       errors.add(:base, "Group is not active")
     end
   end

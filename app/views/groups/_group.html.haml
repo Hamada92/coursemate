@@ -15,10 +15,14 @@
           - course = group.course
           - university = group.university
           =link_to("#{university.name}", show_groups_in_university_path(university.id), class: "btn btn-xs btn-info", role: "button")
-          =link_to("#{course.name}", show_groups_in_course_path(course.to_param), class: "btn btn-xs btn-info", role: "button")
-          %span.label.label-success.btn-xs
-            Available Seats:
-            = group.available_seats
+          =link_to("#{course.name}", show_groups_in_course_path(course), class: "btn btn-xs btn-info", role: "button")
+          - if group.cancelled?
+            %span.label.label-danger.btn-xs
+              Cancelled
+          - else
+            %span.label.label-success.btn-xs
+              Available Seats:
+              = group.available_seats
       .attendees-count
         - attendees_count = group.users.size
         = "#{attendees_count} #{"Student".pluralize(attendees_count)} going "
