@@ -96,6 +96,7 @@ function set_typeahead(source){
 
 function set_group_tag_autocomplete(){
   var course_tags = substringMatcher($('.typeahead').data('autocomplete-course'));
+  console.log(course_tags);
   set_typeahead(course_tags);
 
   $("#university_select").change(function (){
@@ -103,7 +104,7 @@ function set_group_tag_autocomplete(){
       method: 'GET',
       url: '/groups/autocomplete',
       dataType: 'json',
-      data: { university: this.value },
+      data: { domain: this.value },
       success: function(data){
         course_tags = substringMatcher(data);
         set_typeahead(course_tags);

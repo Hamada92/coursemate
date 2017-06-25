@@ -9,11 +9,11 @@
   =form_tag(groups_path, method: :post, class: 'form-group') do
     =label_tag 'University'
     %br
-    =select_tag :university_domain, options_from_collection_for_select(University.all, "domain", "name", @university.domain), class: 'form-control'
+    =select_tag :university_domain, options_from_collection_for_select(University.all, "domain", "name", @university.domain), class: 'form-control', id: 'university_select'
     %br
     =label_tag 'Course'
     %br
-    =text_field_tag :course_name, nil, class: 'typeahead form-control', autocomplete: 'off', placeholder: "Enter a course and number separated by a space (e.g. HIST 121) ... ", data_autocomplete_course: @courses
+    =text_field_tag :course_name, nil, class: 'typeahead form-control', autocomplete: 'off', placeholder: "Enter a course and number separated by a space (e.g. HIST 121) ... ", id: 'group_courses', data: { autocomplete_course: @courses }
     %br
     =fields_for :group do |g_fields|
       =label_tag 'Title'

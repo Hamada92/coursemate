@@ -4,7 +4,7 @@ class Answer < ActiveRecord::Base
   belongs_to :user
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :likes, as: :likeable, dependent: :destroy
-  has_many :notifications, as: :notifier, dependent: :destroy
+  has_many :notifications, dependent: :destroy
   
   validates :body, presence: true
 

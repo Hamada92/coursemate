@@ -3,7 +3,7 @@ require 'test_helper'
 class GroupTest < ActiveSupport::TestCase
 
   def setup
-    Rails.application.load_seed #populate universities
+    create(:university)
     create(:course)
   end
 
@@ -64,7 +64,7 @@ class GroupTest < ActiveSupport::TestCase
     assert group.invalid?, 'should be invalid but was valid'
   end
 
-  test 'invalid if no seats are less than 2' do 
+  test 'invalid if seats are less than 2' do 
     group = build(:group, seats: 1)
 
     assert group.invalid?, 'should be invalid but was valid'
@@ -78,10 +78,5 @@ class GroupTest < ActiveSupport::TestCase
   test 'invalid if today but past time' do 
     group = build(:group, day: Date.today, start_time: Time.now - 60)
     assert group.invalid?, 'should be invalid but was valid'
-  end
-
-  test 'groups status is set to active when created' do 
-    group = create(:group)
-    assert_equal 'active', group.status
   end
 end

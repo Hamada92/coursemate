@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170610140217) do
+ActiveRecord::Schema.define(version: 20170625155851) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20170610140217) do
     t.index ["group_id", "user_id"], name: "group_enrollments_group_id_user_id", using: :btree
   end
 
-  create_table "groups", force: :cascade do |t|
+  create_table "groups", id: :integer, default: -> { "nextval('groups_id_seq1'::regclass)" }, force: :cascade do |t|
     t.text     "university_domain",                        null: false
     t.text     "course_name",                              null: false
     t.integer  "creator_id"
@@ -80,19 +80,16 @@ ActiveRecord::Schema.define(version: 20170610140217) do
     t.index ["user_id"], name: "index_likes_on_user_id", using: :btree
   end
 
-  create_table "notifications", force: :cascade do |t|
-    t.string   "notifier_type"
-    t.integer  "notifier_id"
-    t.integer  "user_id"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.boolean  "read",          default: false
-    t.string   "source_type"
-    t.integer  "source_id"
-    t.index ["notifier_type", "notifier_id"], name: "index_notifications_on_notifier_type_and_notifier_id", using: :btree
-    t.index ["source_id"], name: "index_notifications_on_source_id", using: :btree
-    t.index ["source_type"], name: "index_notifications_on_source_type", using: :btree
-    t.index ["user_id"], name: "index_notifications_on_user_id", using: :btree
+  create_table "notifications", id: :integer, default: -> { "nextval('notifications_id_seq1'::regclass)" }, force: :cascade do |t|
+    t.integer "comment_id"
+    t.integer "answer_id"
+    t.integer "like_id"
+    t.integer "user_id"
+    t.boolean "read",       default: false
+    t.index ["answer_id"], name: "answer_id_notifications", using: :btree
+    t.index ["comment_id"], name: "comment_id_notifications", using: :btree
+    t.index ["like_id"], name: "like_id_notifications", using: :btree
+    t.index ["user_id"], name: "user_id_notifications", using: :btree
   end
 
   create_table "questions", force: :cascade do |t|
@@ -127,9 +124,11 @@ ActiveRecord::Schema.define(version: 20170610140217) do
   end
 
   create_table "universities", primary_key: "domain", id: :text, force: :cascade do |t|
-    t.text "name",    null: false
-    t.text "country", null: false
+    t.text    "name",                   null: false
+    t.text    "country",                null: false
+    t.integer "num_groups", default: 0
     t.index ["name", "country"], name: "universities_name_country_key", unique: true, using: :btree
+    t.index ["num_groups"], name: "num_groups_universities", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -182,12 +181,4 @@ ActiveRecord::Schema.define(version: 20170610140217) do
   add_foreign_key "courses", "universities", column: "university_domain", primary_key: "domain", name: "courses_university_domain_fkey"
   add_foreign_key "group_enrollments", "groups", name: "group_enrollments_group_id_fkey"
   add_foreign_key "group_enrollments", "users", name: "group_enrollments_user_id_fkey"
-  add_foreign_key "groups", "courses", column: "course_name", primary_key: "name", name: "groups_course_name_fkey", on_delete: :cascade
-  add_foreign_key "groups", "universities", column: "university_domain", primary_key: "domain", name: "groups_university_domain_fkey"
-  add_foreign_key "groups", "users", column: "creator_id", name: "groups_creator_id_fkey"
-  add_foreign_key "likes", "users"
-  add_foreign_key "questions", "users"
-  add_foreign_key "taggings", "questions"
-  add_foreign_key "taggings", "tags"
-  add_foreign_key "users", "universities", column: "university_domain", primary_key: "domain", name: "users_university_domain_fkey"
 end

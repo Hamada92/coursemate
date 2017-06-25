@@ -7,7 +7,7 @@ class GroupsController < ApplicationController
 
   def index
     @groups = Group.paginate(per_page: 10, page: params[:page]).includes(:users, :creator, :course, :university)
-    @universities = University.take(10)
+    @universities = University.where('num_groups > 0')
   end
 
   def show

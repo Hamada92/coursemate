@@ -2,7 +2,7 @@ class NotificationsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @notifications = current_user.notifications.includes(:notifier, :source).order('id DESC')
+    @notifications = current_user.notifications.includes(comment: [:commentable]).order('id DESC')
     respond_to do |format|
       format.js
     end

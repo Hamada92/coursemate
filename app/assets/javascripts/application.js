@@ -33,7 +33,7 @@ function ready() {
     set_question_tag_autocomplete();
   };
 
-  if($('#group_tag_input').length){ //group tag has the group_tag_input field
+  if($('#group_courses').length){ //group course has group_courses id
     set_group_tag_autocomplete();
   };
 

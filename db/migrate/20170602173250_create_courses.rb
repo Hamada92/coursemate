@@ -11,6 +11,7 @@ class CreateCourses < ActiveRecord::Migration[5.0]
         created_at timestamp
       );
       create index univresities_domain on courses(university_domain);
+      create index name_and_univresities_domain on courses(name, university_domain);
     SQL
   end
 
