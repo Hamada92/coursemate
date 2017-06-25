@@ -36,7 +36,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.save
         #enroll the creator in the group 
-        GroupEnrollment.create!(user: current_user, group: @group)
+        GroupEnrollment.create(user: current_user, group: @group)
         format.html { redirect_to @group, notice: 'Group was successfully published.' }
       else
         format.html { render :new }
