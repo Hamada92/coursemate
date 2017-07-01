@@ -7,7 +7,7 @@ class Like < ActiveRecord::Base
   validate :has_not_voted
   validate :does_not_own_post
 
-  after_create :increase_user_score, :notify_likeable_owner
+  after_create :increase_user_score
   before_destroy :decrease_user_score
 
   def has_not_voted
@@ -22,11 +22,6 @@ class Like < ActiveRecord::Base
     if @likeable.user == self.user
       errors.add(:base, "You can't vote on your own post") 
     end
-  end
-
-  def notify_likeable_owner
-    question = likeable_type == 'Question' ? likeable : likeable.question
-    notifications.create(user_id: likeable.user_id, source: question)
   end
 
   private

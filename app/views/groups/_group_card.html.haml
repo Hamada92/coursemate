@@ -59,3 +59,17 @@
     .login-to-join
       Sign in to attend this group.
 
+.container
+  #myModal.modal.fade{:role => "dialog"}
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{"data-dismiss" => "modal", :type => "button"} ×
+          %h4.modal-title
+            .alert.alert-success
+              Success. You have been added to the list of students attending this group.
+        .modal-footer
+          %button.btn.btn-primary Add to Calendar
+          %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+
+

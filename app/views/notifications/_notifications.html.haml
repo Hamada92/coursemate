@@ -7,13 +7,30 @@
       %li{class: (n.read? ? "notifications-item" : "notifications-item unread")}
         - if n.comment_id
           - if n.comment.commentable_type == 'Group'
-            =link_to group_path(n.comment.commentable), data: {"unread": n.read? ? nil : n.id } do 
+            =link_to group_path(n.comment.commentable), data: {"unread": n.read? ? nil : n.id } do
               .notifier-type
-                = 'group'
+                = 'comment'
               .notification-question-title
                 =n.comment.commentable.title
               .notifier-body
                 =n.comment.body[0..60]
+          - elsif n.comment.commentable_type == 'Question'
+            =link_to question_path(n.comment.commentable), data: {"unread": n.read? ? nil : n.id } do
+              .notifier-type
+                = 'comment'
+              .notification-question-title
+                =n.comment.commentable.title
+              .notifier-body
+                =n.comment.body[0..60]
+        - elsif n.answer_id
+          =link_to question_path(n.answer.question), data: {"unread": n.read? ? nil : n.id } do
+            .notifier-type
+              = 'answer'
+            .notification-question-title
+              =n.answer.question.title
+            .notifier-body
+              =n.answer.body[0..60]
+
 
 
         

@@ -11,8 +11,7 @@ class Answer < ActiveRecord::Base
   after_create :notify_question_owner, unless: :answer_owner_is_question_owner?
 
   def notify_question_owner
-    receiver = question.user
-    notifications.create(user_id: receiver.id, source: self.question)
+    Notification.create(answer_id: self.id, user_id: self.question.user_id)
   end
 
   def answer_owner_is_question_owner?

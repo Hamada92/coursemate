@@ -23,7 +23,7 @@ class Group < ApplicationRecord
   end
 
   def cancel!
-    update(status: 'cancelled')
+    update_column(:status, 'cancelled') # skip validation, date may not be in future
   end
 
   def cancelled?
