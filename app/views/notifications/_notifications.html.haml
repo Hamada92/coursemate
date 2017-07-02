@@ -1,8 +1,10 @@
 %li.dropdown-header
   -if @notifications.length == 0
-    %li.no-notifications
+    %li.notifications-header
       No Notifications Yet
   -else
+    %li.notifications-header
+      Notifications
     - @notifications.each do |n|
       %li{class: (n.read? ? "notifications-item" : "notifications-item unread")}
         - if n.comment_id
@@ -10,7 +12,7 @@
             =link_to group_path(n.comment.commentable), data: {"unread": n.read? ? nil : n.id } do
               .notifier-type
                 = 'comment'
-              .notification-question-title
+              .notification-title
                 =n.comment.commentable.title
               .notifier-body
                 =n.comment.body[0..60]
@@ -18,7 +20,7 @@
             =link_to question_path(n.comment.commentable), data: {"unread": n.read? ? nil : n.id } do
               .notifier-type
                 = 'comment'
-              .notification-question-title
+              .notification-title
                 =n.comment.commentable.title
               .notifier-body
                 =n.comment.body[0..60]
@@ -26,7 +28,7 @@
           =link_to question_path(n.answer.question), data: {"unread": n.read? ? nil : n.id } do
             .notifier-type
               = 'answer'
-            .notification-question-title
+            .notification-title
               =n.answer.question.title
             .notifier-body
               =n.answer.body[0..60]
