@@ -31,6 +31,12 @@ class GroupTest < ActiveSupport::TestCase
     assert_raises(ActiveRecord::StatementInvalid, "Seats must be at least 2") { group.save(validate: false) }
   end
 
+  test 'db raises when end time is earlier than start time' do 
+    group = build(:group, end_time: (Time.now).strftime("%I:%M%p"))
+
+    assert_raises(ActiveRecord::StatementInvalid) { group.save(validate: false) }
+  end
+
   test 'date must be in future' do 
     group = build(:group, day: Date.yesterday)
     group_3 = build(:group, day: Date.today)
@@ -77,6 +83,11 @@ class GroupTest < ActiveSupport::TestCase
 
   test 'invalid if today but past time' do 
     group = build(:group, day: Date.today, start_time: Time.now - 60)
+    assert group.invalid?, 'should be invalid but was valid'
+  end
+
+   test 'invalid if end time is earlier than start time' do 
+    group = build(:group, day: Date.today, end_time: (Time.now-100).strftime("%I:%M%p"))
     assert group.invalid?, 'should be invalid but was valid'
   end
 end

@@ -19,7 +19,7 @@ $(document).ready(ready)
 
 function ready() {
 
-  $('#starttimepicker').datetimepicker({
+  $('.timepicker').datetimepicker({
     format: 'LT'
   });
 

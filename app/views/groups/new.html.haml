@@ -30,7 +30,11 @@
       %br
       =label_tag 'Start Time'
       %br
-      =g_fields.text_field :start_time, id: 'starttimepicker', class: 'form-control'
+      =g_fields.text_field :start_time, class: 'timepicker form-control'
+      %br
+      =label_tag 'End Time'
+      %br
+      =g_fields.text_field :end_time, class: 'timepicker form-control'
       %br
       =label_tag 'Seats'
       %br

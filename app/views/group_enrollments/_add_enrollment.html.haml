@@ -1,14 +1,1 @@
-=link_to("I'm going", group_enrollments_path(group.id), remote: true, method: :post, class: "btn btn-primary", id: 'enroll-button', data: {toggle: "tooltip", placement:"bottom"}, role: "button")
-
-.container
-  #myModal.modal.fade{:role => "dialog"}
-    .modal-dialog
-      / Modal content
-      .modal-content
-        .modal-header
-          %button.close{"data-dismiss" => "modal", :type => "button"} ×
-          %h4.modal-title Modal Header
-        .modal-body
-          %p Some text in the modal.
-        .modal-footer
-          %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+=link_to("I'm going", group_enrollments_path(group.id), remote: true, method: :post, class: "btn btn-primary", data: {toggle: "tooltip", placement:"bottom"}, role: "button")

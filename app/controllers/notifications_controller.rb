@@ -10,7 +10,7 @@ class NotificationsController < ApplicationController
 
   def mark_read
     notification = Notification.find(params[:id])
-    notification.update(read: true)
+    notification.update_column(:read, true)
     head :no_content
   end
 

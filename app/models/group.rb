@@ -11,6 +11,7 @@ class Group < ApplicationRecord
   validates :seats, numericality: { only_integer: true, greater_than: 1 }
   validate :day_in_future, if: lambda{|object| object.errors.empty?}
   validate :start_time_in_future, if: lambda{ |group| group.day == Date.today }
+  validate :end_time_greater_than_start_time, if: lambda{|object| object.errors.empty?}
 
   default_scope { order(id: :desc) }
 
@@ -47,5 +48,10 @@ class Group < ApplicationRecord
         errors.add(:start_time, "Must be in the future")
       end
     end
-    
+
+    def end_time_greater_than_start_time 
+      if start_time >= end_time
+        errors.add(:end_time, "Must be greater than start time")
+      end
+    end
 end

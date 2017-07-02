@@ -9,6 +9,7 @@ FactoryGirl.define do
     location 'Stauffer Library'
     day Date.tomorrow
     start_time (Time.now+60).strftime("%I:%M%p")
+    end_time (Time.now+120).strftime("%I:%M%p")
     status 'active'
 
     factory :cancelled_group do
