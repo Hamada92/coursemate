@@ -1,6 +1,1 @@
-$("#Comment<%=@comment.id%> .errors").html("<%= j (render 'partials/errors', resource: @comment, field: 'body', field_name: 'Comment') %>");
-<% if @comment.errors.any? %>
-$("#Comment<%=@comment.id%> .input-group").addClass("has-error");
-<% else %>
-  $("#Comment<%=@comment.id%>").html("<%= j (render @comment) %>");
-<%end%>
+$("#Comment<%=@comment.id%>").html("<%= j (render @comment) %>");

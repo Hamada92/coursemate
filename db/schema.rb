@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170701220823) do
+ActiveRecord::Schema.define(version: 20170703165120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,9 +38,13 @@ ActiveRecord::Schema.define(version: 20170701220823) do
   end
 
   create_table "courses", primary_key: ["name", "university_domain"], force: :cascade do |t|
-    t.text     "name",              null: false
-    t.text     "university_domain", null: false
+    t.text     "name",                          null: false
+    t.text     "university_domain",             null: false
     t.datetime "created_at"
+    t.integer  "num_groups",        default: 0
+    t.integer  "num_questions",     default: 0
+    t.index ["num_groups"], name: "num_groups_courses", using: :btree
+    t.index ["num_questions"], name: "num_questions_courses", using: :btree
     t.index ["university_domain"], name: "univresities_domain", using: :btree
   end
 
@@ -66,9 +70,11 @@ ActiveRecord::Schema.define(version: 20170701220823) do
     t.datetime "updated_at"
     t.integer  "num_enrollments",              default: 0
     t.time     "end_time",                                 null: false
+    t.index ["course_name", "university_domain"], name: "group_university_course", using: :btree
     t.index ["creator_id"], name: "groups_creator_id", using: :btree
     t.index ["num_enrollments"], name: "num_enrollments_groups", using: :btree
     t.index ["status"], name: "groups_status", using: :btree
+    t.index ["university_domain"], name: "group_university", using: :btree
   end
 
   create_table "likes", force: :cascade do |t|
@@ -97,10 +103,14 @@ ActiveRecord::Schema.define(version: 20170701220823) do
     t.string   "title"
     t.text     "body"
     t.integer  "user_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.integer  "num_likes",   default: 0
-    t.integer  "num_answers", default: 0
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.integer  "num_likes",         default: 0
+    t.integer  "num_answers",       default: 0
+    t.text     "university_domain",             null: false
+    t.text     "course_name",                   null: false
+    t.index ["course_name", "university_domain"], name: "question_university_course", using: :btree
+    t.index ["university_domain"], name: "question_university", using: :btree
     t.index ["user_id"], name: "index_questions_on_user_id", using: :btree
   end
 
@@ -125,11 +135,13 @@ ActiveRecord::Schema.define(version: 20170701220823) do
   end
 
   create_table "universities", primary_key: "domain", id: :text, force: :cascade do |t|
-    t.text    "name",                   null: false
-    t.text    "country",                null: false
-    t.integer "num_groups", default: 0
+    t.text    "name",                      null: false
+    t.text    "country",                   null: false
+    t.integer "num_groups",    default: 0
+    t.integer "num_questions", default: 0
     t.index ["name", "country"], name: "universities_name_country_key", unique: true, using: :btree
     t.index ["num_groups"], name: "num_groups_universities", using: :btree
+    t.index ["num_questions"], name: "num_questions_universities", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -190,6 +202,8 @@ ActiveRecord::Schema.define(version: 20170701220823) do
   add_foreign_key "notifications", "comments", name: "notifications_comment_id_fkey"
   add_foreign_key "notifications", "likes", name: "notifications_like_id_fkey"
   add_foreign_key "notifications", "users", name: "notifications_user_id_fkey"
+  add_foreign_key "questions", "courses", column: "course_name", primary_key: "name", name: "questions_course_name_fkey", on_delete: :cascade
+  add_foreign_key "questions", "universities", column: "university_domain", primary_key: "domain", name: "questions_university_domain_fkey"
   add_foreign_key "questions", "users"
   add_foreign_key "taggings", "questions"
   add_foreign_key "taggings", "tags"

@@ -29,7 +29,7 @@ function ready() {
 
   userEdit();
   
-  if($('#category_select').length){ // question form has the category_select input
+  if($('#question_courses').length){ // question form has the category_select input
     set_question_tag_autocomplete();
   };
 

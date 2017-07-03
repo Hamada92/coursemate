@@ -1,0 +1,8 @@
+%h4
+  =@course.name
+  %br
+  %small
+    =@university.name
+
+= render @questions
+=will_paginate @questions, renderer: BootstrapPagination::Rails

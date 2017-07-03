@@ -30,7 +30,7 @@
       .tags
         - university = @group.university
         - course     = @group.course
-        =link_to("#{university.name}", show_groups_in_university_path(university.domain), class: "btn btn-xs btn-info", role: "button")
+        =link_to("#{university.name}", show_groups_in_university_path(university), class: "btn btn-xs btn-info", role: "button")
         =link_to("#{course.name}", show_groups_in_course_path(course), class: "btn btn-xs btn-info", role: "button")
         
     .frow

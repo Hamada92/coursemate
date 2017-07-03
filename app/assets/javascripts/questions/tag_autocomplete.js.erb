@@ -1,18 +1,6 @@
 function set_question_tag_autocomplete(){
-
-  var course_tags = substringMatcher($('.typeahead').data('autocomplete-course'));
-  var program_tags = substringMatcher($('.typeahead').data('autocomplete-program'));
-
-  //set autocomplete for when the questions/new page renders.
-  if ($("#category_select").val() == "Course Related") {
-    set_typeahead(course_tags);
-  }
-  else if ($("#category_select").val() == "Program Related") {
-    $("#tag_input").attr("placeholder", "Enter a program... eg. Electrical Engineering");
-    set_typeahead(program_tags);  
-  }
-  else if ($("#category_select").val() == "University Related")
-    $("#tag_input").hide();
+  var course_tags = substringMatcher($('.typeahead').data('autocomplete-course'));  
+  set_typeahead(course_tags);
 
   $("#university_select").change(function () {
     //get the new list of tags for this particular university
@@ -20,43 +8,32 @@ function set_question_tag_autocomplete(){
       method: 'GET',
       url: '/questions/autocomplete',
       dataType: 'json',
-      data: { university: this.value },
+      data: { domain: this.value },
       success: function(data){
-        course_tags = substringMatcher(data.course_tags);
-        program_tags = substringMatcher(data.program_tags);
-
-        if ($("#category_select").val() == "Course Related") {
-          set_typeahead(course_tags);
-        }
-        else if ($("#category_select").val() == "Program Related") {
-          $("#tag_input").attr("placeholder", "Enter a program... eg. Electrical Engineering");
-          set_typeahead(program_tags);  
-        }
+        course_tags = substringMatcher(data);
+        set_typeahead(course_tags);
       }
     });
   });
 
-  $("#category_select").change(function () {
-    if (this.value == "University Related") {
-      $(".typeahead").typeahead("destroy");
-      $("#tag_input").hide();
-      $("#tag_input").val("General");
-    }
-    else {
-      $("#tag_input").show();
-      if (this.value == "Course Related") {
-        $("#tag_input").val("");
-        $("#tag_input").attr("placeholder", "Enter a course name... eg. MATH 101");
+}
+
+function set_group_tag_autocomplete(){
+  var course_tags = substringMatcher($('.typeahead').data('autocomplete-course'));
+  set_typeahead(course_tags);
+
+  $("#university_select").change(function (){
+    $.ajax({
+      method: 'GET',
+      url: '/groups/autocomplete',
+      dataType: 'json',
+      data: { domain: this.value },
+      success: function(data){
+        course_tags = substringMatcher(data);
         set_typeahead(course_tags);
       }
-      else if (this.value == "Program Related") {
-        $("#tag_input").val("");
-        $("#tag_input").attr("placeholder", "Enter a program... eg. Electrical Engineering");
-        set_typeahead(program_tags);
-      }
-    }
-  });
-
+    });
+  })
 }
 
 var substringMatcher = function(strs) {
@@ -93,21 +70,3 @@ function set_typeahead(source){
     source: source
   });
 };
-
-function set_group_tag_autocomplete(){
-  var course_tags = substringMatcher($('.typeahead').data('autocomplete-course'));
-  set_typeahead(course_tags);
-
-  $("#university_select").change(function (){
-    $.ajax({
-      method: 'GET',
-      url: '/groups/autocomplete',
-      dataType: 'json',
-      data: { domain: this.value },
-      success: function(data){
-        course_tags = substringMatcher(data);
-        set_typeahead(course_tags);
-      }
-    });
-  })
-}

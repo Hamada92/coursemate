@@ -1,1 +1,1 @@
-$("#Comment<%=@comment.id%>").html("<%= j (render 'comments/form', resources: [@comment], comment: @comment) %>");
+$("#Comment<%=@comment.id%>").html("<%= j (render 'comments/form', verb: :patch, path: "#{comment_path(@comment)}") %>");

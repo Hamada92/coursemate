@@ -16,17 +16,24 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
-    @question.tags.build
   end
 
   def edit
   end
 
   def create
-    @question = current_user.questions.build(question_params)
+    #courses are unique, find existing or create new one
+   course = Course.where(
+      name: params[:course_name].upcase.strip.gsub(/ +/,""),
+      university_domain: params[:university_domain],
+   ).first_or_create
+
+    @question = course.questions.new(question_params)
+    @question.user = current_user
+
     respond_to do |format|
       if @question.save
-        format.html { redirect_to @question, notice: 'Question was successfully created.' }
+        format.html { redirect_to @question, notice: 'Question was successfully published.' }
       else
         format.html { render :new }
       end
@@ -56,49 +63,44 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def unanswered_with_tag
-    @tag = Tag.find(params[:tag_id])
-    @unanswered_questions = @tag.unanswered_questions.paginate(per_page: 10, page: params[:page]).includes(:likes, :user)
+  def show_from_course
+    @course = Course.find(params[:course])
+    @questions = @course.questions.paginate(per_page: 10, page: params[:page]).includes(:likes, :user)
+    @university = @course.university
+    render :show_with_course
   end
 
   def show_from_my_university
     @university = current_user.university
-    @questions_from_university = Question.tagged_with_university(@university).paginate(per_page: 10, page: params[:page]).includes(:tags, :likes, :user)
-    @tags = Tag.with_university @university
+    @questions = @university.questions.paginate(per_page: 10, page: params[:page]).includes(:likes, :user)
+    @courses = @university.courses.where('num_questions > 0')
     render :show_from_university
   end
 
   def show_from_university
-    @university = params[:university]
-    @questions_from_university = Question.tagged_with_university(@university).paginate(per_page: 10, page: params[:page]).includes(:tags, :likes, :user)
-    @tags = Tag.with_university @university
-  end
-
-  def show_with_tag
-    @tag = Tag.find(params[:tag_id])
-    @questions_with_tag = @tag.questions.paginate(per_page: 10, page: params[:page]).includes(:likes, :user)
+    @university = University.find(params[:university])
+    @courses = @university.courses.where('num_questions > 0')
+    @questions = @university.questions.paginate(per_page: 10, page: params[:page]).includes(:likes, :user)
   end
 
   #used to retrieve tags in javascript via ajax when the user changes the university in the dropdown
   def set_university_autocomplete
-    render json: {"course_tags": @course_tags, "program_tags": @program_tags}
+    render json: @courses
   end
 
   private
 
     def question_params
-      params.require(:question).permit(:title, :body, :tag_university, :tag_category, :tag_name)
+      params.require(:question).permit(:title, :body)
     end
 
     def set_question
       @question = Question.find(params[:id])
-      @answer = Answer.new
     end
 
     def set_autocomplete
-      @university = params[:university] || @question && @question.tag_university || current_user.university
-      @course_tags = Tag.names_with(@university, "Course Related")
-      @program_tags = Tag.names_with(@university, "Program Related")
+      @university = params[:domain] && University.find(params[:domain]) || @question && @question.university || current_user.university
+      @courses = @university.courses.pluck(:name)
     end
 
     def authorize

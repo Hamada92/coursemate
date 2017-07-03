@@ -6,7 +6,7 @@
     .profile-pic.size-40px.standalone.new
       = render 'partials/profile_picture', user: current_user, size: :small
     .new-answer
-      = simple_form_for @answer do |f|
-        = f.input :body, as: :pagedown, label: false, placeholder: "Enter your answer...", input_html: { preview: true, rows: 10 }
+      =form_tag(answer_path(@answer), method: :patch, class: 'form-group') do
+        =render 'answers/form'
         %span.help-block.has-error.errors
-        = f.button :submit, 'Post Answer'
+        = submit_tag 'Update Answer', class: 'btn btn-primary'

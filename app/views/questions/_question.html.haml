@@ -1,22 +1,22 @@
-- cache_unless user_signed_in?, ['question', question, question.user.avatar_url] do 
-  .link
-    .card.frow{id: "Question#{question.id}"}
-      .profile-pic.size-30px
-        = render 'partials/profile_picture', user: question.user, size: :small
-      .fcol
-        .frow.bottom-space
-          %h4.title
-            =link_to("#{question.title}", question_path(question))
-          .time.grey
-            =local_relative_time(question.created_at, type: 'time-or-date')
+.link
+  .card.frow{id: "Question#{question.id}"}
+    .profile-pic.size-30px
+      = render 'partials/profile_picture', user: question.user, size: :small
+    .fcol
+      .frow.bottom-space
+        %h4.title
+          =link_to("#{question.title}", question_path(question))
+        .time.grey
+          =local_relative_time(question.created_at, type: 'time-or-date')
 
-        .frow
-          .tags
-            - tag = @tag ? @tag : question.tags.first
-            =link_to("#{tag.university}", show_with_university_tag_path(tag.university), class: "btn btn-xs btn-info", role: "button")
-            =link_to("#{tag.name}", show_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info", role: "button")
-            -if question.num_answers == 0
-              =link_to("unanswered", unanswered_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-success", role: "button")
-          .votes
-            =render 'likes/like', likeable: question, path: question_likes_path(question)
+      .frow
+        .tags
+          - course = question.course
+          - university = question.university
+          =link_to("#{university.name}", show_questions_in_university_path(university.id), class: "btn btn-xs btn-info", role: "button")
+          =link_to("#{course.name}", show_questions_in_course_path(course), class: "btn btn-xs btn-info", role: "button")
+          -if question.num_answers == 0
+            //=link_to("unanswered", unanswered_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-success", role: "button")
+        .votes
+          =render 'likes/like', likeable: question, path: question_likes_path(question)
 
