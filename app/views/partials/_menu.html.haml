@@ -14,8 +14,6 @@
           %li
             =link_to('Ask a question', new_question_path)
           %li
-            =link_to('Create a group', new_group_path)
-          %li
             =render 'partials/groups_or_questions_link'            
 
           -if user_signed_in?

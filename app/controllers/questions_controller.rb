@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
   before_action :set_autocomplete, only: [:new, :edit, :create, :update, :set_university_autocomplete]
 
   def index
-    @questions = Question.paginate(per_page: 10, page: params[:page]).includes(:tags, :likes, :user)
+    @questions = Question.paginate(per_page: 5, page: params[:page]).includes(:tags, :likes, :user)
     @universities = Tag.all_universities
   end
 
@@ -65,14 +65,14 @@ class QuestionsController < ApplicationController
 
   def show_from_course
     @course = Course.find(params[:course])
-    @questions = @course.questions.paginate(per_page: 10, page: params[:page]).includes(:likes, :user)
+    @questions = @course.questions.paginate(per_page: 5, page: params[:page]).includes(:likes, :user)
     @university = @course.university
     render :show_with_course
   end
 
   def show_from_my_university
     @university = current_user.university
-    @questions = @university.questions.paginate(per_page: 10, page: params[:page]).includes(:likes, :user)
+    @questions = @university.questions.paginate(per_page: 5, page: params[:page]).includes(:likes, :user)
     @courses = @university.courses.where('num_questions > 0')
     render :show_from_university
   end
@@ -80,7 +80,7 @@ class QuestionsController < ApplicationController
   def show_from_university
     @university = University.find(params[:university])
     @courses = @university.courses.where('num_questions > 0')
-    @questions = @university.questions.paginate(per_page: 10, page: params[:page]).includes(:likes, :user)
+    @questions = @university.questions.paginate(per_page: 5, page: params[:page]).includes(:likes, :user)
   end
 
   #used to retrieve tags in javascript via ajax when the user changes the university in the dropdown
