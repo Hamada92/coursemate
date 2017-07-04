@@ -6,7 +6,7 @@ class NotificationsController < ApplicationController
   end
 
   def top_notifications
-    @notifications = current_user.notifications.includes(:answer, like: [:likeable], comment: [:commentable]).order('id DESC').limit(6)
+    @notifications = current_user.notifications.includes(:answer, like: [:likeable], comment: [:commentable]).limit(6)
     respond_to do |format|
       format.js
     end
