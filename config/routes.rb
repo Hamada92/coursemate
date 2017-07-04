@@ -22,6 +22,9 @@ Rails.application.routes.draw do
     member do 
       patch 'mark_read'
     end
+    collection do 
+      get 'top_notifications'
+    end
   end
 
   resources :questions, shallow: true do 

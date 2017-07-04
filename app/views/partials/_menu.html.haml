@@ -16,7 +16,7 @@
 
           -if user_signed_in?
             %li.dropdown.notifications
-              %a.dropdown-togggle{id: "nav-profile", href: "/notifications", role: "button", aria: {haspopup: "true", expanded: "false"}, data: {toggle: "dropdown", remote: true}}
+              %a.dropdown-togggle{id: "nav-profile", href: "/notifications/top_notifications", role: "button", aria: {haspopup: "true", expanded: "false"}, data: {toggle: "dropdown", remote: true}}
                 Notifications
                 %span.badge.alert-danger
                   =current_user.unread_notifications_count

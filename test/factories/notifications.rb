@@ -5,7 +5,7 @@ FactoryGirl.define do
       answer
     end
     factory :comment_notification do 
-      group_comment
+      comment {create(:group_comment)}
     end
   end
 end

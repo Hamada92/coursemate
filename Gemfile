@@ -45,6 +45,8 @@ group :development, :test do
   gem 'byebug'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'rack-mini-profiler'
+
 end
 
 group :production do
@@ -65,7 +67,6 @@ gem 'pagedown-bootstrap-rails'
 gem 'autoprefixer-rails'
 gem 'simple_form'
 gem 'will_paginate-bootstrap'
-gem 'rack-mini-profiler'
 gem 'aws-sdk', '~> 2'
 gem 'fog-aws'
 gem 'jcrop-rails-v2'
