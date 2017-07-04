@@ -1,8 +1,12 @@
 %h3
   =@university.name
-%h4 Tags
--@courses.each do |c|
-  =link_to("#{c.name}", show_questions_in_course_path(c), class: "btn btn-xs btn-info", role: "button")
+.frow
+  %span.courses
+    %h4 Courses
+    -@courses.each do |c|
+      =link_to("#{c.name}", show_questions_in_course_path(c), class: "btn btn-xs btn-info", role: "button")
+  .new-group-button
+    =link_to "New Question", new_question_path, class: 'btn btn-primary'
 %h4 Questions
 
 =render @questions

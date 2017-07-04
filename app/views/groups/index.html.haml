@@ -3,7 +3,7 @@
   %span.universities
     -@universities.each do |u|        
       =link_to("#{u.name}", show_groups_in_university_path(u.id) , class: "btn btn-xs btn-info", role: "button")
-  .new-grouop-button
+  .new-group-button
     =link_to 'New Group', new_group_path, class: 'btn btn-primary'
 
 %h4 Groups

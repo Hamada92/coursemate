@@ -5,8 +5,8 @@ class QuestionsController < ApplicationController
   before_action :set_autocomplete, only: [:new, :edit, :create, :update, :set_university_autocomplete]
 
   def index
-    @questions = Question.paginate(per_page: 5, page: params[:page]).includes(:tags, :likes, :user)
-    @universities = Tag.all_universities
+    @questions = Question.paginate(per_page: 5, page: params[:page]).includes(:likes, :user)
+    @universities = University.where('num_questions > 0')
   end
 
   def show

@@ -290,6 +290,10 @@ $btn-success-color: #004D40;
   width: 375px;
   height: 300px;
   overflow: auto;
+
+  .see-all {
+    text-align: center;
+  }
 }
 
 .notifications-header {
@@ -299,6 +303,10 @@ $btn-success-color: #004D40;
   color: rgba(128,128,128,0.7);
   padding-top: 4px;
   padding-bottom: 4px
+}
+
+.notifications-item {
+  border-bottom: 1px solid #eff0f1;
 }
 
 .unread{
