@@ -1,8 +1,10 @@
 class NotificationsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_notification, only: [:mark_read]
+  before_action :authorize, only: [:mark_read]
 
   def index
-    @notifications = current_user.notifications.paginate(per_page: 10, page: params[:page]).includes(:answer, like: [:likeable], comment: [:commentable])
+    @notifications = current_user.notifications.paginate(per_page:10, page: params[:page]).includes(:answer, like: [:likeable], comment: [:commentable])
   end
 
   def top_notifications
@@ -13,9 +15,20 @@ class NotificationsController < ApplicationController
   end
 
   def mark_read
-    notification = Notification.find(params[:id])
-    notification.update_column(:read, true)
+    @notification.update_column(:read, true)
     head :no_content
   end
+
+  private
+
+    def set_notification
+      @notification = Notification.find(params[:id])
+    end
+
+    def authorize
+      unless @notification.user == current_user
+        head :unauthorized
+      end
+    end
 
 end
