@@ -1,7 +1,7 @@
 lock "3.8.0"
 
 set :application, "coursemate"
-set :repo_url, "git@github.com:coursemate/coursemate.git"
+set :repo_url, "git@github.com:Hamada92/coursemate.git"
 set :user, "ahmad"
 set :conditionally_migrate, true
 set :migration_role, :all
