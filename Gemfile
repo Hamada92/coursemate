@@ -38,6 +38,8 @@ group :development do
   gem 'capistrano-rbenv', '~> 2.0'
   gem "capistrano-rails"
   gem 'web-console'
+  gem 'hirb'
+  gem 'rack-mini-profiler'
 end
 
 group :development, :test do
@@ -45,7 +47,6 @@ group :development, :test do
   gem 'byebug'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'rack-mini-profiler'
 
 end
 
@@ -80,3 +81,4 @@ gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.43'
 gem 'redis', '~>3.2'
 gem 'composite_primary_keys', '=9.0.4' #compatible with activeRecord 5.0
+gem 'scenic'

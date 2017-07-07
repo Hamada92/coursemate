@@ -138,6 +138,7 @@ GEM
       haml (>= 4.0.6, < 5.0)
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
+    hirb (0.7.3)
     html2haml (2.0.0)
       erubis (~> 2.7.0)
       haml (~> 4.0.0)
@@ -198,7 +199,7 @@ GEM
       mimemagic (= 0.3.0)
     pg (0.19.0)
     rack (2.0.1)
-    rack-mini-profiler (0.10.1)
+    rack-mini-profiler (0.10.2)
       rack (>= 1.2.0)
     rack-protection (1.5.3)
       rack
@@ -251,6 +252,9 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    scenic (1.4.0)
+      activerecord (>= 4.0.0)
+      railties (>= 4.0.0)
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
@@ -301,7 +305,7 @@ GEM
     websocket-driver (0.6.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
-    will_paginate (3.1.5)
+    will_paginate (3.1.6)
     will_paginate-bootstrap (1.0.1)
       will_paginate (>= 3.0.3)
 
@@ -327,6 +331,7 @@ DEPENDENCIES
   fog-aws
   font-awesome-rails
   haml-rails
+  hirb
   jbuilder (~> 2.0)
   jcrop-rails-v2
   jquery-fileupload-rails
@@ -345,6 +350,7 @@ DEPENDENCIES
   rails_12factor
   redis (~> 3.2)
   sass-rails (~> 5.0)
+  scenic
   sdoc (~> 0.4.0)
   sidekiq
   simple_form

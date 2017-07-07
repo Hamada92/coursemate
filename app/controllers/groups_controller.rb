@@ -6,8 +6,9 @@ class GroupsController < ApplicationController
   before_action :set_autocomplete, only: [:new, :edit, :create, :update, :set_university_autocomplete]
 
   def index
-    @groups = Group.paginate(per_page: 5, page: params[:page]).includes(:users, :creator, :course, :university)
-    @universities = University.where('num_groups > 0')
+    #GroupIndex is a SQL view, defined in db/views
+    @groups = GroupIndex.paginate(per_page: 5, page: params[:page]).includes(:creator)
+    @universities = University.joins(:groups).distinct
   end
 
   def show
@@ -61,22 +62,22 @@ class GroupsController < ApplicationController
 
   def show_from_course
     @course = Course.find(params[:course])
-    @groups = @course.groups.paginate(per_page: 5, page: params[:page]).includes(:users, :creator, :course, :university)
     @university = @course.university
+    @groups = @course.group_indices.paginate(per_page: 5, page: params[:page]).includes(:creator)
     render :show_with_course
   end
 
   def show_from_my_university
     @university = current_user.university
-    @groups = @university.groups.paginate(per_page: 5, page: params[:page]).includes(:users, :creator, :course, :university)
-    @courses = @university.courses.where('num_groups > 0')
+    @groups = @university.group_indices.paginate(per_page: 5, page: params[:page]).includes(:creator)
+    @courses = Course.joins(:groups).where(university_domain: @university.domain).distinct
     render :show_from_university
   end
 
   def show_from_university
     @university = University.find(params[:university])
-    @courses = @university.courses.where('num_groups > 0')
-    @groups = @university.groups.paginate(per_page: 5, page: params[:page]).includes(:users, :creator, :course, :university)
+    @courses = Course.joins(:groups).where(university_domain: @university.domain).distinct
+    @groups = @university.group_indices.paginate(per_page: 5, page: params[:page]).includes(:creator)
   end
 
   private

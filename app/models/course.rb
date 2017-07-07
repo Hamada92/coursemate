@@ -7,6 +7,7 @@ class Course < ApplicationRecord
   belongs_to :university, foreign_key: 'university_domain', required: true
   has_many :groups, foreign_key: [:course_name, :university_domain]
   has_many :questions, foreign_key: [:course_name, :university_domain]
+  has_many :group_indices, foreign_key: [:course_name, :university_domain]
 
 
   validates :name, presence: true

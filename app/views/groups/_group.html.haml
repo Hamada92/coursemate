@@ -1,7 +1,7 @@
 .link
   .card.frow.bottom-space
     .profile-pic.size-30px
-      = render 'partials/profile_picture', user: group.creator, size: :small
+      =render 'partials/profile_picture', user: group.creator, size: :small
     .fcol
       .frow.bottom-space
         %h4.title
@@ -12,11 +12,10 @@
 
       .frow
         .tags
-          - course = group.course
-          - university = group.university
-          =link_to("#{university.name}", show_groups_in_university_path(university.id), class: "btn btn-xs btn-info", role: "button")
-          =link_to("#{course.name}", show_groups_in_course_path(course), class: "btn btn-xs btn-info", role: "button")
-          - if group.cancelled?
+         
+          =link_to("#{group.university_name}", show_groups_in_university_path(group.university_domain), class: "btn btn-xs btn-info", role: "button")
+          =link_to("#{group.course_name}", show_groups_in_course_path("#{group.course_name},#{group.university_domain}"), class: "btn btn-xs btn-info", role: "button")
+          - if group.status == 'cancelled'
             %span.label.label-danger.btn-xs
               Cancelled
           - else
@@ -24,11 +23,8 @@
               Available Seats:
               = group.available_seats
       .attendees-count
-        - attendees_count = group.users.size
+        - attendees_count = group.num_attendees
         = "#{attendees_count} #{"Student".pluralize(attendees_count)} going "
-
-
-
 
 
 

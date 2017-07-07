@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170704185400) do
+ActiveRecord::Schema.define(version: 20170707163816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -196,4 +196,35 @@ ActiveRecord::Schema.define(version: 20170704185400) do
   add_foreign_key "group_enrollments", "users", name: "group_enrollments_user_id_fkey"
   add_foreign_key "questions", "courses", column: "course_name", primary_key: "name", name: "questions_course_name_fkey", on_delete: :cascade
   add_foreign_key "questions", "universities", column: "university_domain", primary_key: "domain", name: "questions_university_domain_fkey"
+
+  create_view "group_indices",  sql_definition: <<-SQL
+      SELECT groups.id,
+      groups.university_domain,
+      groups.course_name,
+      groups.creator_id,
+      groups.status,
+      groups.seats,
+      groups.location,
+      groups.day,
+      groups.title,
+      groups.description,
+      groups.start_time,
+      groups.created_at,
+      groups.updated_at,
+      groups.num_enrollments,
+      groups.end_time,
+      count(group_enrollments.group_id) AS num_attendees,
+      (groups.seats - count(group_enrollments.group_id)) AS available_seats,
+      users.avatar AS user_avatar,
+      users.username,
+      universities.name AS university_name
+     FROM ((((groups
+       JOIN group_enrollments ON ((group_enrollments.group_id = groups.id)))
+       JOIN users ON ((users.id = groups.creator_id)))
+       JOIN courses ON (((courses.name = groups.course_name) AND (courses.university_domain = groups.university_domain))))
+       JOIN universities ON ((universities.domain = groups.university_domain)))
+    GROUP BY groups.id, users.avatar, users.username, universities.name
+    ORDER BY groups.id DESC;
+  SQL
+
 end
