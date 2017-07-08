@@ -12,7 +12,7 @@
           =@group.day.strftime("%A, %B %d, %Y")
         %p.group-time
           ="#{@group.start_time.strftime("%I:%M %p")} to #{@group.end_time.strftime("%I:%M %p")}"
-      - if @group.cancelled?
+      - if @group.status == 'cancelled'
         .cancelled
           %span.label.label-danger.btn-xs
             Cancelled
@@ -28,19 +28,17 @@
     
     .frow.bottom-space
       .tags
-        - university = @group.university
-        - course     = @group.course
-        =link_to("#{university.name}", show_groups_in_university_path(university), class: "btn btn-xs btn-info", role: "button")
-        =link_to("#{course.name}", show_groups_in_course_path(course), class: "btn btn-xs btn-info", role: "button")
+        =link_to("#{@group.university_name}", show_groups_in_university_path(@group.university_domain), class: "btn btn-xs btn-info", role: "button")
+        =link_to("#{@group.course_name}", show_groups_in_course_path("#{@group.course_name},#{@group.university_domain}"), class: "btn btn-xs btn-info", role: "button")
         
     .frow
       .likeable-owner
         %span.grey created by:
-        =link_to(" " + @group.creator.username, user_path(@group.creator))
+        =link_to(" " + @group.username, user_path(@group.creator_id))
         %i.fa.fa-trophy.fa-lg.left-space
-        ="+" + @group.creator.score.to_s
+        ="+" + @group.userscore.to_s
 
-    -if user_signed_in? && current_user.id == @group.creator.id && !@group.cancelled?
+    -if user_signed_in? && current_user.id == @group.creator_id && @group.status != 'cancelled'
       .frow
         .edit-post
           =link_to("Edit", edit_group_path(@group))

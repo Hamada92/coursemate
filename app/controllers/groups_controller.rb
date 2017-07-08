@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :show_from_my_university]
-  before_action :set_group, only: [:show, :edit, :update]
+  #before_action :set_group, only: [:show, :edit, :update]
   before_action :authorize, only: [:edit, :update]
   before_action :check_if_cancelled, only: [:edit, :update]
   before_action :set_autocomplete, only: [:new, :edit, :create, :update, :set_university_autocomplete]
@@ -12,8 +12,9 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @attendees = @group.users
-    @comments = @group.comments.includes(:user).order('id ASC')
+    @group = GroupShow.find(params[:id])
+    @attendees = User.where(id: @group.attendees)
+    @comments = Comment.where(group_id: @group.id).includes(:user).order('id ASC')
   end
 
   def new
