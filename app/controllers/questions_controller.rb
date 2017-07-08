@@ -5,8 +5,9 @@ class QuestionsController < ApplicationController
   before_action :set_autocomplete, only: [:new, :edit, :create, :update, :set_university_autocomplete]
 
   def index
-    @questions = Question.paginate(per_page: 5, page: params[:page]).includes(:likes, :user)
-    @universities = University.where('num_questions > 0')
+    #QuestionIndex is a view defined in db/views
+    @questions = QuestionIndex.paginate(per_page: 5, page: params[:page]).includes(:user)
+    @universities = University.joins(:questions).distinct
   end
 
   def show
@@ -64,23 +65,23 @@ class QuestionsController < ApplicationController
   end
 
   def show_from_course
-    @course = Course.find(params[:course])
-    @questions = @course.questions.paginate(per_page: 5, page: params[:page]).includes(:likes, :user)
+    @course     = Course.find(params[:course])
     @university = @course.university
+    @questions     = @course.question_indices.paginate(per_page: 5, page: params[:page]).includes(:user)
     render :show_with_course
   end
 
   def show_from_my_university
     @university = current_user.university
-    @questions = @university.questions.paginate(per_page: 5, page: params[:page]).includes(:likes, :user)
-    @courses = @university.courses.where('num_questions > 0')
+    @questions     = @university.question_indices.paginate(per_page: 5, page: params[:page]).includes(:user)
+    @courses    = Course.joins(:questions).where(university_domain: @university.domain).distinct
     render :show_from_university
   end
 
   def show_from_university
-    @university = University.find(params[:university])
-    @courses = @university.courses.where('num_questions > 0')
-    @questions = @university.questions.paginate(per_page: 5, page: params[:page]).includes(:likes, :user)
+   @university = University.find(params[:university])
+   @courses    = Course.joins(:questions).where(university_domain: @university.domain).distinct
+   @questions    = @university.question_indices.paginate(per_page: 5, page: params[:page]).includes(:user)
   end
 
   #used to retrieve tags in javascript via ajax when the user changes the university in the dropdown

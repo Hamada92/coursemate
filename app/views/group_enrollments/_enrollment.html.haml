@@ -1,10 +1,10 @@
 .enrollment-button
-  -if current_user.in_group?(@group.id)
-    - unless current_user == @group.creator
+  -if @group.attendees.include? current_user.id
+    - unless current_user.id == @group.creator_id
       =render 'group_enrollments/remove_enrollment', group: @group
   -else
-    - if @group.active?
-      - if !@group.is_full?
+    - if @group.status == 'active'
+      - if !@group.full?
         =render 'group_enrollments/add_enrollment', group: @group
       -else 
         This group is full, check later please.

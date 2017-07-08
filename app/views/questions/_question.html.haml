@@ -11,12 +11,11 @@
 
       .frow
         .tags
-          - course = question.course
-          - university = question.university
-          =link_to("#{university.name}", show_questions_in_university_path(university.id), class: "btn btn-xs btn-info", role: "button")
-          =link_to("#{course.name}", show_questions_in_course_path(course), class: "btn btn-xs btn-info", role: "button")
+          
+          =link_to("#{question.university_name}", show_questions_in_university_path(question.university_domain), class: "btn btn-xs btn-info", role: "button")
+          =link_to("#{question.course_name}", show_questions_in_course_path("#{question.course_name},#{question.university_domain}"), class: "btn btn-xs btn-info", role: "button")
           -if question.num_answers == 0
-            //=link_to("unanswered", unanswered_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-success", role: "button")
+            =link_to("unanswered", unanswered_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-success", role: "button")
         .votes
-          =render 'likes/like', likeable: question, path: question_likes_path(question)
+          //=render 'likes/like', likeable: question, path: question_likes_path(question)
 

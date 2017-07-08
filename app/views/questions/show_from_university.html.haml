@@ -9,5 +9,5 @@
     =link_to "New Question", new_question_path, class: 'btn btn-primary'
 %h4 Questions
 
-=render @questions
+=render partial: 'questions/question', collection: @questions
 =will_paginate @questions, renderer: BootstrapPagination::Rails

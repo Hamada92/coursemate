@@ -15,7 +15,9 @@ module Notifications
       end
 
       def users_to_notify
-        @comment.commentable.users.to_a - [@comment.user]
+        if @comment.group_id
+          @comment.group.users.to_a - [@comment.user]
+        end
       end
 
     end

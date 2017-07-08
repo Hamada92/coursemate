@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_commentable, only: [:create]
+  before_action :set_parent, only: [:create]
   before_action :set_comment, except: [:create]
   before_action :authorize, except: [:create]
 
@@ -8,7 +8,7 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @comment = @commentable.comments.build(comment_params)
+    @comment = @parent.comments.build(comment_params)
     @comment.user = current_user
     respond_to do |format|
       if @comment.save
@@ -40,32 +40,32 @@ class CommentsController < ApplicationController
   private
 
     def create_proper_notification
-      if @commentable.is_a?(Group)
+      if @parent.is_a?(Group)
         Notifications::Groups::Comment.new(@comment).perform
       end
     end
 
-    def set_commentable
+    def set_parent
       if params[:question_id]
-        @commentable = Question.find(params[:question_id])
-        @question = @commentable
+        @parent = Question.find(params[:question_id])
+        @question = @parent
       elsif params[:answer_id]
-        @commentable = Answer.find(params[:answer_id])
-        @question = @commentable.question
+        @parent = Answer.find(params[:answer_id])
+        @question = @parent.question
       elsif params[:group_id]
-        @commentable = Group.find(params[:group_id])
+        @parent = Group.find(params[:group_id])
       end
     end
 
     def set_comment
       @comment = Comment.find(params[:id])
-      if @comment.commentable_type == 'Question'
-        @question = @comment.commentable
-      elsif @comment.commentable_type == 'Answer'
-        @answer = @comment.commentable
+      if @comment.question_id
+        @question = @comment.question
+      elsif @comment.answer_id
+        @answer = @comment.answer
         @question = @answer.question
-      elsif @comment.commentable_type == 'Group'
-        @group = @comment.commentable
+      elsif @comment.group_id
+        @group = @comment.group
       end
     end 
         
