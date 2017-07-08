@@ -22,6 +22,9 @@ Rails.application.routes.draw do
     member do 
       patch 'mark_read'
     end
+    collection do 
+      get 'top_notifications'
+    end
   end
 
   resources :questions, shallow: true do 
@@ -54,13 +57,13 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'groups/tags/:tag_id', to: 'groups#show_with_tag', as: 'show_groups_with_tag'
-  get 'groups/universities/:university', to: 'groups#show_from_university', as: 'show_groups_with_university_tag'
+  constraints course: /[\S\s]+/, university: /[\S\s]+/ do #necessary to pass the domain and course params as they are, otherwise queensu.ca will be passed as queenu only, this constraint escapes special chars.
+    get 'groups/courses/:course', to: 'groups#show_from_course', as: 'show_groups_in_course'
+    get 'questions/courses/:course', to: 'questions#show_from_course', as: 'show_questions_in_course'
+    get 'groups/universities/:university', to: 'groups#show_from_university', as: 'show_groups_in_university'
+    get 'questions/universities/:university', to: 'questions#show_from_university', as: 'show_questions_in_university'
+  end
 
-
-
-  get 'questions/tags/:tag_id', to: 'questions#show_with_tag', as: 'show_with_tag'
-  get 'questions/universities/:university', to: 'questions#show_from_university', as: 'show_with_university_tag'
   get 'questions/unanswered/:tag_id', to: 'questions#unanswered_with_tag', as: 'unanswered_with_tag'
 
 end

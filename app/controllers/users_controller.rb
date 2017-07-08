@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @questions = @user.questions.includes(:tags, :likes, :user).limit(10)
     @questions_he_answered = @user.questions_he_answered.includes(:tags, :likes, :user).limit(10)
-    @groups = @user.groups.includes(:group_tags, :users, :creator).limit(10)
+    @groups = @user.groups.includes(:course, :users, :creator, :university).limit(10)
   end
 
   def edit

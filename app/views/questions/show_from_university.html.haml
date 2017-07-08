@@ -1,9 +1,13 @@
 %h3
-  =@university
-%h4 Tags
--@tags.each do |t|
-  =link_to("#{t.name}", show_with_tag_path(t.id, t.name.gsub(" ", "-")), class: "btn btn-xs btn-info", role: "button")
+  =@university.name
+.frow
+  %span.courses
+    %h4 Courses
+    -@courses.each do |c|
+      =link_to("#{c.name}", show_questions_in_course_path(c), class: "btn btn-xs btn-info", role: "button")
+  .new-group-button
+    =link_to "New Question", new_question_path, class: 'btn btn-primary'
 %h4 Questions
 
-=render @questions_from_university
-=will_paginate @questions_from_university, renderer: BootstrapPagination::Rails
+=render @questions
+=will_paginate @questions, renderer: BootstrapPagination::Rails

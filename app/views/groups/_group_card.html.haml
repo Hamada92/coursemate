@@ -9,9 +9,9 @@
     .frow
       %i.fa.fa-clock-o.date-time
         %span.group-date
-          =@group.date.strftime("%A, %B %d, %Y")
+          =@group.day.strftime("%A, %B %d, %Y")
         %p.group-time
-          =@group.start_time
+          ="#{@group.start_time.strftime("%I:%M %p")} to #{@group.end_time.strftime("%I:%M %p")}"
       - if @group.cancelled?
         .cancelled
           %span.label.label-danger.btn-xs
@@ -28,9 +28,11 @@
     
     .frow.bottom-space
       .tags
-        -tag = @group.group_tags.first
-        =link_to("#{tag.university}", show_groups_with_university_tag_path(tag.university), class: "btn btn-xs btn-info", role: "button")
-        =link_to("#{tag.name}", show_groups_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info", role: "button")
+        - university = @group.university
+        - course     = @group.course
+        =link_to("#{university.name}", show_groups_in_university_path(university), class: "btn btn-xs btn-info", role: "button")
+        =link_to("#{course.name}", show_groups_in_course_path(course), class: "btn btn-xs btn-info", role: "button")
+        
     .frow
       .likeable-owner
         %span.grey created by:
@@ -44,15 +46,30 @@
           =link_to("Edit", edit_group_path(@group))
           =link_to("Cancel", cancel_groups_cancelation_path(@group), method: :patch, data: { confirm: 'Are you sure you want to cancel this group?' })
 
+  - if user_signed_in?
+    = render 'group_enrollments/enrollment'
+
   %h3
-    Students attending: 
+    Students Going: 
     .frow.attendees
       -@attendees.each do |u|
         = render 'group_enrollments/attendee', u: u
  
-  - if user_signed_in?
-    = render 'group_enrollments/enrollment'
-  - else
+  - unless user_signed_in?
     .login-to-join
       Sign in to attend this group.
+
+.container
+  #myModal.modal.fade{:role => "dialog"}
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %h4.modal-title
+            .alert.alert-success
+              Success. You have been added to the list of students attending this group.
+        .modal-footer
+          =link_to 'Add to Calendar', "https://www.google.com/calendar/render?action=TEMPLATE&text=#{@group.title}&dates=#{@group.day.strftime('%Y%m%d')}T#{@group.start_time.strftime('%H%M%S')}/#{@group.day.strftime('%Y%m%d')}T#{@group.end_time.strftime('%H%M%S')}&location=#{@group.location}", class: "btn btn-primary", target: :_blank
+
+          %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+
 

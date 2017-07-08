@@ -6,7 +6,8 @@
         =render @question_comments
 
       - if user_signed_in?
-        =render 'comments/form', resources: [@question, Comment.new]
+        =render 'comments/form', verb: :post, path: question_comments_path(@question)
+
   .existing-answers
     =render @answers
 
@@ -15,10 +16,12 @@
       .profile-pic.size-40px.standalone.new
         = render 'partials/profile_picture', user: current_user, size: :small
       .new-answer
-        = simple_form_for [@question, Answer.new], remote: true do |f|
-          = f.input :body, as: :pagedown, label: false, placeholder: "Enter your answer...", input_html: { preview: true, rows: 10 }
+        = form_tag(question_answers_path(@question), method: :post, class: 'form-group', remote: true) do
+          =render 'answers/form'
           %span.help-block.has-error.errors
-          = f.button :submit, 'Post Answer'
+          %br
+          =submit_tag 'Post Answer', class: 'btn btn-primary'
+          
     - else
       .profile-pic.size-40px.standalone
         =image_tag("avatar.jpg", alt: "profile pic", class: "img-circle")

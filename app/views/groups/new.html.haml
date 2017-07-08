@@ -1,3 +1,20 @@
 .group-form
   %h4 New Study Group
-  =render 'form'
+  -if @group.errors.any?
+    %ul.alert.alert-danger
+      .container
+        -@group.errors.full_messages.each do |msg|
+          %li
+            =msg
+  =form_tag(groups_path, method: :post, class: 'form-group') do
+    =label_tag 'University'
+    %br
+    =select_tag :university_domain, options_from_collection_for_select(University.all, "domain", "name", @university.domain), class: 'form-control', id: 'university_select'
+    %br
+    =label_tag 'Course'
+    %br
+    =text_field_tag :course_name, nil, class: 'typeahead form-control', autocomplete: 'off', placeholder: "Enter a course and number separated by a space (e.g. HIST 121) ... ", id: 'group_courses', data: { autocomplete_course: @courses }
+    %br
+    =render 'groups/form'
+    %br
+    =submit_tag 'Publish Group', class: 'btn btn-primary'

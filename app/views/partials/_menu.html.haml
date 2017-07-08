@@ -7,20 +7,22 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        =link_to(image_tag("logo.png", alt: "site logo"), root_path, class: "navbar-brand icon")
-        =link_to("Coursemate", root_path, class: "navbar-brand title")
+        -if params[:controller] == 'questions'
+          =link_to(image_tag("logo.png", alt: "site logo"), questions_path, class: "navbar-brand icon")
+          =link_to("Coursemate", questions_path, class: "navbar-brand title")
+
+        -else
+          =link_to(image_tag("logo.png", alt: "site logo"), root_path, class: "navbar-brand icon")
+          =link_to("Coursemate", root_path, class: "navbar-brand title")
+        
       .collapse.navbar-collapse#navbar
         %ul.nav.navbar-nav
           %li
-            =link_to('Ask a question', new_question_path)
-          %li
-            =link_to('Create a session', new_group_path)
-          %li
-            =render 'partials/sessions_or_questions_link'            
+            =render 'partials/groups_or_questions_link'            
 
           -if user_signed_in?
             %li.dropdown.notifications
-              %a.dropdown-togggle{id: "nav-profile", href: "/notifications", role: "button", aria: {haspopup: "true", expanded: "false"}, data: {toggle: "dropdown", remote: true}}
+              %a.dropdown-togggle{id: "nav-profile", href: "/notifications/top_notifications", role: "button", aria: {haspopup: "true", expanded: "false"}, data: {toggle: "dropdown", remote: true}}
                 Notifications
                 %span.badge.alert-danger
                   =current_user.unread_notifications_count

@@ -1,7 +1,10 @@
 %h4 Universities
--@universities.each do |u|
-  =link_to("#{u}", show_with_university_tag_path(u), class: "btn btn-xs btn-info", role: "button")
-
+.frow
+  %span.universities
+    -@universities.each do |u|        
+      =link_to("#{u.name}", show_questions_in_university_path(u) , class: "btn btn-xs btn-info", role: "button")
+  .new-question-button
+    =link_to 'New Question', new_question_path, class: 'btn btn-primary'
 %h4 Questions
 
 =render @questions

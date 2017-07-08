@@ -1,2 +1,3 @@
-$(".enrollment-button").html("<%= j (render 'attending_label') %>");
+$(".enrollment-button").html("<%= j (render 'remove_enrollment', group: @group) %>");
 $(".attendees").append("<%= j (render 'attendee', u: current_user) %>");
+$("#myModal").modal();

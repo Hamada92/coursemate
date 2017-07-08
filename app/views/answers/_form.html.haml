@@ -1,0 +1,4 @@
+=fields_for :answer do |g_fields|
+  #wmd-button-bar-body
+  =g_fields.text_area :body, id: 'wmd-input-body', class: 'wmd-input form-control', placeholder: "Enter your answer", rows: 10, required: 'required'
+  #wmd-preview-body.wmd-preview

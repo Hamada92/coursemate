@@ -4,4 +4,4 @@
     .ExistingComments
       =render @comments
   - if user_signed_in?
-    =render 'comments/form', resources: [@group, Comment.new]
+    =render 'comments/form', path: group_comments_path(@group), verb: :post

@@ -5,8 +5,8 @@ class CreateUniversities < ActiveRecord::Migration[5.0]
         domain text not null,
         name text not null,
         country text not null,
-        unique(name, country),
-        primary key (domain)
+        primary key (domain),
+        unique(name, country)
       );      
     SQL
   end

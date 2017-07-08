@@ -19,7 +19,7 @@ $(document).ready(ready)
 
 function ready() {
 
-  $('#starttimepicker').datetimepicker({
+  $('.timepicker').datetimepicker({
     format: 'LT'
   });
 
@@ -29,11 +29,11 @@ function ready() {
 
   userEdit();
   
-  if($('#category_select').length){ // question form has the category_select input
+  if($('#question_courses').length){ // question form has question_courses id
     set_question_tag_autocomplete();
   };
 
-  if($('#group_tag_input').length){ //group tag has the group_tag_input field
+  if($('#group_courses').length){ //group form has group_courses id
     set_group_tag_autocomplete();
   };
 

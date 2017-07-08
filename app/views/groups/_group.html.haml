@@ -1,29 +1,30 @@
 .link
   .card.frow.bottom-space
     .profile-pic.size-30px
-      = render 'partials/profile_picture', user: group.creator, size: :small
+      =render 'partials/profile_picture', user: group.creator, size: :small
     .fcol
       .frow.bottom-space
         %h4.title
           =link_to("#{group.title}", group_path(group))
         .time.black
           %b happening on:
-          =group.date.strftime("%A, %B %d, %Y")
+          =group.day.strftime("%A, %B %d, %Y")
 
       .frow
         .tags
-          - tag = @tag ? @tag : group.group_tags.first
-          =link_to("#{tag.university}", show_groups_with_university_tag_path(tag.university), class: "btn btn-xs btn-info", role: "button")
-          =link_to("#{tag.name}", show_groups_with_tag_path(tag.id, tag.name.gsub(" ", "-")), class: "btn btn-xs btn-info", role: "button")
-          %span.label.label-success.btn-xs
-            Available Seats:
-            = group.available_seats
+         
+          =link_to("#{group.university_name}", show_groups_in_university_path(group.university_domain), class: "btn btn-xs btn-info", role: "button")
+          =link_to("#{group.course_name}", show_groups_in_course_path("#{group.course_name},#{group.university_domain}"), class: "btn btn-xs btn-info", role: "button")
+          - if group.status == 'cancelled'
+            %span.label.label-danger.btn-xs
+              Cancelled
+          - else
+            %span.label.label-success.btn-xs
+              Available Seats:
+              = group.available_seats
       .attendees-count
-        - attendees_count = group.users.size
+        - attendees_count = group.num_attendees
         = "#{attendees_count} #{"Student".pluralize(attendees_count)} going "
-
-
-
 
 
 

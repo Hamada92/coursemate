@@ -6,8 +6,9 @@ class GroupsController < ApplicationController
   before_action :set_autocomplete, only: [:new, :edit, :create, :update, :set_university_autocomplete]
 
   def index
-    @groups = Group.paginate(per_page: 10, page: params[:page]).includes(:group_tags, :users, :creator)
-    @universities = GroupTag.all_universities
+    #GroupIndex is a SQL view, defined in db/views
+    @groups = GroupIndex.paginate(per_page: 5, page: params[:page]).includes(:creator)
+    @universities = University.joins(:groups).distinct
   end
 
   def show
@@ -17,17 +18,26 @@ class GroupsController < ApplicationController
 
   def new
     @group = Group.new
-    @group.group_tags.build
   end
 
   def edit
   end
 
   def create
-    @group = current_user.created_groups.build(group_params)
+    #courses are unique
+    course = Course.where(
+      name: params[:course_name].upcase.strip.gsub(/ +/,""),
+      university_domain: params[:university_domain],
+    ).first_or_create
+
+    @group = course.groups.new(group_params)
+    @group.creator = current_user
+    @group.status = 'active'
+    
     respond_to do |format|
       if @group.save
-        GroupEnrollment.create(user_id: current_user.id, group_id: @group.id) #creator is attending the group (enrolled)
+        #enroll the creator in the group 
+        GroupEnrollment.create(user: current_user, group: @group)
         format.html { redirect_to @group, notice: 'Group was successfully published.' }
       else
         format.html { render :new }
@@ -45,39 +55,40 @@ class GroupsController < ApplicationController
     end
   end
 
-  #used to retrieve tags in javascript via ajax when the user changes the university in the dropdown
+  #used to retrieve courses in javascript via ajax when the user changes the university in the dropdown
   def set_university_autocomplete
-    render json: @group_tags
+    render json: @courses
   end
 
-  def show_with_tag
-    @tag = GroupTag.find(params[:tag_id])
-    @groups_with_tag = @tag.groups.paginate(per_page: 10, page: params[:page]).includes(:group_tags, :users, :creator)
-    render :show_with_tag
+  def show_from_course
+    @course = Course.find(params[:course])
+    @university = @course.university
+    @groups = @course.group_indices.paginate(per_page: 5, page: params[:page]).includes(:creator)
+    render :show_with_course
   end
 
   def show_from_my_university
     @university = current_user.university
-    @groups_from_university = Group.tagged_with_university(@university).paginate(per_page: 10, page: params[:page]).includes(:group_tags, :users, :creator)
-    @tags = GroupTag.with_university @university
+    @groups = @university.group_indices.paginate(per_page: 5, page: params[:page]).includes(:creator)
+    @courses = Course.joins(:groups).where(university_domain: @university.domain).distinct
     render :show_from_university
   end
 
   def show_from_university
-    @university = params[:university]
-    @groups_from_university = Group.tagged_with_university(@university).paginate(per_page: 10, page: params[:page]).includes(:group_tags, :users, :creator)
-    @tags = GroupTag.with_university @university
+    @university = University.find(params[:university])
+    @courses = Course.joins(:groups).where(university_domain: @university.domain).distinct
+    @groups = @university.group_indices.paginate(per_page: 5, page: params[:page]).includes(:creator)
   end
 
   private
 
   def set_autocomplete
-    @university = params[:university] || @group && @group.tag_university || current_user.university
-    @group_tags = GroupTag.names_with(@university)
+    @university = params[:domain] && University.find(params[:domain]) || @group && @group.university || current_user.university
+    @courses = @university.courses.pluck(:name)
   end
 
   def group_params
-    params.require(:group).permit(:seats, :location, :date, :start_time, :tag_name, :tag_university, :title, :description)
+    params.require(:group).permit(:seats, :location, :day, :start_time, :end_time, :title, :description)
   end
 
   def set_group

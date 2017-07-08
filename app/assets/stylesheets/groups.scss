@@ -61,6 +61,19 @@
   }
 }
 
+.subheader {
+  .info {
+    flex-grow: 1;
+  }
+  .new-group-button {
+    margin-top: 10px;
+  }
+}
+
+.courses, .universities {
+  flex-grow: 1;
+}
+
 .group-show { 
   margin: 10px 0;
 }

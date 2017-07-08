@@ -1,0 +1,11 @@
+- if user_signed_in?
+  - if params[:controller] == 'questions'
+    = link_to 'Groups', show_groups_in_university_path(current_user.university.id)
+  - else
+    = link_to 'Questions', show_questions_in_university_path(current_user.university.id)
+- else
+  - if params[:controller] == 'questions'
+    = link_to 'Groups', root_path
+  - else
+    = link_to 'Questions', questions_path
+

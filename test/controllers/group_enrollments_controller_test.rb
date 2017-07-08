@@ -3,6 +3,8 @@ require 'test_helper'
 class GroupEnrollmentsControllerTest < ActionController::TestCase
 
   def setup
+    create(:university)
+    create(:course)
     @user = create(:user)
     @group = create(:group)
     sign_in @user
@@ -10,14 +12,6 @@ class GroupEnrollmentsControllerTest < ActionController::TestCase
 
   test '#create enrolls the user in the group' do
     assert_difference 'GroupEnrollment.count', 1 do 
-      post :create, params: { group_id: @group.id }, xhr: true
-    end
-  end
-
-  test '#create does not enroll the user if the user is already enrolled' do 
-    enrollment = create(:group_enrollment, user: @user, group: @group)
-
-    assert_no_difference 'GroupEnrollment.count' do 
       post :create, params: { group_id: @group.id }, xhr: true
     end
   end

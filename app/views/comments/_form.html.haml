@@ -2,9 +2,9 @@
   .profile-pic.size-30px
     = render 'partials/profile_picture', user: current_user, size: :small
   .enter-comment
-    =form_for resources, remote: true do |f|
-      .input-group
-        =f.text_field :body, placeholder: 'Enter a comment...', autocomplete: "off", class: "form-control"
-        %span.input-group-btn
-          =f.submit 'Post Comment', class: 'btn btn-primary'
-      %span.help-block.has-error.errors
+    =form_tag path, method: verb, remote: true do |f|
+      =fields_for :comment do |c_fields|
+        .input-group
+          =c_fields.text_field :body, placeholder: 'Enter a comment...', autocomplete: "off", class: "form-control", required: 'required'
+          %span.input-group-btn
+            =submit_tag 'Post Comment', class: 'btn btn-primary'

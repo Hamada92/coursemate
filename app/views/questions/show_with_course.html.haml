@@ -1,0 +1,12 @@
+.frow.subheader
+  .info
+    %h4
+      =@course.name
+      %br
+      %small
+        =@university.name
+  .new-group-button
+    =link_to 'New Question', new_question_path, class: 'btn btn-primary'
+
+= render @questions
+=will_paginate @questions, renderer: BootstrapPagination::Rails

@@ -1,14 +1,9 @@
-$(".new-answer .errors").html("<%= j (render 'partials/errors', resource: @answer, field: 'body', field_name: 'Answer') %>");
-<% if @answer.errors.any? %>
-  $(".new-answer .form-group").addClass("has-error");
-<% else %>
-  $(".existing-answers").append("<%= j (render @answer) %>");
-  $(".new-answer form").trigger("reset");
-  $(".wmd-preview").html("");
-  var converter = Markdown.getSanitizingConverter();
-  Markdown.Extra.init(converter, {highlighter: "highlight"});
-  $('.markdown-output:last').html(converter.makeHtml($('.markdown-output:last').text()));
-  $('.markdown-output:last pre code').each(function(i, block) {
-    hljs.highlightBlock(block);
-  });
-<%end%>
+$(".existing-answers").append("<%= j (render @answer) %>");
+$(".new-answer form").trigger("reset");
+$(".wmd-preview").html("");
+var converter = Markdown.getSanitizingConverter();
+Markdown.Extra.init(converter, {highlighter: "highlight"});
+$('.markdown-output:last').html(converter.makeHtml($('.markdown-output:last').text()));
+$('.markdown-output:last pre code').each(function(i, block) {
+  hljs.highlightBlock(block);
+});

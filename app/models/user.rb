@@ -20,10 +20,11 @@ class User < ActiveRecord::Base
   has_many :created_groups, class_name: 'Group', foreign_key: 'creator_id', dependent: :destroy
   has_many :group_enrollments, dependent: :destroy
   has_many :groups, through: :group_enrollments
+  belongs_to :university, foreign_key: 'university_domain'
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9]+\Z/,
     message: "only allows letters (a-z) and numbers" }
-  validate :valid_email
+  validate :valid_university_email, if: Proc.new{|object| object.errors.empty?}
   validates :avatar_temp, allow_blank: true, format: { with: DIRECT_UPLOAD_URL_FORMAT }
   
   before_create :set_university
@@ -63,14 +64,19 @@ class User < ActiveRecord::Base
 
   private
 
-    def valid_email
-      unless UsersHelper::UNIVERSITIES.any? { |u| self.email.end_with?(u[:domain]) }
+    def find_university_with_domain
+      #user sign up
+      @university ||= University.where(" ? LIKE CONCAT('%', domain) ", self.email).first
+    end
+
+    def valid_university_email 
+      unless find_university_with_domain
         errors.add(:email, "is not a valid university email")
       end
     end
 
     def set_university
-      self.university = UsersHelper::UNIVERSITIES.select{ |u| self.email.end_with?(u[:domain]) }.map{|u| u[:name]}.first
+      self.university = find_university_with_domain
     end
 
     def enqueue_image

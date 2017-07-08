@@ -1,12 +1,28 @@
-= simple_form_for @group do |f|
-  = f.error_notification
-  = f.input :tag_university, label: "University", collection: UsersHelper::UNIVERSITIES.map{ |u| u[:name] }, include_blank: false, input_html: { id: "university_select" }, selected: @group.tag_university || current_user.university
-  = f.input :tag_name, label: false, autocomplete: "off", placeholder: "Enter a course name... eg. MATH 101", input_html: { id: "group_tag_input", class: "typeahead", data: {autocomplete_course: @group_tags} }
-  = f.input :date, as: :string, input_html: { id: 'datepicker' }
-  = f.input :start_time, label: 'Start Time', input_html: { id: 'starttimepicker' }
-  = f.input :title, label: "Title", autocomplete: "off", placeholder: "Enter a title.... eg. Test 2 review session"
-  = f.input :description, label: "Description", autocomplete: "off", placeholder: "Short description about what you want to go through in the session"
-  = f.input :seats, label: "Seats", placeholder: "Maximum number of allowed students including yourself"
-  = f.input :location, label: 'Location', placeholder: "Enter the location of the session... eg. Douglas Library, room 304"
-
-  = f.button :submit, 'Publish Group'
+=fields_for :group do |g_fields|
+  =label_tag 'Title'
+  %br
+  =g_fields.text_field :title, class: 'form-control', placeholder: "Enter a title for the group (e.g. Exam review session)"
+  %br
+  =label_tag 'Description'
+  %br
+  =g_fields.text_area :description, class: 'form-control', placeholder: "Enter a discription (e.g. Hi friends, let's meet and prepare for the test together, we can review chapter 1 and 2 and do previous tests"
+  %br
+  =label_tag 'Day'
+  %br
+  =g_fields.text_field :day, id: 'datepicker', class: 'form-control'
+  %br
+  =label_tag 'Start Time'
+  %br
+  =g_fields.text_field :start_time, class: 'timepicker form-control'
+  %br
+  =label_tag 'End Time'
+  %br
+  =g_fields.text_field :end_time, class: 'timepicker form-control'
+  %br
+  =label_tag 'Seats'
+  %br
+  =g_fields.text_field :seats, class: 'form-control', placeholder: 'Enter the number of seats including you, minimum 2'
+  %br
+  =label_tag 'Location'
+  %br
+  =g_fields.text_field :location, class: 'form-control', placeholder: "Enter the location where you will meet (e.g. Public Library, Room 232)"
