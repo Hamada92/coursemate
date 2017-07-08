@@ -1,7 +1,6 @@
 class AddAnswerIdToComments < ActiveRecord::Migration[5.0]
   def up
     execute <<-SQL
-      ALTER TABLE comments DROP constraint type_xor;
 
       ALTER TABLE comments ADD column answer_id int references answers(id);
       ALTER TABLE comments add constraint type_xor check(

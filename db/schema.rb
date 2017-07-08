@@ -44,7 +44,6 @@ ActiveRecord::Schema.define(version: 20170708230417) do
     t.text     "name",              null: false
     t.text     "university_domain", null: false
     t.datetime "created_at"
-    t.index ["name", "university_domain"], name: "name_and_univresities_domain", using: :btree
     t.index ["university_domain"], name: "univresities_domain", using: :btree
   end
 
@@ -55,7 +54,7 @@ ActiveRecord::Schema.define(version: 20170708230417) do
     t.index ["group_id", "user_id"], name: "group_enrollments_group_id_user_id", using: :btree
   end
 
-  create_table "groups", force: :cascade do |t|
+  create_table "groups", id: :integer, default: -> { "nextval('groups_id_seq1'::regclass)" }, force: :cascade do |t|
     t.text     "university_domain",            null: false
     t.text     "course_name",                  null: false
     t.integer  "creator_id"
@@ -85,7 +84,7 @@ ActiveRecord::Schema.define(version: 20170708230417) do
     t.index ["user_id"], name: "index_likes_on_user_id", using: :btree
   end
 
-  create_table "notifications", force: :cascade do |t|
+  create_table "notifications", id: :integer, default: -> { "nextval('notifications_id_seq1'::regclass)" }, force: :cascade do |t|
     t.integer "comment_id"
     t.integer "answer_id"
     t.integer "like_id"
@@ -169,18 +168,8 @@ ActiveRecord::Schema.define(version: 20170708230417) do
   add_foreign_key "courses", "universities", column: "university_domain", primary_key: "domain", name: "courses_university_domain_fkey"
   add_foreign_key "group_enrollments", "groups", name: "group_enrollments_group_id_fkey"
   add_foreign_key "group_enrollments", "users", name: "group_enrollments_user_id_fkey"
-  add_foreign_key "groups", "courses", column: "course_name", primary_key: "name", name: "groups_course_name_fkey", on_delete: :cascade
-  add_foreign_key "groups", "universities", column: "university_domain", primary_key: "domain", name: "groups_university_domain_fkey"
-  add_foreign_key "groups", "users", column: "creator_id", name: "groups_creator_id_fkey"
-  add_foreign_key "likes", "users"
-  add_foreign_key "notifications", "answers", name: "notifications_answer_id_fkey"
-  add_foreign_key "notifications", "comments", name: "notifications_comment_id_fkey"
-  add_foreign_key "notifications", "likes", name: "notifications_like_id_fkey"
-  add_foreign_key "notifications", "users", name: "notifications_user_id_fkey"
   add_foreign_key "questions", "courses", column: "course_name", primary_key: "name", name: "questions_course_name_fkey", on_delete: :cascade
   add_foreign_key "questions", "universities", column: "university_domain", primary_key: "domain", name: "questions_university_domain_fkey"
-  add_foreign_key "questions", "users"
-  add_foreign_key "users", "universities", column: "university_domain", primary_key: "domain", name: "users_university_domain_fkey"
 
   create_view "group_indices",  sql_definition: <<-SQL
       SELECT groups.id,

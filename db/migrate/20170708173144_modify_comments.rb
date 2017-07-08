@@ -7,11 +7,6 @@ class ModifyComments < ActiveRecord::Migration[5.0]
       ALTER TABLE comments add column group_id int references groups(id);
       ALTER TABLE comments alter column user_id SET NOT NULL;
       ALTER TABLE comments add constraint body_check check(length(body) > 0);
-
-      ALTER TABLE comments add constraint type_xor check(
-        (question_id is not null)::integer +
-        (group_id is not null)::integer = 1
-      )
     SQL
   end
 end
