@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :show_from_my_university]
-  #before_action :set_group, only: [:show, :edit, :update]
+  before_action :set_group, only: [:edit, :update]
   before_action :authorize, only: [:edit, :update]
   before_action :check_if_cancelled, only: [:edit, :update]
   before_action :set_autocomplete, only: [:new, :edit, :create, :update, :set_university_autocomplete]
