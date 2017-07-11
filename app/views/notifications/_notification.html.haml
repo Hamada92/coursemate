@@ -2,24 +2,24 @@
 %tr
   - if n.comment_id
 
-    - if n.comment.commentable_type == 'Group'
+    - if n.comment.group_id
       %td{style: "color: #888; width: 80px;"}
         = 'comment'
       %td
-        =link_to group_path(n.comment.commentable) do
+        =link_to group_path(n.comment.group) do
           %span{style: "font-weight: bold; color: #5C7796;"}
-            =n.comment.commentable.title
+            =n.comment.group.title
           %br
           %span{style: "color: #444;"}
             =n.comment.body[0..60]
 
-    - elsif n.comment.commentable_type == 'Question'
+    - elsif n.comment.question_id
       %td{style: "color: #888; width: 80px;"}
         = 'comment'
       %td
-        =link_to question_path(n.comment.commentable) do
+        =link_to question_path(n.comment.question) do
           %span{style: "font-weight: bold; color: #5C7796;"}
-            =n.comment.commentable.title
+            =n.comment.question.title
           %br
           %span{style: "color: #444;"}
             =n.comment.body[0..60]

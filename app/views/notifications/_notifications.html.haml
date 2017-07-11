@@ -8,20 +8,20 @@
     - @notifications.each do |n|
       %li{class: (n.read? ? "notifications-item" : "notifications-item unread")}
         - if n.comment_id
-          - if n.comment.commentable_type == 'Group'
-            =link_to group_path(n.comment.commentable), data: {"unread": n.read? ? nil : n.id } do
+          - if n.comment.group_id
+            =link_to group_path(n.comment.group), data: {"unread": n.read? ? nil : n.id } do
               .notifier-type
                 = 'comment'
               .notification-title
-                =n.comment.commentable.title
+                =n.comment.group.title
               .notifier-body
                 =n.comment.body[0..60]
-          - elsif n.comment.commentable_type == 'Question'
-            =link_to question_path(n.comment.commentable), data: {"unread": n.read? ? nil : n.id } do
+          - elsif n.comment.question_id
+            =link_to question_path(n.comment.question), data: {"unread": n.read? ? nil : n.id } do
               .notifier-type
                 = 'comment'
               .notification-title
-                =n.comment.commentable.title
+                =n.comment.question.title
               .notifier-body
                 =n.comment.body[0..60]
         - elsif n.answer_id

@@ -1,1 +1,4 @@
-=link_to("+ #{num_likes}", path, remote: true, method: :post, class: "btn btn-xs btn-default", data: {toggle: "tooltip", placement:"bottom"}, title: "Vote Up", role: "button")
+=link_to(path, remote: true, method: :post, class: "btn btn-xs btn-default", data: {toggle: "tooltip", placement:"bottom"}, title: "Vote Up", role: "button") do
+  +
+  %span.num-likes
+    =num_likes

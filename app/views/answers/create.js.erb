@@ -1,4 +1,4 @@
-$(".existing-answers").append("<%= j (render @answer) %>");
+$(".existing-answers").append("<%= j (render partial: 'answers/answer' , locals: {answer: @answer}) %>");
 $(".new-answer form").trigger("reset");
 $(".wmd-preview").html("");
 var converter = Markdown.getSanitizingConverter();

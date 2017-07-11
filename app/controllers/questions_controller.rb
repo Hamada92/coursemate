@@ -1,18 +1,20 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy, :show_from_my_university]
-  before_action :set_question, only: [:show, :edit, :update, :destroy]
+  before_action :set_question, only: [:edit, :update, :destroy]
   before_action :authorize, only: [:edit, :update, :destroy]
-  before_action :set_autocomplete, only: [:new, :edit, :create, :update, :set_university_autocomplete]
+  before_action :set_autocomplete, only: [:new, :create, :set_university_autocomplete]
 
   def index
     #QuestionIndex is a view defined in db/views
-    @questions = QuestionIndex.paginate(per_page: 5, page: params[:page]).includes(:user)
+    @questions    = QuestionIndex.paginate(per_page: 5, page: params[:page]).includes(:user)
     @universities = University.joins(:questions).distinct
   end
 
   def show
-    @answers = @question.answers.includes(:user, :likes, {comments: :user}).order('num_likes DESC')
-    @question_comments = @question.comments.includes(:user).order('id ASC')
+    #QuestionShow is a view defined in db/views
+    @question = QuestionShow.find(params[:id])
+    @comments = @question.comments.includes(:user).order('id ASC')
+    @answers  = @question.answer_shows.includes(:user, {comments: :user}).order('id ASC')
   end
 
   def new
@@ -29,7 +31,7 @@ class QuestionsController < ApplicationController
       university_domain: params[:university_domain],
    ).first_or_create
 
-    @question = course.questions.new(question_params)
+    @question      = course.questions.new(question_params)
     @question.user = current_user
 
     respond_to do |format|
@@ -67,20 +69,20 @@ class QuestionsController < ApplicationController
   def show_from_course
     @course     = Course.find(params[:course])
     @university = @course.university
-    @questions     = @course.question_indices.paginate(per_page: 5, page: params[:page]).includes(:user)
+    @questions  = @course.question_indices.paginate(per_page: 5, page: params[:page]).includes(:user)
     render :show_with_course
   end
 
   def show_from_my_university
     @university = current_user.university
-    @questions     = @university.question_indices.paginate(per_page: 5, page: params[:page]).includes(:user)
+    @questions  = @university.question_indices.paginate(per_page: 5, page: params[:page]).includes(:user)
     @courses    = Course.joins(:questions).where(university_domain: @university.domain).distinct
     render :show_from_university
   end
 
   def show_from_university
-   @university = University.find(params[:university])
-   @courses    = Course.joins(:questions).where(university_domain: @university.domain).distinct
+   @university   = University.find(params[:university])
+   @courses      = Course.joins(:questions).where(university_domain: @university.domain).distinct
    @questions    = @university.question_indices.paginate(per_page: 5, page: params[:page]).includes(:user)
   end
 

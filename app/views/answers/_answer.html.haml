@@ -1,4 +1,3 @@
-//provide the keys that will expire the cache, in this case, if the answer itself is updated, or the username
 .frow{id: "Answer#{answer.id}"}
   .fcol.standalone
     .profile-pic.size-40px.standalone
@@ -19,7 +18,7 @@
           %i.fa.fa-trophy.fa-lg.left-space
           ="+" + answer.user.score.to_s
         .votes
-          =render 'likes/like', likeable: answer, path: answer_likes_path(answer, Like.new)
+          =render 'likes/like', likeable: answer, path: likes_answer_path(answer)
       -if owner answer
         .frow
           .edit-post

@@ -1,3 +1,6 @@
 .question-form
   %h4 Edit Question
-  =render 'form'
+  =form_tag(question_path(@question.id), method: :patch, class: 'form-group') do
+    =render 'form'
+    %br
+    =submit_tag 'Update Question', class: 'btn btn-primary'

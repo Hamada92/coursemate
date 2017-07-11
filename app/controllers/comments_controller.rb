@@ -51,7 +51,6 @@ class CommentsController < ApplicationController
         @question = @parent
       elsif params[:answer_id]
         @parent = Answer.find(params[:answer_id])
-        @question = @parent.question
       elsif params[:group_id]
         @parent = Group.find(params[:group_id])
       end

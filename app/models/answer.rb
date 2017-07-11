@@ -2,8 +2,8 @@ class Answer < ActiveRecord::Base
   
   belongs_to :question
   belongs_to :user
-  has_many :comments, as: :commentable, dependent: :destroy
-  has_many :likes, as: :likeable, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
   has_many :notifications, dependent: :destroy
   
   validates :body, presence: true
@@ -16,10 +16,6 @@ class Answer < ActiveRecord::Base
 
   def answer_owner_is_question_owner?
     user == question.user
-  end
-
-  def like_by user_id
-    likes.find{ |like| like.user_id == user_id }
   end
 
 end
