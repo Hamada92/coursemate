@@ -1,1 +1,4 @@
-=link_to("+ #{num_likes}", like_path(like), remote: true, method: :delete, class: "btn btn-xs btn-danger", data: {toggle: "tooltip", placement:"bottom"}, title: "Cancel Vote", role: "button")
+=link_to(path, remote: true, method: :delete, class: "btn btn-xs btn-danger", data: {toggle: "tooltip", placement:"bottom"}, title: "Cancel Vote", role: "button") do 
+  +
+  %span.num-likes
+    =num_likes

@@ -1,8 +1,7 @@
-<% if @likeable.is_a? Question %>
-  $("#<%=Question%><%=@likeable.id%> .vote-button").html("<%= j (render 'add_like', path: question_likes_path(@likeable), num_likes: @likeable.num_likes) %>");
-<%else%>
-  $("#<%=Answer%><%=@likeable.id%> .vote-button").html("<%= j (render 'add_like', path: answer_likes_path(@likeable), num_likes: @likeable.num_likes) %>");
-<%end%>
+var numLikes = parseInt($("#<%=@like.likeable_type%><%=@like.likeable_id%> .vote-button .num-likes").text(), 10) - 1
+
+$("#<%=@like.likeable_type%><%=@like.likeable_id%> .vote-button").html('<%= j (render "add_like", path: eval("likes_#{@like.likeable_type.downcase}_path(@like.likeable_id)"), num_likes: 0) %>');
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
+  $("#<%=@like.likeable_type%><%=@like.likeable_id%> .vote-button .num-likes").text(numLikes);
 })

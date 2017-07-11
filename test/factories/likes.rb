@@ -3,11 +3,11 @@ FactoryGirl.define do
     user
 
     factory :answer_like do 
-      association :likeable, factory: :answer
+      answer
     end
 
     factory :question_like do 
-      association :likeable, factory: :question
+      question
     end
   end
 end

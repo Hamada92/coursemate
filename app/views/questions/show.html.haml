@@ -3,13 +3,13 @@
     = render 'questions/question_card'
     .comments
       .ExistingComments
-        =render @question_comments
+        =render @comments
 
       - if user_signed_in?
         =render 'comments/form', verb: :post, path: question_comments_path(@question)
 
   .existing-answers
-    =render @answers
+    =render partial: 'answers/answer', collection: @answers
 
   .frow
     - if user_signed_in?

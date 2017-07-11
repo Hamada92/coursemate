@@ -8,14 +8,13 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.build(answer_params)
-    @answer.user = current_user
+    answer = @question.answers.build(answer_params)
+    answer.user = current_user
     respond_to do |format|
-      if @answer.save
-        format.html { redirect_to @question, notice: 'Answer was successfully created.' }
+      if answer.save
+        @answer = AnswerShow.find(answer.id) #AnswerShow is a view-backed model.
         format.js
       else
-        format.html { render 'questions/show' }
         format.js
       end
     end
@@ -24,7 +23,7 @@ class AnswersController < ApplicationController
   def update
     respond_to do |format|
       if @answer.update(answer_params)
-        format.html { redirect_to @question, notice: "Answer successfully updated." }
+        format.html { redirect_to question_path(@question.id), notice: "Answer successfully updated." }
       else
         format.html { render :edit }
       end
@@ -34,7 +33,6 @@ class AnswersController < ApplicationController
   def destroy
     @answer.destroy
     respond_to do |format|
-      format.html { redirect_to @question, notice: 'Answer was deleted.' }
       format.js
     end
   end
@@ -51,7 +49,7 @@ class AnswersController < ApplicationController
 
     def set_answer
       @answer = Answer.find(params[:id])
-      @question = @answer.question
+      @question = QuestionShow.find(@answer.question_id)
     end
 
     def authorize

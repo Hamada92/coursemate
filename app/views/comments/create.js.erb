@@ -1,7 +1,7 @@
-<% if @comment.group_id %> 
+<% if @comment.group_id.present? %> 
   $(".ExistingComments").append("<%= j (render @comment) %>");
   $(".enter-comment form").trigger("reset");
-<% elsif @comment.answer_id %>
-  $("answer<%=@parent.id%> .ExistingComments").append("<%= j (render @comment) %>");
-  $("answer<%=@parent.id%> .enter-comment form").trigger("reset");
+<% else %>
+  $("#<%=@comment.commentable_type%><%=@comment.commentable_id%> .ExistingComments").append("<%= j (render @comment) %>");
+  $("#<%=@comment.commentable_type%><%=@comment.commentable_id%> .enter-comment form").trigger("reset");
 <%end%>

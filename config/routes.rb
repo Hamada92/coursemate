@@ -30,15 +30,21 @@ Rails.application.routes.draw do
   resources :questions, shallow: true do 
     resources :comments, except: [:new, :show]
     resources :answers, except: [:new, :show]
-    resources :likes, only: [:create, :destroy]
     collection do 
       get 'autocomplete', to: 'questions#set_university_autocomplete'
+    end
+    member do 
+      delete 'likes', to: 'likes#destroy', defaults: { type: "question" }
+      post 'likes', to: 'likes#create', defaults: { type: "question" }
     end
   end
 
   resources :answers, only: [], shallow: true do
     resources :comments, except: [:new, :show]
-    resources :likes, only: [:create, :destroy]
+    member do 
+      delete 'likes', to: 'likes#destroy', defaults: { type: "answer" }
+      post 'likes', to: 'likes#create', defaults: { type: "answer" }
+    end
   end
 
   resources :groups, shallow: true do 
