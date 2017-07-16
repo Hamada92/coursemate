@@ -1,20 +1,27 @@
 require 'test_helper'
 
 class GroupShowTest < ActiveSupport::TestCase
-=begin
+
   def setup
     create(:university)
     create(:course)
     user = create(:user)
     @group = create(:group)
-    q = create(:question, user: user)
-    a = create(:answer, user: user)
-    create(:question_like, question: q)
-    create(:answer_like, answer: a)
+    enrollments = create_list(:group_enrollment, 4, group: @group)
+    @attendees = enrollments.map(&:user_id)
   end
 
-  test 'score should be (answer_likes * 10) + (question_likes * 5)' do 
-    assert_equal GroupShow.find(@group.id).user_score, 15
+  test 'full is false if there are seats available' do 
+    assert_equal false, GroupShow.first.full
   end
-=end
+
+  test 'full is true when seats is equal to enrollments' do
+    create(:group_enrollment, group: @group)
+    assert_equal true, GroupShow.first.full
+  end
+
+  test 'returns the list of attendees' do 
+    assert_equal @attendees, GroupShow.first.attendees
+  end
+
 end

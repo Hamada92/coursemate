@@ -30,6 +30,37 @@ class User < ActiveRecord::Base
   before_create :set_university
   after_commit :enqueue_image, on: :update
 
+  #returns users with their score from the likes they received
+  def self.with_score
+    User.joins(" 
+      left join 
+        (select questions.user_id, count(*) * 5 as question_likes_score from likes 
+          join questions on likes.question_id = questions.id 
+          group by questions.user_id) t1
+        on t1.user_id = users.id 
+      left join 
+        (select answers.user_id, count(*) * 10 as answer_likes_score from likes 
+          join answers on likes.answer_id = answers.id 
+          group by answers.user_id) t2
+      on t2.user_id = users.id
+    ").select("users.*, t1.question_likes_score + t2.answer_likes_score as score")
+  end
+
+  def user_score
+    User.joins(" 
+      left join 
+        (select questions.user_id, count(*) * 5 as question_likes_score from likes 
+          join questions on likes.question_id = questions.id 
+          group by questions.user_id) t1
+        on t1.user_id = users.id 
+      left join 
+        (select answers.user_id, count(*) * 10 as answer_likes_score from likes 
+          join answers on likes.answer_id = answers.id 
+          group by answers.user_id) t2
+      on t2.user_id = users.id
+    ").select("users.id, t1.question_likes_score + t2.answer_likes_score as score").find(self.id).score
+  end
+
   # override the send_devise_notification to use ActiveJob
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
