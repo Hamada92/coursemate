@@ -14,7 +14,7 @@ class GroupsController < ApplicationController
   def show
     @group = GroupShow.find(params[:id])
     @attendees = User.where(id: @group.attendees)
-    @comments = Comment.where(group_id: @group.id).includes(:user).order('id ASC')
+    @comments = @group.comments.includes(:user).order('id ASC')
   end
 
   def new

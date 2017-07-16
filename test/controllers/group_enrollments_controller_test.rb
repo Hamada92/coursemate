@@ -10,17 +10,16 @@ class GroupEnrollmentsControllerTest < ActionController::TestCase
     sign_in @user
   end
 
-  test '#create enrolls the user in the group' do
-    assert_difference 'GroupEnrollment.count', 1 do 
-      post :create, params: { group_id: @group.id }, xhr: true
+  test '#create enrolls the current user in the specified group' do 
+    assert_difference 'GroupEnrollment.count', 1 do
+      post :create, params: {id: @group.id}, xhr: true
     end
   end
 
-  test '#destroy unenrolls the user from the group' do 
-    enrollment = create(:group_enrollment, user: @user, group: @group)
-
-    assert_difference 'GroupEnrollment.count', -1 do 
-      delete :destroy, params: { id: enrollment.id }, xhr: true
+  test '#destroy un-enrolls the current user from the specified group' do 
+    create(:group_enrollment, group: @group, user: @user)
+    assert_difference 'GroupEnrollment.count', -1 do
+      post :destroy, params: {id: @group.id}, xhr: true
     end
   end
 
