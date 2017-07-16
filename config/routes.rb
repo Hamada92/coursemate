@@ -48,10 +48,13 @@ Rails.application.routes.draw do
   end
 
   resources :groups, shallow: true do 
-    resources :group_enrollments, only: [:create, :destroy], as: 'enrollments'
     resources :comments, except: [:new, :show]
     collection do 
       get 'autocomplete', to: 'groups#set_university_autocomplete'
+    end
+    member do
+      delete 'enrollments', to: 'group_enrollments#destroy'
+      post 'enrollments', to: 'group_enrollments#create'
     end
   end
 

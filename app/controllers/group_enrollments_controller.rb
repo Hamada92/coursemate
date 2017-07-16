@@ -1,11 +1,9 @@
 class GroupEnrollmentsController < ApplicationController
-  before_action :authenticate_user!, only: [:create]
-  before_action :set_enrollment, only: [:destroy]
-  before_action :authorize, only: [:destroy]
+  before_action :authenticate_user!
+  before_action :set_group
 
   def create
-    @group = Group.find(params[:group_id])
-    enrollment = GroupEnrollment.new(user: current_user, group: @group)
+    enrollment = GroupEnrollment.new(user: current_user, group_id: params[:id])
     respond_to do |format|
       if enrollment.save
         format.js
@@ -16,8 +14,8 @@ class GroupEnrollmentsController < ApplicationController
   end
 
   def destroy
-    @group = @enrollment.group
-    @enrollment.destroy
+    enrollment = GroupEnrollment.find_by(group_id: params[:id], user_id: current_user.id)
+    enrollment.destroy
     respond_to do |format|
       format.js
     end
@@ -25,14 +23,8 @@ class GroupEnrollmentsController < ApplicationController
 
   private
 
-  def set_enrollment
-    @enrollment = GroupEnrollment.find(params[:id])
-  end
-
-  def authorize
-    unless @enrollment.user == current_user
-      flash[:alert] = "You are not the owner of this enrollment"
-      redirect_to @group
+    def set_group
+      @group = Group.find(params[:id])
     end
-  end
+
 end
