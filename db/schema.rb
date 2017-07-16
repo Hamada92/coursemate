@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170716150650) do
+ActiveRecord::Schema.define(version: 20170716153300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -268,7 +268,7 @@ ActiveRecord::Schema.define(version: 20170716150650) do
       users.locked_at,
       users.about_me,
       users.university_domain,
-      COALESCE((t1.question_likes_score + t2.answer_likes_score), (0)::bigint) AS score
+      COALESCE((COALESCE(t1.question_likes_score, (0)::bigint) + COALESCE(t2.answer_likes_score, (0)::bigint)), (0)::bigint) AS score
      FROM ((users
        LEFT JOIN ( SELECT questions.user_id,
               (count(*) * 5) AS question_likes_score
