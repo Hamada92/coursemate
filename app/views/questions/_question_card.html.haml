@@ -22,7 +22,7 @@
         %span.grey asked by:
         =link_to(" " + @question.user.username, user_path(@question.user))
         %i.fa.fa-trophy.fa-lg.left-space
-        //="+" + @question.user.user_score.to_s
+        ="+" + @question.user_score.to_s
       .votes
         =render 'likes/like', likeable: @question, path: likes_question_path(@question)
     -if owner @question
