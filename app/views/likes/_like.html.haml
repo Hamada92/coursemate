@@ -1,5 +1,5 @@
 .vote-button
-  -if user_signed_in? and likeable.user_id != current_user.id
+  -if user_signed_in? && likeable.user_id != current_user.id
     -if likeable.likers.include? current_user.id
       =render 'likes/remove_like', path: path, num_likes: likeable.num_likes
     -else

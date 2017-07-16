@@ -1,22 +1,22 @@
 require 'test_helper'
 
 class QuestionShowTest < ActiveSupport::TestCase
-=begin
+
   def setup
     create(:university)
     create(:course)
     user = create(:user)
-    user_2 = create(:user)
-    @q = create(:question, user: user)
-    a = create(:answer, user: user)
-    create(:question_like, question: @q)
-    create(:answer_like, answer: a)
-    create(:answer_like, answer: a, user: user_2)
-
+    q = create(:question, user: user)
+    likes = create_list(:question_like, 3, question: q)
+    @likers = likes.map(&:user_id)
   end
 
-  test 'score should be (answer_likes * 10) + (question_likes * 5)' do 
-    assert_equal 25, QuestionShow.find(@q.id).user_score
+  test 'returns the right number of likes' do 
+    assert_equal 3, QuestionShow.first.num_likes
   end
-=end
+
+  test 'returns an array of the likers' do 
+    assert_equal @likers, QuestionShow.first.likers
+  end
+
 end
