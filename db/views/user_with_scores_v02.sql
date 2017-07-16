@@ -1,5 +1,4 @@
 SELECT users.*, 
-  #return the socre, or 0 if it's null(due to no likes)
   COALESCE(COALESCE(t1.question_likes_score, 0) + COALESCE(t2.answer_likes_score, 0), 0) as score
 from users 
 left join 
