@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_current_user, only: [:edit, :update]
 
@@ -9,9 +8,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @questions = @user.questions.includes(:tags, :likes, :user).limit(10)
-    @questions_he_answered = @user.questions_he_answered.includes(:tags, :likes, :user).limit(10)
-    @groups = @user.groups.includes(:course, :users, :creator, :university).limit(10)
   end
 
   def edit

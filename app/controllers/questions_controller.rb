@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy, :show_from_my_university]
   before_action :set_question, only: [:edit, :update, :destroy]
   before_action :authorize, only: [:edit, :update, :destroy]
-  before_action :set_autocomplete, only: [:new, :create, :set_university_autocomplete]
+  before_action :set_autocomplete, only: [:new, :create]
 
   def index
     #QuestionIndex is a view defined in db/views
@@ -86,11 +86,6 @@ class QuestionsController < ApplicationController
    @questions    = @university.question_indices.paginate(per_page: 5, page: params[:page]).includes(:user)
   end
 
-  #used to retrieve tags in javascript via ajax when the user changes the university in the dropdown
-  def set_university_autocomplete
-    render json: @courses
-  end
-
   private
 
     def question_params
@@ -102,7 +97,7 @@ class QuestionsController < ApplicationController
     end
 
     def set_autocomplete
-      @university = params[:domain] && University.find(params[:domain]) || @question && @question.university || current_user.university
+      @university = current_user.university
       @courses = @university.courses.pluck(:name)
     end
 

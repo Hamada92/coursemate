@@ -28,14 +28,8 @@ function ready() {
   });
 
   userEdit();
-  
-  if($('#question_courses').length){ // question form has question_courses id
-    set_question_tag_autocomplete();
-  };
 
-  if($('#group_courses').length){ //group form has group_courses id
-    set_group_tag_autocomplete();
-  };
+  setCourseAutocomplete();
 
   $('[data-toggle="tooltip"]').tooltip()
 

@@ -13,7 +13,7 @@
     %br
     =label_tag 'Course'
     %br
-    =text_field_tag :course_name, nil, class: 'typeahead form-control', autocomplete: 'off', placeholder: "Enter a course and number separated by a space (e.g. HIST 121) ... ", data: { autocomplete_course: @courses }, id: 'question_courses'
+    =text_field_tag :course_name, nil, class: 'typeahead form-control', autocomplete: 'off', placeholder: "Enter a course name and number without spaces or special characters (e.g. HIST121) ...", data: { autocomplete_course: @courses }, id: 'question_courses'
     %br
     =render 'form'
     %br

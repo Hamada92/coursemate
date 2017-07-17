@@ -27,17 +27,16 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, shallow: true do 
+  resources :questions, shallow: true do
     resources :comments, except: [:new, :show]
     resources :answers, except: [:new, :show]
-    collection do 
-      get 'autocomplete', to: 'questions#set_university_autocomplete'
-    end
     member do 
       delete 'likes', to: 'likes#destroy', defaults: { type: "question" }
       post 'likes', to: 'likes#create', defaults: { type: "question" }
     end
   end
+
+  resources :course_auto_completes, only: [:index]
 
   resources :answers, only: [], shallow: true do
     resources :comments, except: [:new, :show]
@@ -49,9 +48,6 @@ Rails.application.routes.draw do
 
   resources :groups, shallow: true do 
     resources :comments, except: [:new, :show]
-    collection do 
-      get 'autocomplete', to: 'groups#set_university_autocomplete'
-    end
     member do
       delete 'enrollments', to: 'group_enrollments#destroy'
       post 'enrollments', to: 'group_enrollments#create'

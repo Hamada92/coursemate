@@ -1,4 +1,4 @@
-function set_question_tag_autocomplete(){
+function setCourseAutocomplete(){
   var course_tags = substringMatcher($('.typeahead').data('autocomplete-course'));  
   set_typeahead(course_tags);
 
@@ -6,7 +6,7 @@ function set_question_tag_autocomplete(){
     //get the new list of tags for this particular university
     $.ajax({
       method: 'GET',
-      url: '/questions/autocomplete',
+      url: '/course_auto_completes',
       dataType: 'json',
       data: { domain: this.value },
       success: function(data){
@@ -16,24 +16,6 @@ function set_question_tag_autocomplete(){
     });
   });
 
-}
-
-function set_group_tag_autocomplete(){
-  var course_tags = substringMatcher($('.typeahead').data('autocomplete-course'));
-  set_typeahead(course_tags);
-
-  $("#university_select").change(function (){
-    $.ajax({
-      method: 'GET',
-      url: '/groups/autocomplete',
-      dataType: 'json',
-      data: { domain: this.value },
-      success: function(data){
-        course_tags = substringMatcher(data);
-        set_typeahead(course_tags);
-      }
-    });
-  })
 }
 
 var substringMatcher = function(strs) {
