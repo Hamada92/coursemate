@@ -3,7 +3,7 @@ class GroupsController < ApplicationController
   before_action :set_group, only: [:edit, :update]
   before_action :authorize, only: [:edit, :update]
   before_action :check_if_cancelled, only: [:edit, :update]
-  before_action :set_autocomplete, only: [:new, :edit, :create, :update, :set_university_autocomplete]
+  before_action :set_autocomplete, only: [:new, :edit, :create, :update]
 
   def index
     #GroupIndex is a SQL view, defined in db/views
@@ -56,11 +56,6 @@ class GroupsController < ApplicationController
     end
   end
 
-  #used to retrieve courses in javascript via ajax when the user changes the university in the dropdown
-  def set_university_autocomplete
-    render json: @courses
-  end
-
   def show_from_course
     @course = Course.find(params[:course])
     @university = @course.university
@@ -84,8 +79,8 @@ class GroupsController < ApplicationController
   private
 
   def set_autocomplete
-    @university = params[:domain] && University.find(params[:domain]) || @group && @group.university || current_user.university
-    @courses = @university.courses.pluck(:name)
+    @university = @group && @group.university || current_user.university
+    @courses    = @university.courses.pluck(:name)
   end
 
   def group_params
