@@ -7,7 +7,10 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.with_score(params[:id])
+    @questions = []
+    @questions_he_answered = []
+    @groups = []
   end
 
   def edit
