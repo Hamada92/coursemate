@@ -79,7 +79,7 @@ class GroupsController < ApplicationController
   private
 
   def set_autocomplete
-    @university = @group && @group.university || current_user.university
+    @university = current_user.university
     @courses    = @university.courses.pluck(:name)
   end
 

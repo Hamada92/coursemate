@@ -97,7 +97,7 @@ class QuestionsController < ApplicationController
     end
 
     def set_autocomplete
-      @university = @question && @question.university || current_user.university
+      @university = current_user.university
       @courses = @university.courses.pluck(:name)
     end
 
