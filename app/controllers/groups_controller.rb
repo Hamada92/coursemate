@@ -3,7 +3,7 @@ class GroupsController < ApplicationController
   before_action :set_group, only: [:edit, :update]
   before_action :authorize, only: [:edit, :update]
   before_action :check_if_cancelled, only: [:edit, :update]
-  before_action :set_autocomplete, only: [:new, :edit, :create, :update]
+  before_action :set_autocomplete, only: [:new, :create]
 
   def index
     #GroupIndex is a SQL view, defined in db/views
@@ -78,31 +78,31 @@ class GroupsController < ApplicationController
 
   private
 
-  def set_autocomplete
-    @university = current_user.university
-    @courses    = @university.courses.pluck(:name)
-  end
-
-  def group_params
-    params.require(:group).permit(:seats, :location, :day, :start_time, :end_time, :title, :description)
-  end
-
-  def set_group
-    @group = Group.find(params[:id])
-  end
-
-  def authorize
-    unless @group.creator_id == current_user.id
-      flash[:alert] = "You are not allowed to edit someone else's group."
-      redirect_to @group
+    def set_autocomplete
+      @university = current_user.university
+      @courses    = @university.courses.pluck(:name)
     end
-  end
 
-  def check_if_cancelled
-    if @group.cancelled?
-      flash[:alert] = "You are not allowed to edit cancelled groups"
-      redirect_to @group
+    def group_params
+      params.require(:group).permit(:seats, :location, :day, :start_time, :end_time, :title, :description)
     end
-  end
+
+    def set_group
+      @group = Group.find(params[:id])
+    end
+
+    def authorize
+      unless @group.creator_id == current_user.id
+        flash[:alert] = "You are not allowed to edit someone else's group."
+        redirect_to @group
+      end
+    end
+
+    def check_if_cancelled
+      if @group.cancelled?
+        flash[:alert] = "You are not allowed to edit cancelled groups"
+        redirect_to @group
+      end
+    end
   
 end
