@@ -13,13 +13,15 @@ class User < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader
 
   has_many :questions, dependent: :destroy
+  has_many :question_indices, foreign_key: [:user_id]
   has_many :answers, dependent: :destroy
+
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :created_groups, class_name: 'Group', foreign_key: 'creator_id', dependent: :destroy
   has_many :group_enrollments, dependent: :destroy
-  has_many :groups, through: :group_enrollments
+  has_many :group_indices, through: :group_enrollments
   belongs_to :university, foreign_key: 'university_domain'
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9]+\Z/,
@@ -35,7 +37,7 @@ class User < ActiveRecord::Base
     devise_mailer.send(notification, self, *args).deliver_later
   end
 
-  def self.with_score(id)
+  def self.with_score
     User.joins("left join (select questions.user_id, count(*) * 5 as question_likes_score from likes 
       join questions on likes.question_id = questions.id 
       group by questions.user_id) t1
@@ -44,7 +46,7 @@ class User < ActiveRecord::Base
      (select answers.user_id, count(*) * 10 as answer_likes_score from likes 
       join answers on likes.answer_id = answers.id 
         group by answers.user_id) t2
-    on t2.user_id = users.id").select("users.*, COALESCE(COALESCE(t1.question_likes_score, 0) + COALESCE(t2.answer_likes_score, 0), 0) as score").find(id)
+    on t2.user_id = users.id").select("users.*, COALESCE(COALESCE(t1.question_likes_score, 0) + COALESCE(t2.answer_likes_score, 0), 0) as score")
   end
 
   def is_ambassador?
@@ -64,15 +66,8 @@ class User < ActiveRecord::Base
   end
 
   def questions_he_answered
-    Question.joins(:answers).where(answers: { user_id: self.id} ).distinct
-  end
-
-  #is this user enrolled in the passed group?
-  def in_group?(group_id)
-    groups.any? do |group|
-      group.id == group_id
-    end
-  end
+    QuestionIndex.joins(:answers).where(answers: { user_id: self.id} ).distinct
+  end  
 
   private
 

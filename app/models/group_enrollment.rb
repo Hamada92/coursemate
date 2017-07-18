@@ -2,6 +2,7 @@ class GroupEnrollment < ApplicationRecord
   self.primary_keys = [:user_id, :group_id]
   belongs_to :user
   belongs_to :group
+  belongs_to :group_index, foreign_key: [:group_id]
 
   validate :group_not_full
   validate :group_active

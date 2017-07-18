@@ -40,8 +40,8 @@
   / Tab panes
   .tab-content
     #user-questions.tab-pane.active{role: "tabpanel"}
-      =render @questions
+      =render partial: 'questions/question', collection: @questions
     #user-answers.tab-pane{role: "tabpanel"} 
-      =render @questions_he_answered
+      =render partial: 'questions/question', collection: @questions_he_answered
     #user-groups.tab-pane{role: "tabpanel"} 
-      =render @groups
+      =render partial: 'groups/group', collection: @groups
