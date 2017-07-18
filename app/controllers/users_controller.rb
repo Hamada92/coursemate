@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @user = User.with_score.find(params[:id])
     @questions = @user.question_indices.limit(5)
     @questions_he_answered = @user.questions_he_answered.limit(5)
-    @groups = []
+    @groups = @user.group_indices.limit(5)
   end
 
   def edit
