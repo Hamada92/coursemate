@@ -9,7 +9,8 @@
   =form_tag(groups_path, method: :post, class: 'form-group') do
     =label_tag 'University'
     %br
-    =select_tag :university_domain, options_from_collection_for_select(University.all, "domain", "name", @university.domain), class: 'form-control', id: 'university_select'
+    //preselected university: on new page, it's the current user's university, on re-render after validation fails, it's the groups university 
+    =select_tag :university_domain, options_from_collection_for_select(University.all, "domain", "name",@group.try(:university_domain) || @university.domain), class: 'form-control', id: 'university_select'
     %br
     =label_tag 'Course'
     %br
