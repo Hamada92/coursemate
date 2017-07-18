@@ -3,13 +3,13 @@ class UsersController < ApplicationController
   before_action :set_current_user, only: [:edit, :update]
 
   def index
-    @users = User.all
+    @users = User.with_score.all
   end
 
   def show
-    @user = User.with_score(params[:id])
-    @questions = []
-    @questions_he_answered = []
+    @user = User.with_score.find(params[:id])
+    @questions = @user.question_indices.limit(5)
+    @questions_he_answered = @user.questions_he_answered.limit(5)
     @groups = []
   end
 
