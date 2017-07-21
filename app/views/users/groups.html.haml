@@ -1,0 +1,4 @@
+%h4
+  = "#{@user.username}'s Groups" 
+=render partial: 'groups/group', collection: @groups
+=will_paginate @groups, renderer: BootstrapPagination::Rails
