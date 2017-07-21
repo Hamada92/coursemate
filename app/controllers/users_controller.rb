@@ -26,6 +26,21 @@ class UsersController < ApplicationController
     end
   end
 
+  def questions
+    @user = User.find(params[:id])
+    @questions = @user.question_indices.paginate(per_page: 5, page: params[:page]).includes(:user)
+  end
+
+  def answers
+    @user = User.find(params[:id])
+    @questions = @user.questions_he_answered.paginate(per_page: 5, page: params[:page]).includes(:user)
+  end
+
+  def groups
+    @user = User.find(params[:id])
+    @groups = @user.group_indices.paginate(per_page: 4, page: params[:page]).includes(:creator)
+  end
+
   private
 
     def user_params

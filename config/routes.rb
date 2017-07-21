@@ -17,12 +17,19 @@ Rails.application.routes.draw do
 
   get 'account/edit_profile', to: 'users#edit'
 
-  resources :users, only: [:index, :show, :update]
-  resources :notifications, only: [:index] do 
+  resources :users, only: [:index, :show, :update] do 
     member do 
+      get 'questions'
+      get 'answers'
+      get 'groups'
+    end
+  end
+
+  resources :notifications, only: [:index] do
+    member do
       patch 'mark_read'
     end
-    collection do 
+    collection do
       get 'top_notifications'
     end
   end

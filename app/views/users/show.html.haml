@@ -41,7 +41,14 @@
   .tab-content
     #user-questions.tab-pane.active{role: "tabpanel"}
       =render partial: 'questions/question', collection: @questions
+      - if @questions.size == 5
+        =link_to("All Questions", questions_user_path(@user), class: "btn btn-primary", role: "button")
+
     #user-answers.tab-pane{role: "tabpanel"} 
       =render partial: 'questions/question', collection: @questions_he_answered
+      - if @questions_he_answered.size == 5
+        =link_to("All Answers", answers_user_path(@user), class: "btn btn-primary", role: "button")
     #user-groups.tab-pane{role: "tabpanel"} 
       =render partial: 'groups/group', collection: @groups
+      - if @groups.size == 5
+        =link_to("All Groups", groups_user_path(@user), class: "btn btn-primary", role: "button")

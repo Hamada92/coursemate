@@ -1,0 +1,4 @@
+%h4
+  = "#{@user.username}'s Answers" 
+=render partial: 'questions/question', collection: @questions
+=will_paginate @questions, renderer: BootstrapPagination::Rails
