@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170716153300) do
+ActiveRecord::Schema.define(version: 20170722145240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(version: 20170716153300) do
     t.text     "name",              null: false
     t.text     "university_domain", null: false
     t.datetime "created_at"
-    t.index ["name", "university_domain"], name: "name_and_univresities_domain", using: :btree
     t.index ["university_domain"], name: "univresities_domain", using: :btree
   end
 
@@ -54,7 +53,7 @@ ActiveRecord::Schema.define(version: 20170716153300) do
     t.index ["group_id", "user_id"], name: "group_enrollments_group_id_user_id", using: :btree
   end
 
-  create_table "groups", force: :cascade do |t|
+  create_table "groups", id: :integer, default: -> { "nextval('groups_id_seq1'::regclass)" }, force: :cascade do |t|
     t.text     "university_domain",            null: false
     t.text     "course_name",                  null: false
     t.integer  "creator_id"
@@ -87,7 +86,7 @@ ActiveRecord::Schema.define(version: 20170716153300) do
     t.index ["user_id"], name: "index_likes_on_user_id", using: :btree
   end
 
-  create_table "notifications", force: :cascade do |t|
+  create_table "notifications", id: :integer, default: -> { "nextval('notifications_id_seq1'::regclass)" }, force: :cascade do |t|
     t.integer "comment_id"
     t.integer "answer_id"
     t.integer "like_id"
@@ -170,39 +169,10 @@ ActiveRecord::Schema.define(version: 20170716153300) do
   add_foreign_key "courses", "universities", column: "university_domain", primary_key: "domain", name: "courses_university_domain_fkey"
   add_foreign_key "group_enrollments", "groups", name: "group_enrollments_group_id_fkey"
   add_foreign_key "group_enrollments", "users", name: "group_enrollments_user_id_fkey"
-  add_foreign_key "groups", "courses", column: "course_name", primary_key: "name", name: "groups_course_name_fkey", on_delete: :cascade
-  add_foreign_key "groups", "universities", column: "university_domain", primary_key: "domain", name: "groups_university_domain_fkey"
-  add_foreign_key "groups", "users", column: "creator_id", name: "groups_creator_id_fkey"
   add_foreign_key "likes", "answers", name: "likes_answer_id_fkey"
   add_foreign_key "likes", "questions", name: "likes_question_id_fkey"
-  add_foreign_key "likes", "users"
-  add_foreign_key "notifications", "answers", name: "notifications_answer_id_fkey"
-  add_foreign_key "notifications", "comments", name: "notifications_comment_id_fkey"
-  add_foreign_key "notifications", "likes", name: "notifications_like_id_fkey"
-  add_foreign_key "notifications", "users", name: "notifications_user_id_fkey"
   add_foreign_key "questions", "courses", column: "course_name", primary_key: "name", name: "questions_course_name_fkey", on_delete: :cascade
   add_foreign_key "questions", "universities", column: "university_domain", primary_key: "domain", name: "questions_university_domain_fkey"
-  add_foreign_key "questions", "users"
-  add_foreign_key "users", "universities", column: "university_domain", primary_key: "domain", name: "users_university_domain_fkey"
-
-  create_view "question_indices",  sql_definition: <<-SQL
-      SELECT questions.id,
-      questions.title,
-      questions.body,
-      questions.user_id,
-      questions.created_at,
-      questions.updated_at,
-      questions.university_domain,
-      questions.course_name,
-      count(answers.question_id) AS num_answers,
-      universities.name AS university_name
-     FROM (((questions
-       LEFT JOIN answers ON ((answers.question_id = questions.id)))
-       LEFT JOIN likes ON ((likes.question_id = questions.id)))
-       JOIN universities ON ((universities.domain = questions.university_domain)))
-    GROUP BY questions.id, universities.name
-    ORDER BY questions.id DESC;
-  SQL
 
   create_view "group_indices",  sql_definition: <<-SQL
       SELECT groups.id,
@@ -312,6 +282,44 @@ ActiveRecord::Schema.define(version: 20170716153300) do
     ORDER BY groups.id DESC;
   SQL
 
+  create_view "answer_shows",  sql_definition: <<-SQL
+      SELECT answers.id,
+      answers.body,
+      answers.question_id,
+      answers.user_id,
+      answers.created_at,
+      answers.updated_at,
+      count(likes.answer_id) AS num_likes,
+      ARRAY( SELECT likes_1.user_id
+             FROM likes likes_1
+            WHERE (likes_1.answer_id = answers.id)) AS likers,
+      user_with_scores.score AS user_score
+     FROM ((answers
+       LEFT JOIN likes ON ((likes.answer_id = answers.id)))
+       JOIN user_with_scores ON ((user_with_scores.id = answers.user_id)))
+    GROUP BY answers.id, user_with_scores.score;
+  SQL
+
+  create_view "question_indices",  sql_definition: <<-SQL
+      SELECT questions.id,
+      questions.title,
+      questions.body,
+      questions.user_id,
+      questions.created_at,
+      questions.updated_at,
+      questions.university_domain,
+      questions.course_name,
+      count(answers.question_id) AS num_answers,
+      universities.name AS university_name,
+      concat_ws(','::text, questions.course_name, questions.university_domain) AS course_url
+     FROM (((questions
+       LEFT JOIN answers ON ((answers.question_id = questions.id)))
+       LEFT JOIN likes ON ((likes.question_id = questions.id)))
+       JOIN universities ON ((universities.domain = questions.university_domain)))
+    GROUP BY questions.id, universities.name
+    ORDER BY questions.id DESC;
+  SQL
+
   create_view "question_shows",  sql_definition: <<-SQL
       SELECT questions.id,
       questions.title,
@@ -326,31 +334,14 @@ ActiveRecord::Schema.define(version: 20170716153300) do
       ARRAY( SELECT likes_1.user_id
              FROM likes likes_1
             WHERE (likes_1.question_id = questions.id)) AS likers,
-      user_with_scores.score
+      user_with_scores.score AS user_score,
+      concat_ws(','::text, questions.course_name, questions.university_domain) AS course_url
      FROM (((questions
        LEFT JOIN universities ON ((universities.domain = questions.university_domain)))
        LEFT JOIN likes ON ((likes.question_id = questions.id)))
        JOIN user_with_scores ON ((user_with_scores.id = questions.user_id)))
     GROUP BY questions.id, universities.name, user_with_scores.score
     ORDER BY questions.id DESC;
-  SQL
-
-  create_view "answer_shows",  sql_definition: <<-SQL
-      SELECT answers.id,
-      answers.body,
-      answers.question_id,
-      answers.user_id,
-      answers.created_at,
-      answers.updated_at,
-      count(likes.answer_id) AS num_likes,
-      ARRAY( SELECT likes_1.user_id
-             FROM likes likes_1
-            WHERE (likes_1.answer_id = answers.id)) AS likers,
-      user_with_scores.score
-     FROM ((answers
-       LEFT JOIN likes ON ((likes.answer_id = answers.id)))
-       JOIN user_with_scores ON ((user_with_scores.id = answers.user_id)))
-    GROUP BY answers.id, user_with_scores.score;
   SQL
 
 end
