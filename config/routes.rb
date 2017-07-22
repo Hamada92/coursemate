@@ -76,6 +76,10 @@ Rails.application.routes.draw do
     get 'questions/universities/:university', to: 'questions#show_from_university', as: 'show_questions_in_university'
   end
 
-  get 'questions/unanswered/:tag_id', to: 'questions#unanswered_with_tag', as: 'unanswered_with_tag'
-
+  namespace :questions do 
+    #necessary to pass the domain and course params as they are, otherwise queensu.ca will be passed as queenu only, this constraint escapes special chars.
+    constraints course: /[\S\s]+/, university: /[\S\s]+/ do
+      get 'unanswered/:course', to: 'unanswered#index', as: 'unanswered'
+    end
+  end
 end

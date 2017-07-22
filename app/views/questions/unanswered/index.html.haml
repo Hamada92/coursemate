@@ -1,0 +1,8 @@
+%h4
+  =@course.name + " (unanswered)"
+  %br
+  %small
+    =@course.university.name
+
+=render partial: 'questions/question', collection: @questions
+=will_paginate @questions, renderer: BootstrapPagination::Rails

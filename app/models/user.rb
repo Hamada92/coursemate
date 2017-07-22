@@ -76,7 +76,7 @@ class User < ActiveRecord::Base
       @university ||= University.where(" ? LIKE CONCAT('%', domain) ", self.email).first
     end
 
-    def valid_university_email 
+    def valid_university_email
       unless find_university_with_domain
         errors.add(:email, "is not a valid university email")
       end
