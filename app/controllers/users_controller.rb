@@ -8,9 +8,9 @@ class UsersController < ApplicationController
 
   def show
     @user = User.with_score.find(params[:id])
-    @questions = @user.question_indices.limit(5)
-    @questions_he_answered = @user.questions_he_answered.limit(5)
-    @groups = @user.group_indices.limit(5)
+    @questions = @user.question_indices.limit(5).includes(:user)
+    @questions_he_answered = @user.questions_he_answered.limit(5).includes(:user)
+    @groups = @user.group_indices.limit(5).includes(:creator)
   end
 
   def edit

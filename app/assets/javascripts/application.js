@@ -30,7 +30,8 @@ function ready() {
 
   setCourseAutocomplete();
 
-  $('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="tooltip"]').tooltip();
+  $('[data-toggle="popover"]').popover();
 
   $('textarea.wmd-input').each(function(i, input) {
     var attr, converter, editor;
