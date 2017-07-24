@@ -32,14 +32,14 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   test 'db raises when end time is earlier than start time' do 
-    group = build(:group, end_time: (Time.now).strftime("%I:%M%p"))
+    group = build(:group, ends_at: 2.hours.from_now)
 
     assert_raises(ActiveRecord::StatementInvalid) { group.save(validate: false) }
   end
 
-  test 'date must be in future' do 
-    group = build(:group, day: Date.yesterday)
-    group_3 = build(:group, day: Date.today)
+  test 'starts_at must be today or later' do 
+    group = build(:group, starts_at: 4.hours.ago)
+    group_3 = build(:group, starts_at: Time.now)
     assert_raises(ActiveRecord::StatementInvalid) { group.save(validate: false) }
     assert group_3.save(validate: false)
   end
@@ -76,18 +76,18 @@ class GroupTest < ActiveSupport::TestCase
     assert group.invalid?, 'should be invalid but was valid'
   end
 
-  test 'invalid if day in past' do 
-    group = build(:group, day: 2.days.ago)
+  test 'invalid if starts_at is in past' do 
+    group = build(:group, starts_at: 2.hours.ago)
     assert group.invalid?, 'should be invalid but was valid'
   end
 
   test 'invalid if today but past time' do 
-    group = build(:group, day: Date.today, start_time: Time.now - 60)
+    group = build(:group, starts_at: Time.now - 60)
     assert group.invalid?, 'should be invalid but was valid'
   end
 
    test 'invalid if end time is earlier than start time' do 
-    group = build(:group, day: Date.today, end_time: (Time.now-100).strftime("%I:%M%p"))
+    group = build(:group, ends_at: 2.hours.from_now)
     assert group.invalid?, 'should be invalid but was valid'
   end
 end

@@ -10,11 +10,10 @@ class Group < ApplicationRecord
   has_many :users, through: :group_enrollments
   has_many :comments, dependent: :destroy
 
-  validates :title, :description, :day, :start_time, :location, :status, presence: true
+  validates :title, :description, :starts_at, :ends_at, :location, :status, presence: true
   validates :seats, numericality: { only_integer: true, greater_than: 1 }
-  validate :day_in_future, if: lambda{|object| object.errors.empty?}
-  validate :start_time_in_future, if: lambda{ |group| group.day == Date.today }
-  validate :end_time_greater_than_start_time, if: lambda{|object| object.errors.empty?}
+  validate :starts_at_is_today_or_later, if: lambda{|object| object.errors.empty?}
+  validate :ends_at_greater_than_starts_at, if: lambda{|object| object.errors.empty?}
 
   def cancel!
     update_column(:status, 'cancelled') # skip validation, date may not be in future
@@ -30,21 +29,15 @@ class Group < ApplicationRecord
 
   private
 
-    def day_in_future
-      if day < Date.today
-        errors.add(:date, "Must be in the future")
+    def starts_at_is_today_or_later
+      if starts_at.present? && starts_at < Time.now
+        errors.add(:starts_at, "Must be in the future")
       end
     end
 
-    def start_time_in_future
-      if start_time.present? && start_time.strftime("%I:%M%p") < Time.now.strftime("%I:%M%p")
-        errors.add(:start_time, "Must be in the future")
-      end
-    end
-
-    def end_time_greater_than_start_time 
-      if start_time >= end_time
-        errors.add(:end_time, "Must be greater than start time")
+    def ends_at_greater_than_starts_at
+      if starts_at >= ends_at
+        errors.add(:ends_at, "Must be greater than start time")
       end
     end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170723212641) do
+ActiveRecord::Schema.define(version: 20170724134336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20170723212641) do
     t.text     "name",              null: false
     t.text     "university_domain", null: false
     t.datetime "created_at"
+    t.index ["name", "university_domain"], name: "name_and_univresities_domain", using: :btree
     t.index ["university_domain"], name: "univresities_domain", using: :btree
   end
 
@@ -53,20 +54,19 @@ ActiveRecord::Schema.define(version: 20170723212641) do
     t.index ["group_id", "user_id"], name: "group_enrollments_group_id_user_id", using: :btree
   end
 
-  create_table "groups", id: :integer, default: -> { "nextval('groups_id_seq1'::regclass)" }, force: :cascade do |t|
+  create_table "groups", force: :cascade do |t|
     t.text     "university_domain",            null: false
     t.text     "course_name",                  null: false
     t.integer  "creator_id"
     t.string   "status",            limit: 20
     t.integer  "seats"
     t.text     "location",                     null: false
-    t.date     "day",                          null: false
+    t.datetime "starts_at",                    null: false
     t.text     "title",                        null: false
     t.text     "description",                  null: false
-    t.time     "start_time",                   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.time     "end_time",                     null: false
+    t.datetime "ends_at",                      null: false
     t.index ["course_name", "university_domain"], name: "group_university_course", using: :btree
     t.index ["creator_id"], name: "groups_creator_id", using: :btree
     t.index ["status"], name: "groups_status", using: :btree
@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 20170723212641) do
     t.index ["user_id"], name: "index_likes_on_user_id", using: :btree
   end
 
-  create_table "notifications", id: :integer, default: -> { "nextval('notifications_id_seq1'::regclass)" }, force: :cascade do |t|
+  create_table "notifications", force: :cascade do |t|
     t.integer "comment_id"
     t.integer "answer_id"
     t.integer "like_id"
@@ -173,37 +173,21 @@ ActiveRecord::Schema.define(version: 20170723212641) do
   add_foreign_key "courses", "universities", column: "university_domain", primary_key: "domain", name: "courses_university_domain_fkey"
   add_foreign_key "group_enrollments", "groups", name: "group_enrollments_group_id_fkey"
   add_foreign_key "group_enrollments", "users", name: "group_enrollments_user_id_fkey"
+  add_foreign_key "groups", "courses", column: "course_name", primary_key: "name", name: "groups_course_name_fkey", on_delete: :cascade
+  add_foreign_key "groups", "universities", column: "university_domain", primary_key: "domain", name: "groups_university_domain_fkey"
+  add_foreign_key "groups", "users", column: "creator_id", name: "groups_creator_id_fkey"
   add_foreign_key "likes", "answers", name: "likes_answer_id_fkey"
   add_foreign_key "likes", "questions", name: "likes_question_id_fkey"
+  add_foreign_key "likes", "users"
+  add_foreign_key "notifications", "answers", name: "notifications_answer_id_fkey"
+  add_foreign_key "notifications", "comments", name: "notifications_comment_id_fkey"
+  add_foreign_key "notifications", "likes", name: "notifications_like_id_fkey"
+  add_foreign_key "notifications", "users", name: "notifications_user_id_fkey"
   add_foreign_key "question_html_bodies", "questions", name: "question_html_bodies_question_id_fkey"
   add_foreign_key "questions", "courses", column: "course_name", primary_key: "name", name: "questions_course_name_fkey", on_delete: :cascade
   add_foreign_key "questions", "universities", column: "university_domain", primary_key: "domain", name: "questions_university_domain_fkey"
-
-  create_view "group_indices",  sql_definition: <<-SQL
-      SELECT groups.id,
-      groups.university_domain,
-      groups.course_name,
-      groups.creator_id,
-      groups.status,
-      groups.seats,
-      groups.location,
-      groups.day,
-      groups.title,
-      groups.description,
-      groups.start_time,
-      groups.created_at,
-      groups.updated_at,
-      groups.end_time,
-      count(group_enrollments.group_id) AS num_attendees,
-      (groups.seats - count(group_enrollments.group_id)) AS available_seats,
-      universities.name AS university_name
-     FROM (((groups
-       LEFT JOIN group_enrollments ON ((group_enrollments.group_id = groups.id)))
-       JOIN courses ON (((courses.name = groups.course_name) AND (courses.university_domain = groups.university_domain))))
-       JOIN universities ON ((universities.domain = groups.university_domain)))
-    GROUP BY groups.id, universities.name
-    ORDER BY groups.id DESC;
-  SQL
+  add_foreign_key "questions", "users"
+  add_foreign_key "users", "universities", column: "university_domain", primary_key: "domain", name: "users_university_domain_fkey"
 
   create_view "user_with_scores",  sql_definition: <<-SQL
       SELECT users.id,
@@ -255,36 +239,6 @@ ActiveRecord::Schema.define(version: 20170723212641) do
              FROM (likes
                JOIN answers ON ((likes.answer_id = answers.id)))
             GROUP BY answers.user_id) t2 ON ((t2.user_id = users.id)));
-  SQL
-
-  create_view "group_shows",  sql_definition: <<-SQL
-      SELECT groups.id,
-      groups.university_domain,
-      groups.course_name,
-      groups.creator_id,
-      groups.status,
-      groups.seats,
-      groups.location,
-      groups.day,
-      groups.title,
-      groups.description,
-      groups.start_time,
-      groups.created_at,
-      groups.updated_at,
-      groups.end_time,
-      universities.name AS university_name,
-      ( SELECT (count(group_enrollments.group_id) = groups.seats) AS "full") AS "full",
-      ARRAY( SELECT group_enrollments_1.user_id
-             FROM group_enrollments group_enrollments_1
-            WHERE (group_enrollments_1.group_id = groups.id)) AS attendees,
-      user_with_scores.score AS user_score,
-      user_with_scores.username
-     FROM (((groups
-       LEFT JOIN universities ON ((universities.domain = groups.university_domain)))
-       LEFT JOIN group_enrollments ON ((group_enrollments.group_id = groups.id)))
-       JOIN user_with_scores ON ((user_with_scores.id = groups.creator_id)))
-    GROUP BY groups.id, universities.name, user_with_scores.score, user_with_scores.username
-    ORDER BY groups.id DESC;
   SQL
 
   create_view "answer_shows",  sql_definition: <<-SQL
@@ -349,6 +303,60 @@ ActiveRecord::Schema.define(version: 20170723212641) do
        JOIN user_with_scores ON ((user_with_scores.id = questions.user_id)))
     GROUP BY questions.id, universities.name, user_with_scores.score, question_html_bodies.body
     ORDER BY questions.id DESC;
+  SQL
+
+  create_view "group_shows",  sql_definition: <<-SQL
+      SELECT groups.id,
+      groups.university_domain,
+      groups.course_name,
+      groups.creator_id,
+      groups.status,
+      groups.seats,
+      groups.location,
+      groups.starts_at,
+      groups.title,
+      groups.description,
+      groups.created_at,
+      groups.updated_at,
+      groups.ends_at,
+      universities.name AS university_name,
+      ( SELECT (count(group_enrollments.group_id) = groups.seats) AS "full") AS "full",
+      ARRAY( SELECT group_enrollments_1.user_id
+             FROM group_enrollments group_enrollments_1
+            WHERE (group_enrollments_1.group_id = groups.id)) AS attendees,
+      user_with_scores.score AS user_score,
+      user_with_scores.username
+     FROM (((groups
+       LEFT JOIN universities ON ((universities.domain = groups.university_domain)))
+       LEFT JOIN group_enrollments ON ((group_enrollments.group_id = groups.id)))
+       JOIN user_with_scores ON ((user_with_scores.id = groups.creator_id)))
+    GROUP BY groups.id, universities.name, user_with_scores.score, user_with_scores.username
+    ORDER BY groups.id DESC;
+  SQL
+
+  create_view "group_indices",  sql_definition: <<-SQL
+      SELECT groups.id,
+      groups.university_domain,
+      groups.course_name,
+      groups.creator_id,
+      groups.status,
+      groups.seats,
+      groups.location,
+      groups.starts_at,
+      groups.title,
+      groups.description,
+      groups.created_at,
+      groups.updated_at,
+      groups.ends_at,
+      count(group_enrollments.group_id) AS num_attendees,
+      (groups.seats - count(group_enrollments.group_id)) AS available_seats,
+      universities.name AS university_name
+     FROM (((groups
+       LEFT JOIN group_enrollments ON ((group_enrollments.group_id = groups.id)))
+       JOIN courses ON (((courses.name = groups.course_name) AND (courses.university_domain = groups.university_domain))))
+       JOIN universities ON ((universities.domain = groups.university_domain)))
+    GROUP BY groups.id, universities.name
+    ORDER BY groups.id DESC;
   SQL
 
 end
