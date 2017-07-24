@@ -7,9 +7,8 @@ FactoryGirl.define do
     association :creator, factory: :user
     seats 5
     location 'Stauffer Library'
-    day Date.tomorrow
-    start_time (Time.now+60).strftime("%I:%M%p")
-    end_time (Time.now+120).strftime("%I:%M%p")
+    starts_at 3.hours.from_now
+    ends_at 6.hours.from_now
     status 'active'
 
     factory :cancelled_group do

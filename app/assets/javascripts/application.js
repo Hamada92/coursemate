@@ -18,12 +18,8 @@ $(document).ready(ready)
 
 function ready() {
 
-  $('.timepicker').datetimepicker({
-    format: 'LT'
-  });
-
-  $('#datepicker').datetimepicker({
-    format: 'MMM Do YYYY'
+  $('.datepicker').datetimepicker({
+    format: 'MMMM Do YYYY, h:mm a'
   });
 
   userEdit();

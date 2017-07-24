@@ -16,9 +16,8 @@ class GroupsControllerTest < ActionController::TestCase
         title: "hi",
         description: "hi",
         seats: 3,
-        day: Date.tomorrow,
-        start_time: 2.hours.from_now,
-        end_time: 3.hours.from_now,
+        starts_at: 2.hours.from_now,
+        ends_at: 3.hours.from_now,
         location: 'Stauffer',
     }}
   end
