@@ -4,7 +4,7 @@ class GroupTest < ActiveSupport::TestCase
 
   def setup
     create(:university)
-    create(:course)
+    @course = create(:course)
   end
 
   #db tests raise exceptions
@@ -18,6 +18,14 @@ class GroupTest < ActiveSupport::TestCase
 
     assert_raises(ActiveRecord::InvalidForeignKey) { group.save(validate: false) } 
   end
+
+  test 'course must be referenced with its own university domain, not another university domain' do 
+    acadia = create(:university, name: "Acadia University", domain: "acadiau.ca")
+    group = build(:group, course_name: @course.name, university_domain: acadia.domain)
+
+    assert_raises(ActiveRecord::InvalidForeignKey) { group.save(validate: false) } 
+  end
+
 
   test 'creator_id foreign key must be a valid reference' do 
     group = build(:group, creator_id: 234234234)
@@ -36,14 +44,6 @@ class GroupTest < ActiveSupport::TestCase
 
     assert_raises(ActiveRecord::StatementInvalid) { group.save(validate: false) }
   end
-
-  test 'starts_at must be today or later' do 
-    group = build(:group, starts_at: 4.hours.ago)
-    group_3 = build(:group, starts_at: 3.minutes.from_now)
-    assert_raises(ActiveRecord::StatementInvalid) { group.save(validate: false) }
-    assert group_3.save(validate: false)
-  end
-
 
   #application layer tests
   test '#cancel! updates the group status to cancelled' do 
@@ -78,11 +78,6 @@ class GroupTest < ActiveSupport::TestCase
 
   test 'invalid if starts_at is in past' do 
     group = build(:group, starts_at: Date.yesterday)
-    assert group.invalid?, 'should be invalid but was valid'
-  end
-
-  test 'invalid if today but past time' do 
-    group = build(:group, starts_at: Time.now - 60)
     assert group.invalid?, 'should be invalid but was valid'
   end
 
