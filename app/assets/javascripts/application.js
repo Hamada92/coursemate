@@ -17,9 +17,10 @@
 $(document).ready(ready)
 
 function ready() {
-
   $('.datepicker').datetimepicker({
-    format: 'MMMM Do YYYY, h:mm a'
+    format: 'MMMM Do YYYY, h:mm a',
+    minDate: moment()
+    
   });
 
   userEdit();

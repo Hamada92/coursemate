@@ -12,8 +12,9 @@ class Group < ApplicationRecord
 
   validates :title, :description, :starts_at, :ends_at, :location, :status, presence: true
   validates :seats, numericality: { only_integer: true, greater_than: 1 }
-  validate :starts_at_is_today_or_later, if: lambda{|object| object.errors.empty?}
   validate :ends_at_greater_than_starts_at, if: lambda{|object| object.errors.empty?}
+  validate :starts_at_day_is_today_or_later, if: lambda{|object| object.errors.empty?}
+  validate :starts_at_time_is_in_future, if: lambda{|object| object.errors.empty?}
 
   def cancel!
     update_column(:status, 'cancelled') # skip validation, date may not be in future
@@ -29,9 +30,15 @@ class Group < ApplicationRecord
 
   private
 
-    def starts_at_is_today_or_later
+    def starts_at_day_is_today_or_later
+      if starts_at.present? && starts_at.to_date < Date.current
+        errors.add(:starts_at, "day must be in the future")
+      end
+    end
+
+    def starts_at_time_is_in_future
       if starts_at.present? && starts_at < Time.now
-        errors.add(:starts_at, "Must be in the future")
+        errors.add(:starts_at, "time must be in the future")
       end
     end
 

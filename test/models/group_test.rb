@@ -39,7 +39,7 @@ class GroupTest < ActiveSupport::TestCase
 
   test 'starts_at must be today or later' do 
     group = build(:group, starts_at: 4.hours.ago)
-    group_3 = build(:group, starts_at: Time.now)
+    group_3 = build(:group, starts_at: 3.minutes.from_now)
     assert_raises(ActiveRecord::StatementInvalid) { group.save(validate: false) }
     assert group_3.save(validate: false)
   end
@@ -77,7 +77,7 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   test 'invalid if starts_at is in past' do 
-    group = build(:group, starts_at: 2.hours.ago)
+    group = build(:group, starts_at: Date.yesterday)
     assert group.invalid?, 'should be invalid but was valid'
   end
 
