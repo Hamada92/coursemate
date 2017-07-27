@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9]+\Z/,
     message: "only allows letters (a-z) and numbers" }
-  validate :valid_university_email, if: Proc.new{|object| object.errors.empty?}
+  #validate :valid_university_email, if: Proc.new{|object| object.errors.empty?}
   validates :avatar_temp, allow_blank: true, format: { with: DIRECT_UPLOAD_URL_FORMAT }
   
   before_create :set_university
@@ -83,7 +83,7 @@ class User < ActiveRecord::Base
     end
 
     def set_university
-      self.university = find_university_with_domain
+      self.university = University.first
     end
 
     def enqueue_image
