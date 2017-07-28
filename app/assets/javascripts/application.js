@@ -30,11 +30,6 @@ function ready() {
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="popover"]').popover();
 
-  $('.markdown-output').each(function(i, input) {
-    var converter = Markdown.getSanitizingConverter();
-    $(input).html(converter.makeHtml($(input).text()));
-  });
-
   $('textarea.wmd-input').each(function(i, input) {
     var attr, converter, editor;
     attr = $(input).attr('id').split('wmd-input')[1];
@@ -42,6 +37,16 @@ function ready() {
     Markdown.Extra.init(converter, {highlighter: "highlight"});
     editor = new Markdown.Editor(converter, attr);
     return editor.run();
+  });
+
+  $('.markdown-output').each(function(i, input) {
+    var converter = Markdown.getSanitizingConverter();
+    Markdown.Extra.init(converter, {highlighter: "highlight"});
+    $(input).html(converter.makeHtml($(input).text()));
+  });
+
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
   });
 
 }
