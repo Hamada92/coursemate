@@ -1,6 +1,5 @@
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
 //= require bootstrap-sprockets
 //= require jquery-fileupload/basic
 //= require jquery-fileupload/jquery.fileupload-process
@@ -12,6 +11,8 @@
 //= require exif
 //= require moment
 //= require bootstrap-datetimepicker
+
+//= require_tree .
 
 $(document).ready(ready)
 
@@ -28,25 +29,6 @@ function ready() {
 
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="popover"]').popover();
-
-  $('textarea.wmd-input').each(function(i, input) {
-    var attr, converter, editor;
-    attr = $(input).attr('id').split('wmd-input')[1];
-    converter = new Markdown.Converter();
-    Markdown.Extra.init(converter, {highlighter: "highlight"});
-    editor = new Markdown.Editor(converter, attr);
-    return editor.run();
-  });
-
-  $('.markdown-output').each(function(i, input) {
-    var converter = Markdown.getSanitizingConverter();
-    Markdown.Extra.init(converter, {highlighter: "highlight"});
-    $(input).html(converter.makeHtml($(input).text()));
-  });
-
-  $('pre code').each(function(i, block) {
-    hljs.highlightBlock(block);
-  });
 
 }
 
