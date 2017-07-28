@@ -30,6 +30,11 @@ function ready() {
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle="popover"]').popover();
 
+  $('.markdown-output').each(function(i, input) {
+    var converter = Markdown.getSanitizingConverter();
+    $(input).html(converter.makeHtml($(input).text()));
+  });
+
   $('textarea.wmd-input').each(function(i, input) {
     var attr, converter, editor;
     attr = $(input).attr('id').split('wmd-input')[1];

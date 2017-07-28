@@ -9,8 +9,9 @@
     = render 'partials/profile_picture', user: @question.user, size: :small
   .fcol
     .frow.body
-      :preserve
-        #{@question.html_body}
+      .markdown-output><
+        :preserve
+          #{@question.body}
     .frow.bottom-space
       .tags
         =link_to("#{@question.university_name}", show_questions_in_university_path(@question.university_domain), class: "btn btn-xs btn-info", role: "button")
