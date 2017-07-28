@@ -1,5 +1,6 @@
 //= require jquery
 //= require jquery_ujs
+//= require_tree .
 //= require bootstrap-sprockets
 //= require jquery-fileupload/basic
 //= require jquery-fileupload/jquery.fileupload-process
@@ -11,8 +12,6 @@
 //= require exif
 //= require moment
 //= require bootstrap-datetimepicker
-
-//= require_tree .
 
 $(document).ready(ready)
 
