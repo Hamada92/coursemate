@@ -34,12 +34,6 @@ class QuestionsController < ApplicationController
     @question      = course.questions.new(question_params)
     @question.user = current_user
 
-    #convert markdown to html and store it in question_html_boy table
-    html_body = MarkdownConverter.to_html(@question.body)
-
-    question_html_body = @question.build_question_html_body
-    question_html_body.body = html_body
-
     respond_to do |format|
       if @question.save
         format.html { redirect_to @question, notice: 'Question was successfully published.' }
@@ -50,10 +44,8 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    html_body = MarkdownConverter.to_html(question_params[:body])
     respond_to do |format|
       if @question.update(question_params)
-        @question.question_html_body.update(body: html_body)
         format.html { redirect_to @question, notice: "Question successfully updated." }
       else
         format.html { render :edit }

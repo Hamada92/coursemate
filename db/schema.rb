@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170729143526) do
+ActiveRecord::Schema.define(version: 20170729221709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,10 +98,6 @@ ActiveRecord::Schema.define(version: 20170729143526) do
     t.index ["user_id"], name: "user_id_notifications", using: :btree
   end
 
-  create_table "question_html_bodies", primary_key: "question_id", id: :integer, force: :cascade do |t|
-    t.text "body"
-  end
-
   create_table "questions", force: :cascade do |t|
     t.string   "title"
     t.text     "body"
@@ -183,7 +179,6 @@ ActiveRecord::Schema.define(version: 20170729143526) do
   add_foreign_key "notifications", "comments", name: "notifications_comment_id_fkey"
   add_foreign_key "notifications", "likes", name: "notifications_like_id_fkey"
   add_foreign_key "notifications", "users", name: "notifications_user_id_fkey"
-  add_foreign_key "question_html_bodies", "questions", name: "question_html_bodies_question_id_fkey"
   add_foreign_key "questions", "courses", column: "course_name", primary_key: "name", name: "questions_course_name_fkey", on_delete: :cascade
   add_foreign_key "questions", "universities", column: "university_domain", primary_key: "domain", name: "questions_university_domain_fkey"
   add_foreign_key "questions", "users"
@@ -348,16 +343,14 @@ ActiveRecord::Schema.define(version: 20170729143526) do
              FROM likes likes_1
             WHERE (likes_1.question_id = questions.id)) AS likers,
       user_with_scores.score AS user_score,
-      question_html_bodies.body AS html_body,
       concat_ws(','::text, questions.course_name, questions.university_domain) AS course_url,
       count(answers.question_id) AS num_answers
-     FROM (((((questions
+     FROM ((((questions
        LEFT JOIN answers ON ((answers.question_id = questions.id)))
        LEFT JOIN universities ON ((universities.domain = questions.university_domain)))
        LEFT JOIN likes ON ((likes.question_id = questions.id)))
-       LEFT JOIN question_html_bodies ON ((question_html_bodies.question_id = questions.id)))
        JOIN user_with_scores ON ((user_with_scores.id = questions.user_id)))
-    GROUP BY questions.id, universities.name, user_with_scores.score, question_html_bodies.body
+    GROUP BY questions.id, universities.name, user_with_scores.score
     ORDER BY questions.id DESC;
   SQL
 

@@ -1,2 +1,0 @@
-class QuestionHtmlBody < ApplicationRecord
-end
