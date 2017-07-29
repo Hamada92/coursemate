@@ -29,7 +29,7 @@
       .frow
         .edit-post
           =link_to("Edit", edit_question_path(@question))
-          - if @answers.empty?
+          - if @question.num_answers == 0
             =link_to("Delete", question_path(@question), method: :delete)
           -else
             =link_to("Delete", '#', data: {toggle: "popover", content: "Questions that have answers can't be deleted, people invested effort in answering them."})
