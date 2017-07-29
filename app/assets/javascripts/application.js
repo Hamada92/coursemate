@@ -8,6 +8,7 @@
 //= require local_time
 //= require jquery.Jcrop
 //= require pagedown_bootstrap
+//= require highlight.pack.js
 //= require exif
 //= require moment
 //= require bootstrap-datetimepicker
@@ -34,9 +35,14 @@ function ready() {
       
   $('.markdown-output').each(function(i, input) {
     var converter = Markdown.getSanitizingConverter();
-    Markdown.Extra.init(converter, {highlighter: "highlight"});
+    Markdown.Extra.init(converter, {highlighter: "highlight", extensions: ["all"]});
     $(input).html(converter.makeHtml($(input).text()));
   });
+
+  $('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
+  });
+
 
   userEdit();
 
