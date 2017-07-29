@@ -76,11 +76,6 @@ class GroupTest < ActiveSupport::TestCase
     assert group.invalid?, 'should be invalid but was valid'
   end
 
-  test 'invalid if starts_at is in past' do 
-    group = build(:group, starts_at: Date.yesterday)
-    assert group.invalid?, 'should be invalid but was valid'
-  end
-
    test 'invalid if end time is earlier than start time' do 
     group = build(:group, ends_at: 2.hours.from_now)
     assert group.invalid?, 'should be invalid but was valid'
