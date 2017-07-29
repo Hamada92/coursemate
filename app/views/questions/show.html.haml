@@ -27,27 +27,3 @@
         =image_tag("avatar.jpg", alt: "profile pic", class: "img-circle")
       .login-to-answer
         Log in to contribute your answer!
-
-:javascript
-    $(document).ready( function() {
-
-      $('textarea.wmd-input').each(function(i, input) {
-        var attr, converter, editor;
-        attr = $(input).attr('id').split('wmd-input')[1];
-        converter = new Markdown.Converter();
-        Markdown.Extra.init(converter, {highlighter: "highlight"});
-        editor = new Markdown.Editor(converter, attr);
-        return editor.run();
-      });
-      
-      $('.markdown-output').each(function(i, input) {
-        var converter = Markdown.getSanitizingConverter();
-        Markdown.Extra.init(converter, {highlighter: "highlight"});
-        $(input).html(converter.makeHtml($(input).text()));
-      });
-
-      $('pre code').each(function(i, block) {
-        hljs.highlightBlock(block);
-      });
-
-    });
