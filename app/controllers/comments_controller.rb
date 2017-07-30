@@ -12,7 +12,8 @@ class CommentsController < ApplicationController
     @comment.user = current_user
     respond_to do |format|
       if @comment.save
-        create_proper_notification
+        #seen or unseen by which user?
+        GroupCommentStatusCreationService.new(@comment).perform
         format.js
       else
         format.js
@@ -38,12 +39,6 @@ class CommentsController < ApplicationController
   end
 
   private
-
-    def create_proper_notification
-      if @parent.is_a?(Group)
-        Notifications::Groups::Comment.new(@comment).perform
-      end
-    end
 
     def set_parent
       if params[:question_id]

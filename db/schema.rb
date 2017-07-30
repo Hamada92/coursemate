@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170729232512) do
+ActiveRecord::Schema.define(version: 20170730134651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,14 @@ ActiveRecord::Schema.define(version: 20170729232512) do
     t.datetime "created_at"
     t.index ["name", "university_domain"], name: "name_and_univresities_domain", using: :btree
     t.index ["university_domain"], name: "univresities_domain", using: :btree
+  end
+
+  create_table "group_comment_statuses", primary_key: ["comment_id", "user_id"], force: :cascade do |t|
+    t.integer "comment_id",                 null: false
+    t.integer "user_id",                    null: false
+    t.boolean "seen",       default: false
+    t.index ["seen"], name: "comment_seen", using: :btree
+    t.index ["user_id", "comment_id"], name: "user_comment_id", using: :btree
   end
 
   create_table "group_enrollments", primary_key: ["user_id", "group_id"], force: :cascade do |t|
@@ -167,6 +175,8 @@ ActiveRecord::Schema.define(version: 20170729232512) do
   add_foreign_key "comments", "groups", name: "comments_group_id_fkey"
   add_foreign_key "comments", "questions", name: "comments_question_id_fkey"
   add_foreign_key "courses", "universities", column: "university_domain", primary_key: "domain", name: "courses_university_domain_fkey"
+  add_foreign_key "group_comment_statuses", "comments", name: "group_comment_statuses_comment_id_fkey", on_delete: :cascade
+  add_foreign_key "group_comment_statuses", "users", name: "group_comment_statuses_user_id_fkey", on_delete: :cascade
   add_foreign_key "group_enrollments", "groups", name: "group_enrollments_group_id_fkey"
   add_foreign_key "group_enrollments", "users", name: "group_enrollments_user_id_fkey"
   add_foreign_key "groups", "courses", column: "course_name", primary_key: "name", name: "groups_course_name_fkey", on_delete: :cascade
