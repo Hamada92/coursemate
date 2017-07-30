@@ -15,10 +15,10 @@ class User < ActiveRecord::Base
   has_many :questions, dependent: :destroy
   has_many :question_indices, foreign_key: [:user_id]
   has_many :answers, dependent: :destroy
+  has_many :group_comment_statuses, dependent: :destroy
 
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
-  has_many :notifications, dependent: :destroy
   has_many :created_groups, class_name: 'Group', foreign_key: 'creator_id', dependent: :destroy
   has_many :group_enrollments, dependent: :destroy
   has_many :group_indices, through: :group_enrollments
@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
   end
 
   def unread_notifications_count
-    notifications.where(read: false).count
+    0
   end
 
   def questions_he_answered
