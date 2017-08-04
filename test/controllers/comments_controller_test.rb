@@ -11,7 +11,7 @@ class CommentsControllerTest < ActionController::TestCase
 
   test '#create invokes GroupCommentStatusServiceCreation service class if commentable is a group' do 
     group = create(:group)
-    GroupCommentStatusCreationService.any_instance.expects(:perform)
+    CommentStatusCreationService.any_instance.expects(:perform)
     post :create, params: {group_id: group.id, comment: { body: "hi" }}, xhr: true
     assert_equal @response.status, 200
   end

@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   has_many :questions, dependent: :destroy
   has_many :question_indices, foreign_key: [:user_id]
   has_many :answers, dependent: :destroy
-  has_many :group_comment_statuses, dependent: :destroy
+  has_many :comment_statuses, dependent: :destroy
 
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
