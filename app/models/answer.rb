@@ -8,14 +8,4 @@ class Answer < ActiveRecord::Base
   
   validates :body, presence: true
 
-  after_create :notify_question_owner, unless: :answer_owner_is_question_owner?
-
-  def notify_question_owner
-    Notification.create(answer_id: self.id, user_id: self.question.user_id)
-  end
-
-  def answer_owner_is_question_owner?
-    user == question.user
-  end
-
 end
