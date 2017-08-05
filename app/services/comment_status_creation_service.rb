@@ -8,7 +8,7 @@ class CommentStatusCreationService
     return unless users_to_notify
     CommentStatus.transaction do 
       users_to_notify.each do |u|
-        CommentStatus.create(comment_id: @comment.id, user_id: u.id)
+        CommentStatus.create!(comment_id: @comment.id, user_id: u.id)
       end
     end
   end

@@ -2,6 +2,7 @@ class Comment < ActiveRecord::Base
 
   #stores if the comment was seen by the user or not
   has_many   :comment_statuses, dependent: :destroy
+  has_many   :notifications, dependent: :destroy
   belongs_to :question
   belongs_to :answer
   belongs_to :group

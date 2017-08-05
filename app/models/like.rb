@@ -4,6 +4,8 @@ class Like < ActiveRecord::Base
   belongs_to :question
   belongs_to :user
 
+  validate :user_doesnt_own_post
+
   def likeable
     @likeable ||= self.question_id.present? ? self.question : self.answer
   end
@@ -15,4 +17,12 @@ class Like < ActiveRecord::Base
   def likeable_type
     @likeable_type ||= self.question_id.present? ? 'Question' : 'Answer'
   end
+
+  private
+
+    def user_doesnt_own_post
+      if user_id == likeable.user_id
+        errors.add(:base, "Can't vote on your own post")
+      end
+    end
 end

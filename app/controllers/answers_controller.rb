@@ -12,6 +12,7 @@ class AnswersController < ApplicationController
     answer.user = current_user
     respond_to do |format|
       if answer.save
+        Notification.create!(answer_id: answer.id) unless answer.user_id == @question.user_id
         @answer = AnswerShow.find(answer.id) #AnswerShow is a view-backed model.
         format.js
       else
