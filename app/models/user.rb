@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   has_many :created_groups, class_name: 'Group', foreign_key: 'creator_id', dependent: :destroy
   has_many :group_enrollments, dependent: :destroy
   has_many :group_indices, through: :group_enrollments
-  has_many :notification_lists, foreign_key: 'notified_user'
+  has_many :notification_lists, foreign_key: 'notified_user', dependent: :destroy
   belongs_to :university, foreign_key: 'university_domain'
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9]+\Z/,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170805164508) do
+ActiveRecord::Schema.define(version: 20170805200715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,9 +19,11 @@ ActiveRecord::Schema.define(version: 20170805164508) do
     t.text     "body"
     t.integer  "question_id"
     t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "seen",        default: false
     t.index ["question_id"], name: "index_answers_on_question_id", using: :btree
+    t.index ["seen"], name: "seen_answers", using: :btree
     t.index ["user_id"], name: "index_answers_on_user_id", using: :btree
   end
 
@@ -362,7 +364,7 @@ ActiveRecord::Schema.define(version: 20170805164508) do
 
   create_view "notification_lists",  sql_definition: <<-SQL
       SELECT notifications.id,
-      comments.id AS comment_id,
+      comments.id AS notifier_id,
       comments.body,
       comment_statuses.seen,
       comment_statuses.user_id AS notified_user,
@@ -378,7 +380,20 @@ ActiveRecord::Schema.define(version: 20170805164508) do
        LEFT JOIN groups ON ((groups.id = comments.group_id)))
        LEFT JOIN answers ON ((answers.id = comments.answer_id)))
        LEFT JOIN questions answer_questions ON ((answer_questions.id = answers.question_id)))
-    ORDER BY notifications.id DESC;
+  UNION
+   SELECT notifications.id,
+      answers.id AS notifier_id,
+      answers.body,
+      answers.seen,
+      questions.user_id AS notified_user,
+      questions.title AS question_title,
+      NULL::text AS group_title,
+      questions.id AS question_id,
+      NULL::integer AS group_id,
+      'answer'::text AS notification_type
+     FROM ((notifications
+       JOIN answers ON ((answers.id = notifications.answer_id)))
+       JOIN questions ON ((questions.id = answers.question_id)));
   SQL
 
 end

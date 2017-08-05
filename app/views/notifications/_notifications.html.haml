@@ -24,14 +24,14 @@
                 =n.question_title
               .notifier-body
                 =n.body
-        - elsif n.answer_id
-          =link_to question_path(n.answer.question), data: {"unread": n.read? ? nil : n.id } do
+        - elsif n.notification_type == 'answer'
+          =link_to question_path(n.question_id), data: {"unread": n.seen? ? nil : n.id } do
             .notifier-type
               = 'answer'
             .notification-title
-              =n.answer.question.title
+              =n.question_title
             .notifier-body
-              =n.answer.body[0..60]
+              =n.body
     %li.see-all
       =link_to 'See all notifications', notifications_path
 
