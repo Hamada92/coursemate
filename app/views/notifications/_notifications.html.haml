@@ -6,24 +6,24 @@
     %li.notifications-header
       Notifications
     - @notifications.each do |n|
-      %li{class: (n.read? ? "notifications-item" : "notifications-item unread")}
-        - if n.comment_id
-          - if n.comment.group_id
-            =link_to group_path(n.comment.group), data: {"unread": n.read? ? nil : n.id } do
+      %li{class: (n.seen? ? "notifications-item" : "notifications-item unread")}
+        - if n.notification_type == 'comment'
+          - if n.group_id
+            =link_to group_path(n.group_id), data: {"unread": n.seen? ? nil : n.id } do
               .notifier-type
                 = 'comment'
               .notification-title
-                =n.comment.group.title
+                =n.group_title
               .notifier-body
-                =n.comment.body[0..60]
-          - elsif n.comment.question_id
-            =link_to question_path(n.comment.question), data: {"unread": n.read? ? nil : n.id } do
+                =n.body
+          - elsif n.question_id
+            =link_to question_path(n.question_id), data: {"unread": n.seen? ? nil : n.id } do
               .notifier-type
                 = 'comment'
               .notification-title
-                =n.comment.question.title
+                =n.question_title
               .notifier-body
-                =n.comment.body[0..60]
+                =n.body
         - elsif n.answer_id
           =link_to question_path(n.answer.question), data: {"unread": n.read? ? nil : n.id } do
             .notifier-type

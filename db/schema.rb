@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170804183529) do
+ActiveRecord::Schema.define(version: 20170805164508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -242,24 +242,6 @@ ActiveRecord::Schema.define(version: 20170804183529) do
             GROUP BY answers.user_id) t2 ON ((t2.user_id = users.id)));
   SQL
 
-  create_view "answer_shows",  sql_definition: <<-SQL
-      SELECT answers.id,
-      answers.body,
-      answers.question_id,
-      answers.user_id,
-      answers.created_at,
-      answers.updated_at,
-      count(likes.answer_id) AS num_likes,
-      ARRAY( SELECT likes_1.user_id
-             FROM likes likes_1
-            WHERE (likes_1.answer_id = answers.id)) AS likers,
-      user_with_scores.score AS user_score
-     FROM ((answers
-       LEFT JOIN likes ON ((likes.answer_id = answers.id)))
-       JOIN user_with_scores ON ((user_with_scores.id = answers.user_id)))
-    GROUP BY answers.id, user_with_scores.score;
-  SQL
-
   create_view "question_indices",  sql_definition: <<-SQL
       SELECT questions.id,
       questions.title,
@@ -344,13 +326,13 @@ ActiveRecord::Schema.define(version: 20170804183529) do
       questions.university_domain,
       questions.course_name,
       universities.name AS university_name,
-      count(likes.question_id) AS num_likes,
+      count(DISTINCT likes.id) AS num_likes,
       ARRAY( SELECT likes_1.user_id
              FROM likes likes_1
             WHERE (likes_1.question_id = questions.id)) AS likers,
       user_with_scores.score AS user_score,
       concat_ws(','::text, questions.course_name, questions.university_domain) AS course_url,
-      count(answers.question_id) AS num_answers
+      count(DISTINCT answers.id) AS num_answers
      FROM ((((questions
        LEFT JOIN answers ON ((answers.question_id = questions.id)))
        LEFT JOIN universities ON ((universities.domain = questions.university_domain)))
@@ -358,6 +340,45 @@ ActiveRecord::Schema.define(version: 20170804183529) do
        JOIN user_with_scores ON ((user_with_scores.id = questions.user_id)))
     GROUP BY questions.id, universities.name, user_with_scores.score
     ORDER BY questions.id DESC;
+  SQL
+
+  create_view "answer_shows",  sql_definition: <<-SQL
+      SELECT answers.id,
+      answers.body,
+      answers.question_id,
+      answers.user_id,
+      answers.created_at,
+      answers.updated_at,
+      count(likes.answer_id) AS num_likes,
+      ARRAY( SELECT likes_1.user_id
+             FROM likes likes_1
+            WHERE (likes_1.answer_id = answers.id)) AS likers,
+      user_with_scores.score AS user_score
+     FROM ((answers
+       LEFT JOIN likes ON ((likes.answer_id = answers.id)))
+       JOIN user_with_scores ON ((user_with_scores.id = answers.user_id)))
+    GROUP BY answers.id, user_with_scores.score;
+  SQL
+
+  create_view "notification_lists",  sql_definition: <<-SQL
+      SELECT notifications.id,
+      comments.id AS comment_id,
+      comments.body,
+      comment_statuses.seen,
+      comment_statuses.user_id AS notified_user,
+      COALESCE("substring"((questions.title)::text, 0, 30), "substring"((answer_questions.title)::text, 0, 30)) AS question_title,
+      groups.title AS group_title,
+      COALESCE(questions.id, answer_questions.id) AS question_id,
+      groups.id AS group_id,
+      'comment'::text AS notification_type
+     FROM ((((((notifications
+       JOIN comments ON ((comments.id = notifications.comment_id)))
+       JOIN comment_statuses ON ((comment_statuses.comment_id = comments.id)))
+       LEFT JOIN questions ON ((questions.id = comments.question_id)))
+       LEFT JOIN groups ON ((groups.id = comments.group_id)))
+       LEFT JOIN answers ON ((answers.id = comments.answer_id)))
+       LEFT JOIN questions answer_questions ON ((answer_questions.id = answers.question_id)))
+    ORDER BY notifications.id DESC;
   SQL
 
 end

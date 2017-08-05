@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   has_many :created_groups, class_name: 'Group', foreign_key: 'creator_id', dependent: :destroy
   has_many :group_enrollments, dependent: :destroy
   has_many :group_indices, through: :group_enrollments
+  has_many :notification_lists, foreign_key: 'notified_user'
   belongs_to :university, foreign_key: 'university_domain'
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9]+\Z/,
@@ -68,6 +69,11 @@ class User < ActiveRecord::Base
   def questions_he_answered
     QuestionIndex.joins(:answers).where(answers: { user_id: self.id} ).distinct
   end  
+
+  def unread_notification_count
+    notification_lists.where(seen: false).count
+  end
+
 
   private
 
