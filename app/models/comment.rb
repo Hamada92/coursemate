@@ -1,7 +1,8 @@
 class Comment < ActiveRecord::Base
 
-  #stores if the group comment was seen by the user or not
-  has_many   :group_comment_statuses, dependent: :destroy
+  #stores if the comment was seen by the user or not
+  has_many   :comment_statuses
+  has_many   :notifications
   belongs_to :question
   belongs_to :answer
   belongs_to :group

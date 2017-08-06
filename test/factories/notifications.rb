@@ -1,6 +1,5 @@
 FactoryGirl.define do 
   factory :notification do 
-    user
     factory :answer_notification do 
       answer
     end

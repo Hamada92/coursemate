@@ -13,7 +13,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         #seen or unseen by which user?
-        GroupCommentStatusCreationService.new(@comment).perform
+        CommentStatusCreationService.new(@comment).perform
         format.js
       else
         format.js

@@ -1,5 +1,5 @@
 SELECT answers.*, 
-  count(distinct likes.id) as num_likes, 
+  count(likes.answer_id) as num_likes, 
   array(select likes.user_id from likes where likes.answer_id = answers.id) as likers,
   user_with_scores.score as user_score 
 FROM "answers" 

@@ -12,6 +12,7 @@ class LikesController < ApplicationController
 
     respond_to do |format|
       if @like.save
+        Notification.create!(like_id: @like.id)
         format.js
       else
         format.js

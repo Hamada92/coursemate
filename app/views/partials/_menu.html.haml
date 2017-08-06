@@ -25,7 +25,7 @@
               %a.dropdown-togggle{id: "nav-profile", href: "/notifications/top_notifications", role: "button", aria: {haspopup: "true", expanded: "false"}, data: {toggle: "dropdown", remote: true}}
                 Notifications
                 %span.badge.alert-danger
-                  =current_user.unread_notifications_count
+                  =current_user.unread_notification_count
               %ul.dropdown-menu.notifications
                 //index.js.erb will be rendered here on click
 

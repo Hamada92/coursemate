@@ -22,4 +22,12 @@ class LikeTest < ActiveSupport::TestCase
     assert_raises(ActiveRecord::StatementInvalid) {like_2.save(validate: false)}
   end
 
+  test 'doesnt allow voting on your own post' do 
+    user = create(:user)
+    question = create(:question, user: user)
+    like = build(:question_like, question: question, user: user)
+
+    assert like.invalid?, "Allowed voting on someone's own post but shouldn't have"
+  end
+
 end
