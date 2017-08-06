@@ -22,8 +22,10 @@ class CommentStatusCreationServiceTest < ActiveSupport::TestCase
 
     #creator of comment is excluded
     assert_difference 'CommentStatus.count', 3 do 
-      CommentStatusCreationService.new(comment).perform
-    end
+      assert_difference 'Notification.count', 1 do
+        CommentStatusCreationService.new(comment).perform
+      end
+    end  
 
     assert_difference 'CommentStatus.count', 4 do 
       CommentStatusCreationService.new(comment_2).perform
@@ -35,11 +37,15 @@ class CommentStatusCreationServiceTest < ActiveSupport::TestCase
 
     #comment by the question asker doesn't create a status
     assert_difference 'CommentStatus.count', 0 do 
-      CommentStatusCreationService.new(comment_4).perform
+      assert_difference 'Notification.count', 0 do 
+        CommentStatusCreationService.new(comment_4).perform
+      end
     end
 
     assert_difference 'CommentStatus.count', 1 do 
-      CommentStatusCreationService.new(comment_5).perform
+      assert_difference 'Notification.count', 1 do 
+        CommentStatusCreationService.new(comment_5).perform
+      end
     end
 
     #comment by the answer author on the answer doesn't create a status
