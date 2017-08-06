@@ -4,11 +4,15 @@ class CommentStatusCreationService
     @comment = comment
   end
 
+  #creates a notification + comment_statuses
   def perform
     return unless users_to_notify
     CommentStatus.transaction do 
       users_to_notify.each do |u|
         CommentStatus.create!(comment_id: @comment.id, user_id: u.id)
+      end
+      unless users_to_notify.empty?
+        Notification.create!(comment_id: @comment.id)
       end
     end
   end

@@ -14,13 +14,6 @@ class CommentsController < ApplicationController
       if @comment.save
         #seen or unseen by which user?
         CommentStatusCreationService.new(@comment).perform
-        if @parent.is_a?(Question) || @parent.is_a?(Answer)
-          #dont create a notif if the user is answer/comenting on their own question/answer
-          Notification.create!(comment_id: @comment.id) unless @comment.user_id == @parent.user_id
-        elsif @parent.is_a?(Group)
-          #dont create a notif if the user is the only attendee in the group
-          Notification.create!(comment_id: @comment.id) unless @parent.users.size == 1 && @comment.user_id == @parent.creator_id
-        end
         format.js
       else
         format.js
