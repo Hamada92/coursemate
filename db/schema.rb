@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170806142146) do
+ActiveRecord::Schema.define(version: 20170806152922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,6 +181,9 @@ ActiveRecord::Schema.define(version: 20170806142146) do
   add_foreign_key "group_enrollments", "users", name: "group_enrollments_user_id_fkey"
   add_foreign_key "likes", "answers", name: "likes_answer_id_fkey"
   add_foreign_key "likes", "questions", name: "likes_question_id_fkey"
+  add_foreign_key "notifications", "answers", name: "qotifications_answer_id_fkey", on_delete: :cascade
+  add_foreign_key "notifications", "comments", name: "notifications_comment_id_fkey", on_delete: :cascade
+  add_foreign_key "notifications", "likes", name: "notifications_like_id_fkey", on_delete: :cascade
   add_foreign_key "questions", "courses", column: "course_name", primary_key: "name", name: "questions_course_name_fkey", on_delete: :cascade
   add_foreign_key "questions", "universities", column: "university_domain", primary_key: "domain", name: "questions_university_domain_fkey"
 

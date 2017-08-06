@@ -8,7 +8,7 @@ class NotificationsController < ApplicationController
   end
 
   def top_notifications
-    @notifications = current_user.notification_lists.limit(15)
+    @notifications = current_user.notification_lists.first(15)
     respond_to do |format|
       format.js
     end
