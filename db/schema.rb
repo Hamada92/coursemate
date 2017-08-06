@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170805200715) do
+ActiveRecord::Schema.define(version: 20170806142146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,7 +53,6 @@ ActiveRecord::Schema.define(version: 20170805200715) do
     t.text     "name",              null: false
     t.text     "university_domain", null: false
     t.datetime "created_at"
-    t.index ["name", "university_domain"], name: "name_and_univresities_domain", using: :btree
     t.index ["university_domain"], name: "univresities_domain", using: :btree
   end
 
@@ -64,7 +63,7 @@ ActiveRecord::Schema.define(version: 20170805200715) do
     t.index ["group_id", "user_id"], name: "group_enrollments_group_id_user_id", using: :btree
   end
 
-  create_table "groups", force: :cascade do |t|
+  create_table "groups", id: :integer, default: -> { "nextval('groups_id_seq1'::regclass)" }, force: :cascade do |t|
     t.text     "university_domain",            null: false
     t.text     "course_name",                  null: false
     t.integer  "creator_id"
@@ -84,19 +83,21 @@ ActiveRecord::Schema.define(version: 20170805200715) do
   end
 
   create_table "likes", force: :cascade do |t|
-    t.integer  "user_id",     null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "user_id",                     null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.integer  "question_id"
     t.integer  "answer_id"
+    t.boolean  "seen",        default: false
     t.index ["answer_id"], name: "answer_id_likes", using: :btree
     t.index ["question_id"], name: "question_id_likes", using: :btree
+    t.index ["seen"], name: "likes_seen", using: :btree
     t.index ["user_id", "answer_id"], name: "unique_answer_user", unique: true, using: :btree
     t.index ["user_id", "question_id"], name: "unique_question_user", unique: true, using: :btree
     t.index ["user_id"], name: "index_likes_on_user_id", using: :btree
   end
 
-  create_table "notifications", force: :cascade do |t|
+  create_table "notifications", id: :integer, default: -> { "nextval('notifications_id_seq1'::regclass)" }, force: :cascade do |t|
     t.integer "comment_id"
     t.integer "answer_id"
     t.integer "like_id"
@@ -178,19 +179,10 @@ ActiveRecord::Schema.define(version: 20170805200715) do
   add_foreign_key "courses", "universities", column: "university_domain", primary_key: "domain", name: "courses_university_domain_fkey"
   add_foreign_key "group_enrollments", "groups", name: "group_enrollments_group_id_fkey"
   add_foreign_key "group_enrollments", "users", name: "group_enrollments_user_id_fkey"
-  add_foreign_key "groups", "courses", column: "course_name", primary_key: "name", name: "groups_course_name_fkey", on_delete: :cascade
-  add_foreign_key "groups", "universities", column: "university_domain", primary_key: "domain", name: "groups_university_domain_fkey"
-  add_foreign_key "groups", "users", column: "creator_id", name: "groups_creator_id_fkey"
   add_foreign_key "likes", "answers", name: "likes_answer_id_fkey"
   add_foreign_key "likes", "questions", name: "likes_question_id_fkey"
-  add_foreign_key "likes", "users"
-  add_foreign_key "notifications", "answers", name: "notifications_answer_id_fkey"
-  add_foreign_key "notifications", "comments", name: "notifications_comment_id_fkey"
-  add_foreign_key "notifications", "likes", name: "notifications_like_id_fkey"
   add_foreign_key "questions", "courses", column: "course_name", primary_key: "name", name: "questions_course_name_fkey", on_delete: :cascade
   add_foreign_key "questions", "universities", column: "university_domain", primary_key: "domain", name: "questions_university_domain_fkey"
-  add_foreign_key "questions", "users"
-  add_foreign_key "users", "universities", column: "university_domain", primary_key: "domain", name: "users_university_domain_fkey"
 
   create_view "user_with_scores",  sql_definition: <<-SQL
       SELECT users.id,
@@ -393,7 +385,27 @@ ActiveRecord::Schema.define(version: 20170805200715) do
       'answer'::text AS notification_type
      FROM ((notifications
        JOIN answers ON ((answers.id = notifications.answer_id)))
-       JOIN questions ON ((questions.id = answers.question_id)));
+       JOIN questions ON ((questions.id = answers.question_id)))
+  UNION
+   SELECT notifications.id,
+      likes.id AS notifier_id,
+          CASE
+              WHEN (questions.id)::boolean THEN 'you have earned 5 points'::text
+              WHEN (answers.id)::boolean THEN 'you have earned 10 points'::text
+              ELSE NULL::text
+          END AS body,
+      likes.seen,
+      COALESCE(questions.user_id, answers.user_id) AS notified_user,
+      COALESCE("substring"((questions.title)::text, 0, 30), "substring"((answer_questions.title)::text, 0, 30)) AS question_title,
+      NULL::text AS group_title,
+      COALESCE(questions.id, answer_questions.id) AS question_id,
+      NULL::integer AS group_id,
+      'like'::text AS notification_type
+     FROM ((((notifications
+       JOIN likes ON ((likes.id = notifications.like_id)))
+       LEFT JOIN questions ON ((questions.id = likes.question_id)))
+       LEFT JOIN answers ON ((answers.id = likes.answer_id)))
+       LEFT JOIN questions answer_questions ON ((answer_questions.id = answers.question_id)));
   SQL
 
 end

@@ -18,9 +18,14 @@ left join questions answer_questions on answer_questions.id = answers.question_i
 
 UNION
 
+/*
+ Notification.joins(answer: :question).select("notifications.id, answers.id as notifier_id, answers.body, answers.seen, questions.user_id as notified_user, questions.title as question_title, questions.id as question_id, 'answer'::text as notification_type, NULL::int as group_id, NULL::text as group_title")
+*/
+
 SELECT notifications.id, 
 answers.id as notifier_id, 
-answers.body, answers.seen, 
+answers.body, 
+answers.seen, 
 questions.user_id as notified_user, 
 questions.title as question_title,
 NULL::text as group_title,
@@ -30,3 +35,25 @@ NULL::int as group_id,
 FROM "notifications" 
 INNER JOIN "answers" ON "answers"."id" = "notifications"."answer_id" 
 INNER JOIN "questions" ON "questions"."id" = "answers"."question_id" 
+
+UNION
+
+/*
+Notification.joins("inner join likes on likes.id = notifications.like_id left join questions on questions.id = likes.question_id left join answers on answers.id = likes.answer_id left join questions answer_questions on answer_questions.id = answers.question_id").select("notifications.id, likes.id as notifier_id, case when questions.id::boolean then 'you have earned 5 points'::text when answers.id::boolean then 'you have earned 10 points'::text end as body, likes.seen, COALESCE(questions.user_id, answers.user_id) as notified_user, COALESCE(substring(questions.title from 0 for 30), substring(answer_questions.title from 0 for 30)) as question_title, COALESCE(questions.id, answer_questions.id) as question_id, 'like'::text as notification_type, NULL::int as group_id, NULL::text as group_title")
+*/
+
+SELECT notifications.id, 
+likes.id as notifier_id, 
+case when questions.id::boolean then 'you have earned 5 points'::text when answers.id::boolean then 'you have earned 10 points'::text end as body, 
+likes.seen, 
+COALESCE(questions.user_id, answers.user_id) as notified_user, 
+COALESCE(substring(questions.title from 0 for 30), substring(answer_questions.title from 0 for 30)) as question_title, 
+NULL::text as group_title ,
+COALESCE(questions.id, answer_questions.id) as question_id,
+NULL::int as group_id,  
+'like'::text as notification_type
+FROM "notifications" 
+inner join likes on likes.id = notifications.like_id 
+left join questions on questions.id = likes.question_id 
+left join answers on answers.id = likes.answer_id 
+left join questions answer_questions on answer_questions.id = answers.question_id

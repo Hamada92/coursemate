@@ -32,6 +32,14 @@
               =n.question_title
             .notifier-body
               =n.body
+        - elsif n.notification_type == 'like'
+          =link_to question_path(n.question_id), data: {"unread": n.seen? ? nil : n.id } do
+            .notifier-type
+              = 'like'
+            .notification-title
+              =n.question_title
+            .notifier-body
+              =n.body
     %li.see-all
       =link_to 'See all notifications', notifications_path
 

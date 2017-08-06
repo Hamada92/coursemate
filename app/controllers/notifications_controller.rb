@@ -19,6 +19,8 @@ class NotificationsController < ApplicationController
       CommentStatus.find_by(comment_id: @notification_list.notifier_id, user_id: @notification_list.notified_user).update_column(:seen, true)
     elsif @notification_list.notification_type == 'answer'
       Answer.find(@notification_list.notifier_id).update_column(:seen, true)
+    elsif @notification_list.notification_type == 'like'
+      Like.find(@notification_list.notifier_id).update_column(:seen, true)
     end
     head :no_content
   end
