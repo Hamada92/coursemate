@@ -1,7 +1,6 @@
 class NotificationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_notification, only: [:mark_read]
-  before_action :authorize, only: [:mark_read]
 
   def index
     @notifications = current_user.notification_lists.paginate(per_page:10, page: params[:page])
@@ -29,12 +28,6 @@ class NotificationsController < ApplicationController
 
     def set_notification
       @notification_list = NotificationList.find_by(notifier_id: params[:id], notified_user: current_user.id)
-    end
-
-    def authorize
-      unless @notification_list.notified_user == current_user.id
-        head :unauthorized
-      end
     end
 
 end
