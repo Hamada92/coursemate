@@ -9,7 +9,7 @@
       %li{class: (n.seen? ? "notifications-item" : "notifications-item unread")}
         - if n.notification_type == 'comment'
           - if n.group_id
-            =link_to group_path(n.group_id), data: {"unread": n.seen? ? nil : n.id } do
+            =link_to group_path(n.group_id), data: {"unread": n.seen? ? nil : n } do
               .notifier-type
                 = 'comment'
               .notification-title
@@ -17,7 +17,7 @@
               .notifier-body
                 =n.body
           - elsif n.question_id
-            =link_to question_path(n.question_id), data: {"unread": n.seen? ? nil : n.id } do
+            =link_to question_path(n.question_id), data: {"unread": n.seen? ? nil : n} do
               .notifier-type
                 = 'comment'
               .notification-title
@@ -25,7 +25,7 @@
               .notifier-body
                 =n.body
         - elsif n.notification_type == 'answer'
-          =link_to question_path(n.question_id), data: {"unread": n.seen? ? nil : n.id } do
+          =link_to question_path(n.question_id), data: {"unread": n.seen? ? nil : n } do
             .notifier-type
               = 'answer'
             .notification-title
@@ -33,7 +33,7 @@
             .notifier-body
               =n.body
         - elsif n.notification_type == 'like'
-          =link_to question_path(n.question_id), data: {"unread": n.seen? ? nil : n.id } do
+          =link_to question_path(n.question_id), data: {"unread": n.seen? ? nil : n } do
             .notifier-type
               = 'like'
             .notification-title

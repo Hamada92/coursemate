@@ -9,8 +9,9 @@ $("a[data-unread]").click(function(e) {
 });
 
 function markRead(notification){
+  console.log(notification);
   $.ajax({
     method: "PATCH",
-    url: "/notifications/" + notification + "/mark_read",
+    url: "/notifications/" + notification.notifier_id + "/mark_read",
   });
 };
