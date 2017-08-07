@@ -4,13 +4,13 @@ $(".dropdown.notifications a").removeAttr("data-remote");
 
 //attach event handler after fetching the notifications
 $("a[data-unread]").click(function(e) {
-	var notification = $(this).data("unread");
-	markRead(notification);
+	var notifier_id = $(this).data("unread");
+	markRead(notifier_id);
 });
 
-function markRead(notification){
+function markRead(notifier_id){
   $.ajax({
     method: "PATCH",
-    url: "/notifications/" + notification + "/mark_read",
+    url: "/notifications/" + notifier_id + "/mark_read",
   });
 };

@@ -16,7 +16,7 @@ class NotificationsController < ApplicationController
 
   def mark_read
     if @notification_list.notification_type == 'comment'
-      CommentStatus.find_by(comment_id: @notification_list.notifier_id, user_id: @notification_list.notified_user).update_column(:seen, true)
+      CommentStatus.find_by(comment_id: @notification_list.notifier_id, user_id: current_user.id).update_column(:seen, true)
     elsif @notification_list.notification_type == 'answer'
       Answer.find(@notification_list.notifier_id).update_column(:seen, true)
     elsif @notification_list.notification_type == 'like'
@@ -28,7 +28,7 @@ class NotificationsController < ApplicationController
   private
 
     def set_notification
-      @notification_list = NotificationList.find(params[:id])
+      @notification_list = NotificationList.find_by(notifier_id: params[:id], notified_user: current_user.id)
     end
 
     def authorize
