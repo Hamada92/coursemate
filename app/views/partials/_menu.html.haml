@@ -7,18 +7,22 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        -if params[:controller] == 'questions'
-          =link_to(image_tag("logo.png", alt: "site logo"), questions_path, class: "navbar-brand icon")
-          =link_to("Coursemate", questions_path, class: "navbar-brand title")
-
-        -else
-          =link_to(image_tag("logo.png", alt: "site logo"), root_path, class: "navbar-brand icon")
-          =link_to("Coursemate", root_path, class: "navbar-brand title")
+        
+        =image_tag("logo.png", alt: "site logo", class: "navbar-brand icon")
+        =link_to("Coursemate", root_path, class: "navbar-brand title")
         
       .collapse.navbar-collapse#navbar
         %ul.nav.navbar-nav
-          %li
-            =render 'partials/groups_or_questions_link'            
+          - if user_signed_in?
+            %li{class: (params[:controller] == 'groups' ? "active-link" : "")}
+              = link_to 'Groups', show_groups_in_university_path(current_user.university.id)
+            %li{class: (params[:controller] == 'questions' ? "active-link" : "")}
+              = link_to 'Questions', show_questions_in_university_path(current_user.university.id)
+          - else
+            %li{class: (params[:controller] == 'groups' ? "active-link" : "")}
+              = link_to 'Groups', root_path
+            %li{class: (params[:controller] == 'questions' ? "active-link" : "")}
+              = link_to 'Questions', questions_path
 
           -if user_signed_in?
             %li.dropdown.notifications
