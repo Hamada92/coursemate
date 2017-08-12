@@ -5,11 +5,13 @@ class GroupIndexTest < ActiveSupport::TestCase
     create(:university)
     create(:course)
     @group = create(:group)
-    create(:group_enrollment, group: @group)
-    create(:group)
+    @group_2 = create(:group)
+    create_list(:group_enrollment, 3, group: @group)
+    create_list(:group_enrollment, 2, group: @group_2)
   end
 
-  test 'returns all groups' do 
+  test 'returns the right number of groups' do 
     assert_equal 2, GroupIndex.count
+    assert_equal @group_2.id, GroupIndex.first.id
   end
 end
