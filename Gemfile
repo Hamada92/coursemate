@@ -23,9 +23,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use Unicorn as the app server
-# gem 'unicorn'
-
 group :test do 
   gem 'factory_girl_rails'
   gem 'rails-controller-testing'
@@ -82,5 +79,3 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.17.43'
 gem 'redis', '~>3.2'
 gem 'composite_primary_keys', '=9.0.4' #compatible with activeRecord 5.0
 gem 'scenic'
-gem 'redcarpet'
-
