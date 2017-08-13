@@ -1,6 +1,7 @@
 %h4 All notifications
 
-%table
-  %tbody
-    =render @notifications
-    =will_paginate @notifications, renderer: BootstrapPagination::Rails
+.notifications-table
+  %table
+    %tbody
+      =render partial: 'notifications/notification', collection: @notifications
+=will_paginate @notifications, renderer: BootstrapPagination::Rails

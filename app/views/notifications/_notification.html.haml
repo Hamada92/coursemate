@@ -1,36 +1,36 @@
 -n = notification
 %tr
-  - if n.comment_id
-
-    - if n.comment.group_id
+  - if n.notification_type == 'comment'
+  
+    - if n.group_id
       %td{style: "color: #888; width: 80px;"}
         = 'comment'
       %td
-        =link_to group_path(n.comment.group) do
+        =link_to group_path(n.group_id) do
           %span{style: "font-weight: bold; color: #5C7796;"}
-            =n.comment.group.title
+            =n.group_title
           %br
           %span{style: "color: #444;"}
-            =n.comment.body[0..60]
+            =n.body
 
-    - elsif n.comment.question_id
+    - elsif n.question_id
       %td{style: "color: #888; width: 80px;"}
         = 'comment'
       %td
-        =link_to question_path(n.comment.question) do
+        =link_to question_path(n.question_id) do
           %span{style: "font-weight: bold; color: #5C7796;"}
-            =n.comment.question.title
+            =n.question_title
           %br
           %span{style: "color: #444;"}
-            =n.comment.body[0..60]
+            =n.body
 
-  - elsif n.answer_id
+  - elsif n.notification_type == 'answer'
     %td{style: "color: #888; width: 80px;"}
       = 'answer'
     %td
-      =link_to question_path(n.answer.question) do
+      =link_to question_path(n.question_id) do
         %span{style: "font-weight: bold; color: #5C7796;"}
-          =n.answer.question.title
+          =n.question_title
         %br
         %span{style: "color: #444;"}
-          =n.answer.body[0..60]
+          =n.body
