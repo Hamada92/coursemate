@@ -13,10 +13,11 @@
             #{answer.body}
       .frow
         .likeable-owner
-          %span.grey answered by:
-          =link_to(" " + answer.user.username, user_path(answer.user_id))
-          %i.fa.fa-trophy.fa-lg.left-space
-          ="+" + answer.user_score.to_s
+          -if answer.user_id
+            %span.grey answered by:
+            =link_to(" " + answer.user.username, user_path(answer.user_id))
+            %i.fa.fa-trophy.fa-lg.left-space
+            ="+" + answer.user_score.to_s
         .votes
           =render 'likes/like', likeable: answer, path: likes_answer_path(answer)
       -if owner answer

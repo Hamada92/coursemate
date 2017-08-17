@@ -12,17 +12,17 @@ class User < ActiveRecord::Base
 
   mount_uploader :avatar, AvatarUploader
 
-  has_many :questions, dependent: :destroy
+  has_many :questions
   has_many :question_indices, foreign_key: [:user_id]
-  has_many :answers, dependent: :destroy
+  has_many :answers
   has_many :comment_statuses, dependent: :destroy
 
-  has_many :comments, dependent: :destroy
-  has_many :likes, dependent: :destroy
-  has_many :created_groups, class_name: 'Group', foreign_key: 'creator_id', dependent: :destroy
-  has_many :group_enrollments, dependent: :destroy
+  has_many :comments
+  has_many :likes
+  has_many :created_groups, class_name: 'Group', foreign_key: 'creator_id'
+  has_many :group_enrollments
   has_many :group_indices, through: :group_enrollments
-  has_many :notification_lists, foreign_key: 'notified_user', dependent: :destroy
+  has_many :notification_lists, foreign_key: 'notified_user'
   belongs_to :university, foreign_key: 'university_domain'
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A[a-zA-Z0-9]+\Z/,
