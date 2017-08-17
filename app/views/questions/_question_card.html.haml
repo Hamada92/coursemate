@@ -19,10 +19,11 @@
         
     .frow
       .likeable-owner
-        %span.grey asked by:
-        =link_to(" " + @question.user.username, user_path(@question.user))
-        %i.fa.fa-trophy.fa-lg.left-space
-        ="+" + @question.user_score.to_s
+        - if @question.user_id
+          %span.grey asked by:
+          =link_to(" " + @question.user.username, user_path(@question.user))
+          %i.fa.fa-trophy.fa-lg.left-space
+          ="+" + @question.user_score.to_s
       .votes
         =render 'likes/like', likeable: @question, path: likes_question_path(@question)
     -if owner @question

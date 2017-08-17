@@ -21,7 +21,13 @@ class GroupShowTest < ActiveSupport::TestCase
   end
 
   test 'returns the list of attendees' do 
+    assert_equal 1, GroupShow.count
     assert_equal @attendees, GroupShow.first.attendees
+  end
+
+  test 'returns groups where the creator_id is null' do 
+    build(:group, creator_id: nil).save(validate: false)
+    assert_equal 2, GroupShow.count
   end
 
 end

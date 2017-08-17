@@ -33,10 +33,11 @@
         
     .frow
       .likeable-owner
-        %span.grey created by:
-        =link_to(" " + @group.username, user_path(@group.creator_id))
-        %i.fa.fa-trophy.fa-lg.left-space
-        ="+" + @group.user_score.to_s
+        - if @group.creator_id
+          %span.grey created by:
+          =link_to(" " + @group.username, user_path(@group.creator_id))
+          %i.fa.fa-trophy.fa-lg.left-space
+          ="+" + @group.user_score.to_s
 
     -if user_signed_in? && current_user.id == @group.creator_id && @group.status != 'cancelled'
       .frow
