@@ -7,8 +7,13 @@ class QuestionShowTest < ActiveSupport::TestCase
     create(:course)
     user = create(:user)
     q = create(:question, user: user)
+    build(:question, user: nil).save(validate: false)
     likes = create_list(:question_like, 3, question: q)
     @likers = likes.map(&:user_id)
+  end
+
+  test 'returns the right number of rows' do 
+    assert_equal 2, QuestionShow.count
   end
 
   test 'returns the right number of likes' do 
