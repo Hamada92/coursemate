@@ -53,7 +53,6 @@ group :production do
 end
 
 gem 'unicorn'
-gem 'turbolinks'
 gem 'hamlit'
 gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.4'

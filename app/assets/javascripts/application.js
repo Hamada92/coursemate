@@ -1,6 +1,5 @@
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require bootstrap-sprockets
 //= require jquery-fileupload/basic
 //= require jquery-fileupload/jquery.fileupload-process
@@ -17,8 +16,6 @@
 //= require_tree .
 
 $(document).ready(ready)
-$(document).on('page:load', ready)
-
 
 function ready() {
 
