@@ -29,7 +29,7 @@ class GroupsController < ApplicationController
     course = Course.where(
       name: params[:course_name].upcase.strip.gsub(/ +/,""),
       university_domain: params[:university_domain],
-    ).first_or_create
+    ).first_or_create!
 
     @group = course.groups.new(group_params)
     @group.creator = current_user

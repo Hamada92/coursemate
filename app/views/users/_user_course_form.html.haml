@@ -1,0 +1,7 @@
+=form_tag(user_courses_path, method: :post, remote: true, class: 'form-group form-inline', id: 'user-course-form', style: 'display:none') do
+  %span.course-name-input
+    =text_field_tag :course_name, nil, class: 'form-control', placeholder: "Enter course name e.g. CISC121",pattern: "[A-Za-z0-9 ]+", title: 'Only letters and numbers', required: 'true'
+
+  =submit_tag 'Done', class: 'btn btn-xs btn-primary'
+
+  %span.help-block.has-error.errors

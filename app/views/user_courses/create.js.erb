@@ -1,0 +1,8 @@
+<% if @user_course.errors.any? %>
+  $(".course-name-input").addClass("has-error");
+  $(".errors").html("<%= @user_course.errors.values.first.first %>");
+<% else %>
+  $(".errors").html("");
+  $(".course-name-input").removeClass("has-error");
+  $(".courses").append('<%=", #{@user_course.course_name}"%>')
+<% end %>
