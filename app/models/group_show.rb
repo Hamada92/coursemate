@@ -1,4 +1,6 @@
 class GroupShow < ApplicationRecord
+  include GroupMethods
+  
   self.primary_key = 'id'
 
   has_many :comments, foreign_key: [:group_id]

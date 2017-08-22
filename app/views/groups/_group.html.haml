@@ -14,13 +14,16 @@
         .tags
           =link_to("#{group.university_name}", show_groups_in_university_path(group.university_domain), class: "btn btn-xs btn-info", role: "button")
           =link_to("#{group.course_name}", show_groups_in_course_path("#{group.course_name},#{group.university_domain}"), class: "btn btn-xs btn-info", role: "button")
-          - if group.status == 'cancelled'
+          - if group.cancelled?
             %span.label.label-danger.btn-xs
               Cancelled
-          - else
-            %span.label.label-success
+          - elsif group.active?
+            %span.label.label-success.btn-xs
               Available Seats:
               = group.available_seats
+          -else 
+            %span.label.label-default.btn-xs
+              Completed
       .attendees-count
         - attendees_count = group.num_attendees
         = "#{attendees_count} #{"Student".pluralize(attendees_count)} going "

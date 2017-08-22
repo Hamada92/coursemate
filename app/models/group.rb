@@ -1,7 +1,5 @@
 class Group < ApplicationRecord
 
-  default_scope { order(id: :desc) }
-
   belongs_to :creator, class_name: 'User', required: true
   belongs_to :university, foreign_key: 'university_domain', required: true
   belongs_to :course, foreign_key: [:course_name, :university_domain], required: true
@@ -16,14 +14,6 @@ class Group < ApplicationRecord
 
   def cancel!
     update_column(:status, 'cancelled')
-  end
-
-  def cancelled?
-    status == 'cancelled'
-  end
-
-  def active?
-    status == 'active'
   end
 
   private

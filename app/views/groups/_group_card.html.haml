@@ -12,10 +12,14 @@
           =@group.starts_at.strftime("%A, %B %d, %Y")
         %p.group-time
           ="#{@group.starts_at.strftime("%I:%M %p")} to #{@group.ends_at.strftime("%I:%M %p")}"
-      - if @group.status == 'cancelled'
+      - if @group.cancelled?
         .cancelled
           %span.label.label-danger.btn-xs
             Cancelled
+      - elsif @group.completed?
+        .completed
+          %span.label.label-default.btn-xs
+            Completed
           
     .frow.place
       %i.fa.fa-map-marker
@@ -49,7 +53,7 @@
     = render 'group_enrollments/enrollment'
 
   %h3
-    Students Going: 
+    = "Students #{@group.active? ? 'going' : 'went'} :"
     .frow.attendees
       -@attendees.each do |u|
         = render 'group_enrollments/attendee', u: u

@@ -79,3 +79,4 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.17.43'
 gem 'redis', '~>3.2'
 gem 'composite_primary_keys', '=9.0.4' #compatible with activeRecord 5.0
 gem 'scenic'
+gem 'whenever'
