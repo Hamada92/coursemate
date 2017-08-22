@@ -45,7 +45,7 @@ function ready() {
 
 
   userEdit();
-
+  userCourse();
   setCourseAutocomplete();
 
   $('[data-toggle="tooltip"]').tooltip();

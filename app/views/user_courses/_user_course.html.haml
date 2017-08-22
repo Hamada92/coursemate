@@ -1,0 +1,6 @@
+%span.label.label-primary.user-course-label{id: "#{user_course.course_name}"}
+  = user_course.course_name
+  -if current_user && current_user.id == user_course.user_id
+    =link_to(user_course_path(user_course.course_name), method: :delete, remote: true) do 
+      %i.fa.fa-times{"area-hidden": "true", style: "color:#F2F2f2"}
+  

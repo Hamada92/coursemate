@@ -1,32 +1,54 @@
 .user-show
-  .profile-info.text-center
-    .profile-pic.size-200px.center-block
-      - if @user == current_user
-        = link_to account_edit_profile_path do
-          .link{data: {toggle: "tooltip", placement:"bottom"}, title: 'Change your picture'}
-            = render 'partials/profile_picture', user: @user, size: :large
-      - else
-        = render 'partials/profile_picture', user: @user, size: :large
-    .title
-      %h1.text-center
-        -if @user.first_name.nil? or @user.first_name.blank?
-          =@user.username
-        -else
-          =@user.first_name
-          =@user.last_name
-          %br
-          %small
-            =@user.username
+  .profile-info
+    .container
+      .row 
+        .col-sm-4.col-md-3
+          %h1
+            .profile-pic.size-200px
+              - if @user == current_user
+                = link_to account_edit_profile_path do
+                  .link{data: {toggle: "tooltip", placement:"bottom"}, title: 'Change your picture'}
+                    = render 'partials/profile_picture', user: @user, size: :large
+              - else
+                = render 'partials/profile_picture', user: @user, size: :large
+        .col-sm-6.col-md-4
+          %h1
+            -if @user.first_name.nil? or @user.first_name.blank?
+              =@user.username
+            -else
+              =@user.first_name
+              =@user.last_name
+              %br
+              %small
+                =@user.username
 
-    .score
-      %i.fa.fa-trophy.fa-lg
-      %span
-        ="+" + @user.score.to_s
+          .score
+            %i.fa.fa-trophy.fa-lg
+            %span
+              ="+" + @user.score.to_s
 
-    %h2
-      =@user.university.name
-    %p
-      =@user.about_me
+          %h2
+            =@user.university.name
+          %h4
+            =@user.about_me
+        .col-sm-2.col-md-4
+          %h3 
+            Courses
+            -if @user == current_user
+              %i.fa.fa-question{data: {toggle: "tooltip", placement:"right", title: 'We will use these courses to let you know when there are groups or questions for them.'}}
+          =link_to "Add", '#', id: "edit-courses-list", remote: true if @user == current_user
+          .courses
+            .container
+              .row
+                -@courses.each_slice(4) do |s|
+                  .col
+                    - s.each do |course|
+                      =render 'user_courses/user_course', user_course: course
+
+            %br
+            =render 'user_course_form'
+              
+
 
 %div
   %ul.nav.nav-tabs{role: "tablist"}

@@ -11,6 +11,7 @@ class UsersController < ApplicationController
     @questions = @user.question_indices.limit(5).includes(:user)
     @questions_he_answered = @user.questions_he_answered.limit(5).includes(:user)
     @groups = @user.group_indices.limit(5).includes(:creator)
+    @courses = @user.courses
   end
 
   def edit

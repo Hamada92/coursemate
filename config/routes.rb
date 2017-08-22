@@ -69,6 +69,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :user_courses, only: [:create, :destroy]
+
   constraints course: /[\S\s]+/, university: /[\S\s]+/ do #necessary to pass the domain and course params as they are, otherwise queensu.ca will be passed as queenu only, this constraint escapes special chars.
     get 'groups/courses/:course', to: 'groups#show_from_course', as: 'show_groups_in_course'
     get 'questions/courses/:course', to: 'questions#show_from_course', as: 'show_questions_in_course'
