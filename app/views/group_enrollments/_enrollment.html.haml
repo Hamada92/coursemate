@@ -3,10 +3,12 @@
     - unless current_user.id == @group.creator_id
       =render 'group_enrollments/remove_enrollment', group: @group
   -else
-    - if @group.status == 'active'
+    - if @group.active?
       - if !@group.full?
         =render 'group_enrollments/add_enrollment', group: @group
       -else 
         This group is full, check later please.
-    -else
+    -elsif @group.cancelled?
       This group was cancelled by the owner.
+    -else
+      This group has been completed.
