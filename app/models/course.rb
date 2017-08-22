@@ -11,6 +11,7 @@ class Course < ApplicationRecord
   has_many :question_indices, foreign_key: [:course_name, :university_domain]
 
   validates :name, presence: true
+  validates :name, length: { minimum: 2 }
   validates :name, format: { with: /\A[a-zA-Z0-9 ]+\Z/, message: "only allows letters (a-z) and numbers" }
 
   before_create :capitalize_and_strip_spaces

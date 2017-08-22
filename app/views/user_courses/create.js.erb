@@ -4,5 +4,15 @@
 <% else %>
   $(".errors").html("");
   $(".course-name-input").removeClass("has-error");
-  $(".courses").append('<%=", #{@user_course.course_name}"%>')
+  //check if the user has existing courses 
+  var num_courses = $(".courses .container .row .col:last span.user-course-label").length
+
+  //4 courses per column.
+  if (num_courses && num_courses < 4) {
+    $(".courses .container .row .col:last").append("<%=j render 'user_courses/user_course', user_course: @user_course%>")
+  }
+  else {
+    $("<div class='col'/>").appendTo("div.courses .container .row");
+    $(".courses .container .row .col:last").append("<%=j render 'user_courses/user_course', user_course: @user_course%>")
+  }
 <% end %>

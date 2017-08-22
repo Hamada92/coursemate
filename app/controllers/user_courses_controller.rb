@@ -1,4 +1,6 @@
 class UserCoursesController < ApplicationController
+  before_action :authenticate_user!
+
   def create
     #courses are unique
     course = Course.where(
@@ -21,13 +23,13 @@ class UserCoursesController < ApplicationController
   end
 
   def destroy
-    user_course = UserCourse.find_by(
+    @user_course = UserCourse.find_by(
       user_id: current_user.id, 
       course_name: params[:id], 
       university_domain: current_user.university_domain
     )
 
-    user_course.destroy
+    @user_course.destroy
     respond_to do |format|
       format.js
     end

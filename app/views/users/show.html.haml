@@ -36,14 +36,14 @@
             Courses
             -if @user == current_user
               %i.fa.fa-question{data: {toggle: "tooltip", placement:"right", title: 'We will use these courses to let you know when there are groups or questions for them.'}}
-          =link_to "Edit", '#', id: "edit-courses-list", remote: true if @user == current_user
+          =link_to "Add", '#', id: "edit-courses-list", remote: true if @user == current_user
           .courses
             .container
               .row
                 -@courses.each_slice(4) do |s|
                   .col
                     - s.each do |course|
-                      =render 'user_courses/user_course', course_name: course.course_name
+                      =render 'user_courses/user_course', user_course: course
 
             %br
             =render 'user_course_form'
