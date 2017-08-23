@@ -7,6 +7,7 @@ set :conditionally_migrate, true
 set :migration_role, :all
 set :assets_roles, [:all]
 set :deploy_to, "/var/www/coursemate/"
+set :whenever_roles, :all
 append :linked_files, "config/database.yml", "config/application.yml"
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets"
 
