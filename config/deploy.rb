@@ -2,8 +2,6 @@ lock "3.9.0"
 set :application, "coursemate"
 set :repo_url, "git@github.com:Hamada92/coursemate.git"
 set :user, "ahmad"
-set :rbenv_ruby, '2.3.0'
-set :rbenv_path, "/home/ahmad/.rbenv"
 set :conditionally_migrate, true
 set :migration_role, :all
 set :assets_roles, [:all]
