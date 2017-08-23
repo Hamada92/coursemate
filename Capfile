@@ -6,6 +6,7 @@ require "capistrano/deploy"
 # Load the SCM plugin appropriate to your project:
 require 'capistrano/rbenv'
 require 'capistrano/rails'
+require "whenever/capistrano"
 # require "capistrano/scm/hg"
 # install_plugin Capistrano::SCM::Hg
 # or
