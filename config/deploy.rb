@@ -1,5 +1,4 @@
 lock "3.9.0"
-
 set :application, "coursemate"
 set :repo_url, "git@github.com:Hamada92/coursemate.git"
 set :user, "ahmad"
