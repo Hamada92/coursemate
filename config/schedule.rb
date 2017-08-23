@@ -7,9 +7,9 @@
 #
 set :output, "/var/www/coursemate/shared/log/cron_log.log"
 
-if ENV['RAILS_ENV'] == 'production'
-  job_type :rake,    "cd :path && :environment_variable=:environment /home/ahmad/.rbenv/shims/bundle exec rake :task --silent :output"
-end
+#if ENV['RAILS_ENV'] == 'production'
+  #job_type :rake,    "cd :path && :environment_variable=:environment /home/ahmad/.rbenv/shims/bundle exec rake :task --silent :output"
+#end
 
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
@@ -23,6 +23,6 @@ end
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.hour do 
+every 1.minute do 
   rake "groups:mark_groups_completed"
 end
