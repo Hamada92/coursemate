@@ -1,3 +1,6 @@
+#required for foreman to print logs
+$stdout.sync = true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 

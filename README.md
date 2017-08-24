@@ -1,23 +1,23 @@
-# Coursemate [![CircleCI](https://circleci.com/gh/coursemate/coursemate.svg?style=svg&circle-token=c34eda82b1bb2dd3fc061646d9e96b8fab74dbf9)](https://circleci.com/gh/coursemate/coursemate)
+# Coursemate 
 
-## Local setup (macOS)
+##Setup
 
-### Ruby/Rails
-https://gorails.com/setup/osx
+1.Install Vagrant here https://www.vagrantup.com/downloads.html
 
-### Postgres
-```
-brew install postgresql
-pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start 
-```
-### Redis
-```
-brew install redis
-redis-server /usr/local/etc/redis.conf
-bundle exec sidekiq -q default -q mailers
-```
+2. Install VirtualBox here https://www.virtualbox.org/wiki/Downloads
 
-### ImageMagick
-```
-brew install imagemagick
-```
+3.clone the repo and cd into it.
+
+4.Run `vagrant up`, take a while.
+
+5. Run `vagrant ssh`.
+
+you will be logged into the virtual box
+
+6. `ls /vagrant' 
+
+7. bundle exec foreman start. 
+
+if erros, make sure redis is running, `sudo systemctl start redis.service`
+
+Profit.
