@@ -1,4 +1,5 @@
 class Group < ApplicationRecord
+  include GroupMethods
 
   belongs_to :creator, class_name: 'User', required: true
   belongs_to :university, foreign_key: 'university_domain', required: true
