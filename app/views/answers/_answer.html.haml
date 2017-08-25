@@ -8,9 +8,8 @@
     .line
     .card.fcol
       .body
-        .markdown-output><
-          :preserve
-            #{answer.body}
+        :markdown
+          #{answer.body}
       .frow
         .likeable-owner
           -if answer.user_id

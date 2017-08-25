@@ -1,9 +1,6 @@
 $(".existing-answers").append("<%= j (render partial: 'answers/answer' , locals: {answer: @answer}) %>");
 $(".new-answer form").trigger("reset");
 $(".wmd-preview").html("");
-var converter = Markdown.getSanitizingConverter();
-Markdown.Extra.init(converter, {highlighter: "highlight"});
-$('.markdown-output:last').html(converter.makeHtml($('.markdown-output:last').text()));
-$('.markdown-output:last pre code').each(function(i, block) {
+$('#Answer<%=@answer.id%> pre code').each(function(i, block) {
   hljs.highlightBlock(block);
 });
