@@ -32,12 +32,6 @@ function ready() {
     editor = new Markdown.Editor(converter, attr);
     return editor.run();
   });
-      
-  $('.markdown-output').each(function(i, input) {
-    var converter = Markdown.getSanitizingConverter();
-    Markdown.Extra.init(converter, {highlighter: "highlight", extensions: ["all"]});
-    $(input).html(converter.makeHtml($(input).text()));
-  });
 
   $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);
