@@ -13,6 +13,7 @@ class Course < ApplicationRecord
   validates :name, presence: true
   validates :name, length: { minimum: 2 }
   validates :name, format: { with: /\A[a-zA-Z0-9 ]+\Z/, message: "only allows letters (a-z) and numbers" }
+  validates_uniqueness_of :name, scope: :university_domain
 
   before_create :capitalize_and_strip_spaces
 
