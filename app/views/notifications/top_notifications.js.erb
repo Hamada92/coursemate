@@ -12,6 +12,8 @@ function markRead(notification){
   console.log(notification);
   $.ajax({
     method: "PATCH",
+    dataType: 'json',
+    data: {type: notification.notification_type},
     url: "/notifications/" + notification.notifier_id + "/mark_read",
   });
 };
