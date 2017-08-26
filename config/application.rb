@@ -24,6 +24,11 @@ module AnswerMe
       enable_starttls_auto: true
     }
 
+    #sentry error monitoring
+    Raven.configure do |config|
+      config.dsn = 'https://8605d6d4c1b14cc1b8d47a3ec9526635:73e0eed5df6d444aae2a6f965e10945e@sentry.io/199656'
+    end
+
     
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
