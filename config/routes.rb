@@ -69,6 +69,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'subscriptions/:id/unsubscribe', to: 'subscriptions#unsubscribe', as: 'unsubscribe', id: "{{SECRET_TOKEN}}"
+
   resources :user_courses, only: [:create, :destroy]
 
   constraints course: /[\S\s]+/, university: /[\S\s]+/ do #necessary to pass the domain and course params as they are, otherwise queensu.ca will be passed as queenu only, this constraint escapes special chars.

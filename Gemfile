@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.0.0.1'
+gem 'rails', '5.0.3'
 # Use postgresql as the database for Active Record
 gem 'pg', '0.20'
 # Use SCSS for stylesheets
@@ -60,7 +60,7 @@ gem 'bootstrap-sass', '~> 3.3.4'
 gem 'font-awesome-rails'
 gem 'paperclip', '~> 4.2'
 gem 'twitter-typeahead-rails'
-gem 'local_time'
+gem 'local_time', '~> 1.0.3'
 gem 'figaro'
 gem 'pagedown-bootstrap-rails'
 gem 'autoprefixer-rails'
