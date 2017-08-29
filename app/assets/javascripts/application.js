@@ -5,7 +5,7 @@
 //= require jquery-fileupload/jquery.fileupload-process
 //= require jquery-fileupload/jquery.fileupload-validate
 //= require twitter/typeahead
-//= require local_time
+//= require local-time
 //= require jquery.Jcrop
 //= require pagedown_bootstrap
 //= require highlight.pack.js
