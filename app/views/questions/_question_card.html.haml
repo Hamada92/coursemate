@@ -8,7 +8,7 @@
   .profile-pic.size-40px
     = render 'partials/profile_picture', user: @question.user, size: :small
   .fcol
-    .frow.body
+    .body
       :markdown
         #{@question.body}
     .frow.bottom-space
