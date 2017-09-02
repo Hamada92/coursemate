@@ -1,7 +1,7 @@
 class SubscriptionsController < ApplicationController
 
   def unsubscribe
-    verifier = ActiveSupport::MessageVerifier.new(ENV['secret_key_base'])
+    verifier = ActiveSupport::MessageVerifier.new(Rails.application.secrets.secret_key_base)
     begin
       id = verifier.verify(params[:id])
       User.find(id).update_column(:subscribed, false)

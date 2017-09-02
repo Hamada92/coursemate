@@ -2,7 +2,7 @@ module MessageProcessor
   def mail(header = {}, &block)
     message = super
     user = User.find_by(email: message.to.first)
-    verifier = ActiveSupport::MessageVerifier.new(ENV['secret_key_base'])
+    verifier = ActiveSupport::MessageVerifier.new(Rails.application.secrets.secret_key_base)
     token = verifier.generate(user.id)
     parts = message.parts.any? ? message.parts : [message]
 
