@@ -99,8 +99,8 @@ class GroupsController < ApplicationController
     end
 
     def check_if_cancelled
-      if @group.cancelled?
-        flash[:alert] = "You are not allowed to edit cancelled groups"
+      unless @group.active?
+        flash[:alert] = "You are not allowed to edit cancelled or completed groups"
         redirect_to @group
       end
     end

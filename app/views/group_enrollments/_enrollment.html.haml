@@ -1,6 +1,6 @@
 .enrollment-button
   -if @group.attendees.include? current_user.id
-    - unless current_user.id == @group.creator_id
+    - if !current_user.id == @group.creator_id && @group.active?
       =render 'group_enrollments/remove_enrollment', group: @group
   -else
     - if @group.active?

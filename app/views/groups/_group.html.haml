@@ -26,7 +26,4 @@
               Completed
       .attendees-count
         - attendees_count = group.num_attendees
-        = "#{attendees_count} #{"Student".pluralize(attendees_count)} going "
-
-
-
+        = "#{attendees_count} #{"Student".pluralize(attendees_count)} #{group.active? ? 'going' : 'went'} "
