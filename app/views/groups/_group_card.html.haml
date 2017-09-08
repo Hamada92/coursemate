@@ -43,7 +43,7 @@
           %i.fa.fa-trophy.fa-lg.left-space
           ="+" + @group.user_score.to_s
 
-    -if user_signed_in? && current_user.id == @group.creator_id && @group.status != 'cancelled'
+    -if user_signed_in? && current_user.id == @group.creator_id && @group.active?
       .frow
         .edit-post
           =link_to("Edit", edit_group_path(@group))
