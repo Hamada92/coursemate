@@ -1,3 +1,3 @@
-.enrollment-button
-	%h3 Your RSVP: Going
-	=link_to("Change", enrollments_group_path(group.id), remote: true, method: :delete, class: "btn btn-danger", data: {confirm: "Are you sure you don't want to attend this group anymore?", toggle: "tooltip", placement:"bottom"}, role: "button")
+%h3
+  Your RSVP: Going
+=link_to("Change", enrollments_group_path(group.id), remote: true, method: :delete, class: "btn btn-danger", data: {confirm: "Are you sure you don't want to attend this group anymore?", toggle: "tooltip", placement:"bottom"}, role: "button")
