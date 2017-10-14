@@ -3,8 +3,8 @@
   = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
     = f.error_notification
     .form-inputs
-      = f.input :username, placeholder: "Username"
-      = f.input :email, required: true, autofocus: true, label: "University email", placeholder: "University email"
+      = f.input :username, placeholder: "Username", autofocus: true
+      = f.input :email, required: true, label: "University email", placeholder: "University email"
       = f.input :password, required: true, placeholder: "Password"
     .form-actions
       .form-group
