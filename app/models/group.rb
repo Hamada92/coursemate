@@ -11,10 +11,10 @@ class Group < ApplicationRecord
 
   validates :title, :description, :starts_at, :ends_at, :location, :status, presence: true
   validates :seats, numericality: { only_integer: true, greater_than: 1 }
-  validate :ends_at_greater_than_starts_at, if: lambda{|object| object.errors.empty?}
+  validate  :ends_at_greater_than_starts_at, if: lambda{|object| object.errors.empty?}
 
   def cancel!
-    update_column(:status, 'cancelled')
+    update!(status: 'cancelled')
   end
 
   private
