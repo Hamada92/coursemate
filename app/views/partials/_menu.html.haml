@@ -13,16 +13,6 @@
         
       .collapse.navbar-collapse#navbar
         %ul.nav.navbar-nav
-          - if user_signed_in?
-            %li{class: (params[:controller] == 'groups' ? "active-link" : "")}
-              = link_to 'Groups', show_groups_in_university_path(current_user.university.id)
-            %li{class: (params[:controller] == 'questions' ? "active-link" : "")}
-              = link_to 'Questions', show_questions_in_university_path(current_user.university.id)
-          - else
-            %li{class: (params[:controller] == 'groups' ? "active-link" : "")}
-              = link_to 'Groups', root_path
-            %li{class: (params[:controller] == 'questions' ? "active-link" : "")}
-              = link_to 'Questions', questions_path
 
           -if user_signed_in?
             %li.dropdown.notifications
