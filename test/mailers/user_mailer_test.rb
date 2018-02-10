@@ -10,6 +10,6 @@ class UserMailerTest < ActionMailer::TestCase
   test 'message includes an unsubscribe url' do
     message = UserMailer.new_groups(@user).deliver_now
     html_body = message.html_part.body.to_s
-    assert_includes(html_body, "/subscriptions/BAhpAnkU--5f8bde4d3941ff8cf0b96506f063b7e2bc5a36ff/unsubscribe")
+    assert_includes(html_body, "/subscriptions/BAhpAnkU--c50bd0485df035e13d443fadd82c2a28c27f29d2/unsubscribe")
   end
 end
