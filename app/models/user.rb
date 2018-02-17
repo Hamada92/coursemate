@@ -79,7 +79,7 @@ class User < ActiveRecord::Base
 
     def find_university_with_domain
       #user sign up
-      @university ||= University.where(" ? LIKE CONCAT('%', domain) ", self.email).first
+      @university ||= University.where(" ? LIKE CONCAT('%@', domain) ", self.email).first
     end
 
     def valid_university_email
