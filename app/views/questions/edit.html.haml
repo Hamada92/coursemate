@@ -1,5 +1,11 @@
 .question-form
   %h4 Edit Question
+  -if @question.errors.any?
+    %ul.alert.alert-danger
+      .container
+        -@question.errors.full_messages.each do |msg|
+          %li
+            =msg
   =form_tag(question_path(@question.id), method: :patch, class: 'form-group') do
     =render 'form'
     %br
