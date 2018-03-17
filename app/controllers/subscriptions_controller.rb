@@ -5,8 +5,7 @@ class SubscriptionsController < ApplicationController
     begin
       id = verifier.verify(params[:id])
       User.find(id).update_column(:subscribed, false)
-      flash[:notice] = 'You are now unsubscribed'
-      redirect_to root_path
+      render plain: "Unsubscribed successfully"
     rescue ActiveSupport::MessageVerifier::InvalidSignature => e
       Raven.capture_exception(e)
       render plain: "Subscription not found", status: :bad_request
