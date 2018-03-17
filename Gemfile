@@ -36,7 +36,6 @@ group :development do
   gem "capistrano-rails"
   gem 'web-console'
   gem 'hirb'
-  gem 'rack-mini-profiler'
 end
 
 group :development, :test do
