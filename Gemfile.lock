@@ -196,8 +196,6 @@ GEM
       mimemagic (= 0.3.0)
     pg (0.20.0)
     rack (2.0.3)
-    rack-mini-profiler (0.10.5)
-      rack (>= 1.2.0)
     rack-protection (2.0.0)
       rack
     rack-test (0.6.3)
@@ -356,7 +354,6 @@ DEPENDENCIES
   pagedown-bootstrap-rails
   paperclip (~> 4.2)
   pg (= 0.20)
-  rack-mini-profiler
   rails (= 5.0.3)
   rails-controller-testing
   rails_12factor
@@ -378,4 +375,4 @@ DEPENDENCIES
   will_paginate-bootstrap
 
 BUNDLED WITH
-   1.15.4
+   1.16.0
