@@ -7,4 +7,9 @@ class University < ApplicationRecord
   has_many :questions, foreign_key: 'university_domain', dependent: :destroy
   has_many :group_indices, foreign_key: 'university_domain'
   has_many :question_indices, foreign_key: 'university_domain'
+
+
+  def self.universities_that_have_groups
+    University.joins(:groups).distinct
+  end
 end

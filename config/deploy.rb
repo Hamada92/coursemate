@@ -33,6 +33,8 @@ namespace :deploy do
       execute "sudo systemctl start sidekiq.service"
     end
   end
+
+
 end
 
 after 'deploy:symlink:release', 'deploy:reload_unicorn'

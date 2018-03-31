@@ -8,7 +8,7 @@ class GroupsController < ApplicationController
   def index
     #GroupIndex is a SQL view, defined in db/views
     @groups = GroupIndex.paginate(per_page: 5, page: params[:page]).includes(:creator)
-    @universities = University.joins(:groups).distinct
+    @universities = University.universities_that_have_groups
   end
 
   def show
