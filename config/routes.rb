@@ -2,6 +2,17 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
+  #######API#########
+  #https::/api.coursemate.io/v1/users
+
+  constraints subdomain: 'api' do 
+    namespace :api, defaults: {format: :json}, path: '/' do 
+      scope module: :v1 do 
+        resources :users, only: [:index]
+      end
+    end
+  end
+
   authenticated :user do
     root "groups#show_from_my_university", as: :authenticated_root
   end
@@ -86,4 +97,5 @@ Rails.application.routes.draw do
       get 'unanswered/:course', to: 'unanswered#index', as: 'unanswered'
     end
   end
+
 end
