@@ -7,8 +7,13 @@ class Api::V1::AuthTokensController < ApplicationController
 
   private
     def authenticate
-      unless user.valid_password? auth_params[:password]
-        raise ActiveRecord::RecordNotFound # raising RecordNotFound is better for security.
+      begin
+        unless user.valid_password? auth_params[:password]
+          raise ActiveRecord::RecordNotFound # raising RecordNotFound is better for security.
+        end
+      rescue ActiveRecord::RecordNotFound => e
+        Raven.capture_exception(e)
+        head :not_found
       end
     end
 
@@ -21,6 +26,6 @@ class Api::V1::AuthTokensController < ApplicationController
     end
 
     def auth_params
-      params.require(:auth).permit :email, :password
+      params.require(:auth).permit(:email, :password)
     end
 end

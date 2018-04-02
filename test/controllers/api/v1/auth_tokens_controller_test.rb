@@ -11,11 +11,17 @@ class Api::V1::AuthTokensControllerTest < ActionController::TestCase
     post :create, params: {auth: {email: @user.email, password: '123123123'}}
     response = JSON.parse(@response.body)
     assert response['jwt'], 'response doesnt have jwt key'
+    assert_response(201)
   end
 
-  test 'raises RecordNotFound if either email or password are wrong' do 
-    assert_raises(ActiveRecord::RecordNotFound) { post :create, params: {auth: {email: 'hi@fake.faky', password: '123123123'}} }
-    assert_raises(ActiveRecord::RecordNotFound) { post :create, params: {auth: {email: @user.email, password: '0000000000'}} }
+  test 'returns 404 if email is wrong' do 
+    post :create, params: {auth: {email: 'hi@fake.faky', password: '123123123'}}
+    assert_response(404)
+  end
+
+  test 'returns 404 if password is wrong' do 
+    post :create, params: {auth: {email: @user.email, password: '00000'}}
+    assert_response(404)
   end
 
 end
