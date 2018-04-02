@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   constraints subdomain: 'api' do 
     namespace :api, defaults: {format: :json}, path: '/' do 
       scope module: :v1 do 
+        resources :auth_tokens, only: [:create]
         resources :users, only: [:index]
       end
     end

@@ -1,9 +1,15 @@
 class AuthToken
   SIGNATURE_ALGORITHM = 'HS256'.freeze
 
+  attr_reader :token
+
   def initialize payload: {}, token: nil
     @payload = claims.merge(payload)
     @token = JWT.encode @payload, secret_key, SIGNATURE_ALGORITHM
+  end
+  
+  def to_json options={}
+    {jwt: token}.to_json
   end
 
   private
