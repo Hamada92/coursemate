@@ -2,7 +2,7 @@ class Api::V1::AuthTokensController < ApplicationController
   before_action :authenticate
 
   def create
-    render json: auth_token, status: :created
+    render json: { jwt: auth_token}.to_json, status: :created
   end
 
   private
@@ -22,7 +22,7 @@ class Api::V1::AuthTokensController < ApplicationController
     end
 
     def auth_token
-      AuthToken.new payload: { sub: user.id }
+      AuthToken.new.encode payload: { sub: user.id }
     end
 
     def auth_params

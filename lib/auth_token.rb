@@ -3,13 +3,19 @@ class AuthToken
 
   attr_reader :token
 
-  def initialize payload: {}, token: nil
+  def encode payload: {}
     @payload = claims.merge(payload)
     @token = JWT.encode @payload, secret_key, SIGNATURE_ALGORITHM
   end
-  
-  def to_json options={}
-    {jwt: token}.to_json
+
+  def find_user_from_token(token)
+    decode token
+    User.find @payload['sub']
+  end
+
+  def decode token
+    @payload, _ = JWT.decode token.to_s, secret_key, true,  { algorithm: SIGNATURE_ALGORITHM }
+    @token = token
   end
 
   private
@@ -21,8 +27,8 @@ class AuthToken
     end
 
     def token_lifetime
-      #expire token after 1 day
-      1.day.from_now.to_i
+      #expire token after 3 days
+      3.day.from_now.to_i
     end
 
     def secret_key
