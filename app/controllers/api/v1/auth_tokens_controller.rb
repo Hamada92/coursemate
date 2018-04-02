@@ -8,7 +8,7 @@ class Api::V1::AuthTokensController < ApplicationController
   private
     def authenticate
       unless user.valid_password? auth_params[:password]
-        raise ActiveRecord::RecordNotFound
+        raise ActiveRecord::RecordNotFound # raising RecordNotFound is better for security.
       end
     end
 
