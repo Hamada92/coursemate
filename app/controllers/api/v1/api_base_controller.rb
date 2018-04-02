@@ -1,4 +1,4 @@
-class Api::V1::ApiBaseController < ApplicationController
+class Api::V1::ApiBaseController < ActionController::Base
 
   def authenticate_api_user!
     head(:unauthorized) unless current_user

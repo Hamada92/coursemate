@@ -33,7 +33,7 @@ class AuthToken
 
     def token_lifetime
       #expire token after 3 days
-      3.day.from_now.to_i
+      3.days.from_now.to_i
     end
 
     def secret_key

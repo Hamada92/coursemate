@@ -1,4 +1,4 @@
-class Api::V1::AuthTokensController < ApplicationController
+class Api::V1::AuthTokensController < Api::V1::ApiBaseController
   before_action :authenticate
 
   def create
