@@ -9,8 +9,13 @@ class AuthToken
   end
 
   def find_user_from_token(token)
-    decode token
-    User.find @payload['sub']
+    begin
+      decode token
+      User.find @payload['sub']
+    #rescue because we want to return head :unauthorized if the token is invalid
+    rescue JWT::DecodeError, ActiveRecord::RecordNotFound
+      nil
+    end
   end
 
   def decode token
