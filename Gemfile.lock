@@ -156,6 +156,7 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.6)
+    jwt (1.5.6)
     kgio (2.11.0)
     local_time (2.0.0)
     loofah (2.0.3)
@@ -346,6 +347,7 @@ DEPENDENCIES
   jcrop-rails-v2
   jquery-fileupload-rails
   jquery-rails
+  jwt
   local_time
   mini_magick
   mocha

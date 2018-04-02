@@ -82,4 +82,5 @@ gem 'scenic'
 gem 'whenever'
 gem 'redcarpet' #markdown to html converter.
 gem 'sentry-raven' #error monitoring.
+gem 'jwt' #authentication for api
 
