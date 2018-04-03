@@ -4,6 +4,7 @@ class GroupEnrollment < ApplicationRecord
   belongs_to :group
   belongs_to :group_index, foreign_key: [:group_id]
 
+  #ideally these validations should be on the DB layer, but laziness is strong.
   validate :group_not_full
   validate :group_active
 
@@ -11,13 +12,13 @@ class GroupEnrollment < ApplicationRecord
 
   def group_not_full
     if group_info_for_enrollment(self).available_seats == 0
-      errors.add(:base, "Group is full")
+      raise ActiveRecord::RecordInvalid.new(self)
     end
   end
 
   def group_active
     unless group_info_for_enrollment(self).status == 'active'
-      errors.add(:base, "Group is not active")
+      raise ActiveRecord::RecordInvalid.new(self)
     end
   end
 

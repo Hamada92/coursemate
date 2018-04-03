@@ -5,6 +5,7 @@ class Like < ActiveRecord::Base
   belongs_to :question
   belongs_to :user
 
+  #ideally this should be a DB validation.
   validate :user_doesnt_own_post
 
   def likeable
@@ -23,7 +24,7 @@ class Like < ActiveRecord::Base
 
     def user_doesnt_own_post
       if user_id == likeable.user_id
-        errors.add(:base, "Can't vote on your own post")
+        raise ActiveRecord::RecordInvalid.new(self)
       end
     end
 end
