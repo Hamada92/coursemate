@@ -1,3 +1,5 @@
+require "#{Rails.root}/lib/auth_token"
+
 class Api::V1::ApiBaseController < ActionController::Base
 
   def authenticate_api_user!
