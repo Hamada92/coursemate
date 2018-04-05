@@ -45,5 +45,7 @@ module AnswerMe
     # Add the services folder into the autoloaded paths.
     config.autoload_paths << "#{Rails.root}/services"
     config.autoload_paths << "#{Rails.root}/workers"
+    config.autoload_paths << "#{Rails.root}/lib"
+
   end
 end
