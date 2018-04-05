@@ -11,12 +11,9 @@ class LikesController < ApplicationController
     end
 
     respond_to do |format|
-      if @like.save
-        Notification.create!(like_id: @like.id)
-        format.js
-      else
-        format.js
-      end
+      @like.save!
+      Notification.create!(like_id: @like.id)
+      format.js
     end
   end
 
@@ -31,9 +28,9 @@ class LikesController < ApplicationController
 
     def set_like
       if params[:type] == 'question'
-        @like = Like.find_by(question_id: params[:id], user_id: current_user.id)
+        @like = Like.find_by!(question_id: params[:id], user_id: current_user.id)
       elsif params[:type] == 'answer'
-        @like = Like.find_by(answer_id: params[:id], user_id: current_user.id)
+        @like = Like.find_by!(answer_id: params[:id], user_id: current_user.id)
       end
     end
 

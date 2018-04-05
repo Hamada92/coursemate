@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   #https::/api.coursemate.io/v1/users
 
   constraints subdomain: 'api' do 
-    namespace :api, defaults: {format: :json}, path: '/' do 
-      scope module: :v1 do 
+    namespace :api, defaults: {format: :json}, path: '/' do         
+      scope 'v1' do 
         resources :auth_tokens, only: [:create]
         resources :users, only: [:index]
       end

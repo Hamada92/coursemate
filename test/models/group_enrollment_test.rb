@@ -12,14 +12,14 @@ class GroupEnrollmentTest < ActiveSupport::TestCase
     create_list(:group_enrollment, 2, group: group)
     enrollment = build(:group_enrollment, group: group)
 
-    assert_not enrollment.valid?, 'Should not allow enrollments in full groups'
+    assert_raises(ActiveRecord::RecordInvalid) { enrollment.save! }
   end
 
   test 'Does not allow enrolling in a cancelled or completed group' do 
     cancelled_group = create(:cancelled_group)
     enrollment = build(:group_enrollment, group: cancelled_group)
 
-    assert_not enrollment.valid?, 'Should not allow enrollments in cancelled groups'
+    assert_raises(ActiveRecord::RecordInvalid) { enrollment.save! }
   end
 
   test 'DB raises an error if user_id/group_id is not unique' do 
