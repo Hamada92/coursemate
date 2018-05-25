@@ -5,11 +5,8 @@ class GroupEnrollmentsController < ApplicationController
   def create
     enrollment = GroupEnrollment.new(user: current_user, group_id: params[:id])
     respond_to do |format|
-      if enrollment.save
-        format.js
-      else
-        format.js
-      end
+      enrollment.save!
+      format.js
     end
   end
 
