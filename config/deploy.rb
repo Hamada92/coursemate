@@ -13,7 +13,7 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets"
 namespace :deploy do
   desc 'Run rake yarn:install'
   task :yarn_install do
-    on roles(:web) do
+    on roles(:all) do
       within release_path do
         execute("cd #{release_path} && yarn install")
       end
