@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "@rails/webpacker": "3.5",
+    "blueimp-file-upload": "^9.22.0",
+    "bootstrap": "3.3",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.47",
+    "exif-js": "^2.3.0",
+    "highlightjs": "^9.10.0",
+    "jquery": "^3.3.1",
+    "jquery-jcrop": "^0.9.13",
+    "jquery-ui": "^1.12.1",
+    "local-time": "^2.0.1",
+    "moment": "^2.22.2",
+    "pagedown-with-extra-bootstrap": "^0.2.0",
+    "popper.js": "^1.14.4",
+    "rails-ujs": "^5.2.0",
+    "socket.io-client": "^2.1.1",
+    "ts-loader": "3.5.0",
+    "typeahead.js": "^0.11.1",
+    "typescript": "^3.0.1"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "2.11.2"
+  }
+}

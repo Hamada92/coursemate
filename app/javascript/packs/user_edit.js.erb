@@ -1,4 +1,9 @@
-function userEdit() {
+import EXIF from 'exif-js'
+import 'jquery-jcrop'
+import 'blueimp-file-upload'
+
+
+export default function userEdit() {
 
   $(document).click(function() {
     $("#delete-confirm").collapse("hide");
@@ -66,6 +71,7 @@ function userEdit() {
         var selectY;
         var imageWidth;
         var imageHeight;
+        var minDimension;
 
         var img = $("#crop-modal img")[0];
         var newImg = new Image();
@@ -163,4 +169,25 @@ function update_preview(imageWidth, imageHeight) {
     marginLeft: '-' + Math.round(50/w * x) + 'px',
     marginTop: '-' + Math.round(50/h * y) + 'px'
   });
+}
+
+function getOrientation(exifOrientation) {
+  // gets orientation tag from image EXIF metadata
+  var orientation = parseInt(EXIF.getTag(exifOrientation, 'Orientation'));
+  switch(orientation) {
+    case 2:
+      return 'flip';
+    case 3:
+      return 'rotate-180';
+    case 4:
+      return 'flip-and-rotate-180';
+    case 5:
+      return 'flip-and-rotate-270';
+    case 6:
+      return 'rotate-90';
+    case 7:
+      return 'flip-and-rotate-90';
+    case 8:
+      return 'rotate-270';
+  }
 }

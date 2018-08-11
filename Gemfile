@@ -1,22 +1,22 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.0.3'
+gem 'rails', '~> 5.1.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '0.20'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+# gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+# gem 'coffee-rails'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails'
+# gem 'jquery-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
+# gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
@@ -57,11 +57,8 @@ gem 'foreman'
 gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.4'
 gem 'font-awesome-rails'
-gem 'paperclip', '~> 4.2'
-gem 'twitter-typeahead-rails'
 gem 'local_time'
 gem 'figaro'
-gem 'pagedown-bootstrap-rails'
 gem 'autoprefixer-rails'
 gem 'simple_form'
 gem 'will_paginate-bootstrap'
@@ -73,14 +70,12 @@ gem 'carrierwave', '~> 1.0.0.rc'
 gem 'mini_magick'
 gem 'sidekiq'
 gem 'sinatra', :require => nil
-gem 'exifjs-rails'
-gem 'momentjs-rails', '>= 2.9.0'
-gem 'bootstrap3-datetimepicker-rails', '~> 4.17.43'
 gem 'redis', '~>3.2'
-gem 'composite_primary_keys', '=9.0.4' #compatible with activeRecord 5.0
+gem 'composite_primary_keys', '~> 10.0'
 gem 'scenic'
 gem 'whenever'
 gem 'redcarpet' #markdown to html converter.
 gem 'sentry-raven' #error monitoring.
 gem 'jwt' #authentication for api
+gem 'webpacker', '~> 3.5' #js bundling.
 
