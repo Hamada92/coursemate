@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2'
+gem 'rails', '~> 5.1.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '0.20'
 # Use SCSS for stylesheets
@@ -58,10 +58,8 @@ gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.4'
 gem 'font-awesome-rails'
 gem 'paperclip', '~> 4.2'
-gem 'twitter-typeahead-rails'
 gem 'local_time'
 gem 'figaro'
-gem 'pagedown-bootstrap-rails'
 gem 'autoprefixer-rails'
 gem 'simple_form'
 gem 'will_paginate-bootstrap'
@@ -73,15 +71,12 @@ gem 'carrierwave', '~> 1.0.0.rc'
 gem 'mini_magick'
 gem 'sidekiq'
 gem 'sinatra', :require => nil
-gem 'exifjs-rails'
-gem 'momentjs-rails', '>= 2.9.0'
-gem 'bootstrap3-datetimepicker-rails', '~> 4.17.43'
 gem 'redis', '~>3.2'
-gem 'composite_primary_keys'
+gem 'composite_primary_keys', '~> 10.0'
 gem 'scenic'
 gem 'whenever'
 gem 'redcarpet' #markdown to html converter.
 gem 'sentry-raven' #error monitoring.
 gem 'jwt' #authentication for api
-gem 'webpacker', '~> 3.5' #webpacker for js bundling.
+gem 'webpacker', '~> 3.5' #js bundling.
 

@@ -15,4 +15,5 @@
     $("<div class='col'/>").appendTo("div.courses .container .row");
     $(".courses .container .row .col:last").append("<%=j render 'user_courses/user_course', user_course: @user_course%>")
   }
+  $("#user-course-form").trigger('reset');
 <% end %>

@@ -1,4 +1,6 @@
-function setCourseAutocomplete(){
+import 'typeahead.js'
+
+export default function setCourseAutocomplete(){
   var course_tags = substringMatcher($('.typeahead').data('autocomplete-course'));  
   set_typeahead(course_tags);
 
