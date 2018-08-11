@@ -18,6 +18,7 @@ passenger*
 .ruby-version
 .ruby-gemset
 .DS_Store
+.byebug_history
 
 /.vagrant
 /public/packs
