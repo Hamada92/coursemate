@@ -10,17 +10,6 @@ set :whenever_roles, :all
 append :linked_files, "config/database.yml", "config/application.yml"
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets"
 
-namespace :deploy do
-  desc 'Run rake yarn:install'
-  task :yarn_install do
-    on roles(:all) do
-      within release_path do
-        execute("cd #{release_path} && yarn install")
-      end
-    end
-  end
-end
-
 namespace :deploy do 
   task :reload_unicorn do 
     on roles(:all) do 
@@ -48,7 +37,6 @@ namespace :deploy do
 
 end
 
-before "deploy:assets:precompile", "deploy:yarn_install"
 after 'deploy:symlink:release', 'deploy:reload_unicorn'
 after 'deploy:reload_unicorn', 'deploy:stop_sidekiq'
 after 'deploy:stop_sidekiq', 'deploy:start_sidekiq'
