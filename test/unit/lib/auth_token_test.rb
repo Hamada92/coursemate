@@ -1,4 +1,5 @@
 require 'test_helper'
+require "#{Rails.root}/lib/auth_token"
 
 class AuthTokenTest < ActiveSupport::TestCase
 
