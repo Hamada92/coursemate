@@ -14,9 +14,9 @@
 
 you will be logged into the virtual box
 
-6. `ls /vagrant' 
+6. `ls /vagrant`
 
-7. bundle exec foreman start. 
+7. bundle exec foreman start.
 
 if erros, make sure redis is running, `sudo systemctl start redis.service`
 
