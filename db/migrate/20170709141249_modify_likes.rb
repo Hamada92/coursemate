@@ -1,4 +1,4 @@
-class ModifyLikes < ActiveRecord::Migration[5.0]
+class ModifyLikes < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       ALTER TABLE likes DROP column IF EXISTS likeable_id;

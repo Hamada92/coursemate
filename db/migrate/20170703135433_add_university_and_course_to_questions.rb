@@ -1,4 +1,4 @@
-class AddUniversityAndCourseToQuestions < ActiveRecord::Migration[5.0]
+class AddUniversityAndCourseToQuestions < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       alter table questions ADD university_domain text not null references universities(domain);

@@ -1,4 +1,4 @@
-class AddCascadesToNotifications < ActiveRecord::Migration[5.0]
+class AddCascadesToNotifications < ActiveRecord::Migration[5.0][5.0]
  def up
     execute <<-SQL
       begin;

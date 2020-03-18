@@ -1,4 +1,4 @@
-class InvalidateFunction < ActiveRecord::Migration[5.0]
+class InvalidateFunction < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-sql
       create or replace function invalidate_group_indices_row(g_id integer) returns void
@@ -6,7 +6,7 @@ class InvalidateFunction < ActiveRecord::Migration[5.0]
       language 'plpgsql' as $$
       declare u_updates integer;
       begin
-        update group_indices_with_expiry gi 
+        update group_indices_with_expiry gi
         set dirty=true where gi.id = g_id;
         return;
       end
@@ -15,7 +15,7 @@ class InvalidateFunction < ActiveRecord::Migration[5.0]
   end
 
   def down
-    execute <<-sql 
+    execute <<-sql
       DROP FUNCTION invalidate_group_indices_row(integer);
     sql
   end

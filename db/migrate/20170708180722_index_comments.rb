@@ -1,4 +1,4 @@
-class IndexComments < ActiveRecord::Migration[5.0]
+class IndexComments < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       create index question_id_comments on comments(question_id);

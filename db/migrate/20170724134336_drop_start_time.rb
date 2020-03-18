@@ -1,4 +1,4 @@
-class DropStartTime < ActiveRecord::Migration[5.0]
+class DropStartTime < ActiveRecord::Migration[5.0][5.0]
   def change
     drop_view :group_shows
     drop_view :group_indices

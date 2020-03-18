@@ -1,4 +1,4 @@
-class CreateUniversities < ActiveRecord::Migration[5.0]
+class CreateUniversities < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       create table universities (
@@ -7,7 +7,7 @@ class CreateUniversities < ActiveRecord::Migration[5.0]
         country text not null,
         primary key (domain),
         unique(name, country)
-      );      
+      );
     SQL
   end
 

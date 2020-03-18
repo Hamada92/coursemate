@@ -1,4 +1,4 @@
-class SupportMoreDeviseModules < ActiveRecord::Migration[5.0]
+class SupportMoreDeviseModules < ActiveRecord::Migration[5.0][5.0]
   def change
     ## Confirmable
     add_column :users, :confirmation_token, :string

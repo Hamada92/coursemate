@@ -1,4 +1,4 @@
-class AddSeenToAnswer < ActiveRecord::Migration[5.0]
+class AddSeenToAnswer < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       alter table answers add column seen boolean DEFAULT FALSE;

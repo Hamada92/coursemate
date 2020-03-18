@@ -1,4 +1,4 @@
-class AddNumEnrollmentsToGroups < ActiveRecord::Migration[5.0]
+class AddNumEnrollmentsToGroups < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       alter table groups add num_enrollments integer default 0;

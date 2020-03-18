@@ -1,4 +1,4 @@
-class CreateQuestionBodies < ActiveRecord::Migration[5.0]
+class CreateQuestionBodies < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       create table question_html_bodies (

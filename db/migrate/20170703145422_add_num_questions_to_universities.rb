@@ -1,4 +1,4 @@
-class AddNumQuestionsToUniversities < ActiveRecord::Migration[5.0]
+class AddNumQuestionsToUniversities < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       alter table universities ADD num_questions integer default 0;

@@ -1,4 +1,4 @@
-class AddStartAtCheck < ActiveRecord::Migration[5.0]
+class AddStartAtCheck < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       alter table groups ADD CHECK(starts_at::date >= localtimestamp::date) NOT VALID;

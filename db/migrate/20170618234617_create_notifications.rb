@@ -1,4 +1,4 @@
-class CreateNotifications < ActiveRecord::Migration[5.0]
+class CreateNotifications < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       create sequence notifications_id_seq;

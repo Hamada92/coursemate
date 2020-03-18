@@ -1,4 +1,4 @@
-class AddAvatarToUsers < ActiveRecord::Migration
+class AddAvatarToUsers < ActiveRecord::Migration[5.0]
   def up
     add_attachment :users, :avatar
   end
@@ -6,5 +6,5 @@ class AddAvatarToUsers < ActiveRecord::Migration
   def down
     remove_attachment :users, :avatar
   end
-  
+
 end

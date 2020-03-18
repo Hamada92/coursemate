@@ -1,4 +1,4 @@
-class AddSeenToLikes < ActiveRecord::Migration[5.0]
+class AddSeenToLikes < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       alter table likes add column seen boolean DEFAULT FALSE;

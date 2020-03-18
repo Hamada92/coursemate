@@ -1,4 +1,4 @@
-class ConvertTimeToTimestamp < ActiveRecord::Migration[5.0]
+class ConvertTimeToTimestamp < ActiveRecord::Migration[5.0][5.0]
   def up
     drop_view :group_shows
     drop_view :group_indices

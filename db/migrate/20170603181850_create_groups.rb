@@ -1,4 +1,4 @@
-class CreateGroups < ActiveRecord::Migration[5.0]
+class CreateGroups < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       create sequence groups_id_seq;
@@ -30,7 +30,7 @@ class CreateGroups < ActiveRecord::Migration[5.0]
     execute <<-SQL
       drop table groups;
       drop sequence groups_id_seq;
-      
+
     SQL
   end
 end

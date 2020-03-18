@@ -1,4 +1,4 @@
-class AddConstraintsToNotifications < ActiveRecord::Migration[5.0]
+class AddConstraintsToNotifications < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       alter table notifications ADD constraint unqiue_notification_comment unique(comment_id);

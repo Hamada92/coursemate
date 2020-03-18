@@ -1,4 +1,4 @@
-class ModifyComments < ActiveRecord::Migration[5.0]
+class ModifyComments < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       ALTER TABLE comments DROP column commentable_id;

@@ -1,4 +1,4 @@
-class AddUniversityToUser < ActiveRecord::Migration[5.0]
+class AddUniversityToUser < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       alter table users ADD university_domain text references universities(domain);

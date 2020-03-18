@@ -1,4 +1,4 @@
-class ModifyGroups < ActiveRecord::Migration[5.0]
+class ModifyGroups < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       ALTER TABLE groups rename column day to starts_at;

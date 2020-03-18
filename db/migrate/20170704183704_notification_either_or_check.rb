@@ -1,4 +1,4 @@
-class NotificationEitherOrCheck < ActiveRecord::Migration[5.0]
+class NotificationEitherOrCheck < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       alter table notifications add constraint type_xor check(

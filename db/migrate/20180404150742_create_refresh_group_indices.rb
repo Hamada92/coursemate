@@ -1,4 +1,4 @@
-class CreateRefreshGroupIndices < ActiveRecord::Migration[5.0]
+class CreateRefreshGroupIndices < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-sql
       create or replace function refresh_group_indices_with_expiry_now(g_id integer) returns void

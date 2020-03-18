@@ -1,4 +1,4 @@
-class EndTimeConstraint < ActiveRecord::Migration[5.0]
+class EndTimeConstraint < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       alter table groups ALTER end_time SET not null;

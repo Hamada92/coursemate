@@ -1,4 +1,4 @@
-class AddCourseConstraint < ActiveRecord::Migration[5.0]
+class AddCourseConstraint < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       alter table courses ADD check (name ~ '\\A[A-Z0-9]+\\Z');

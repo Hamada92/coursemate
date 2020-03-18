@@ -1,4 +1,4 @@
-class DropCounterCaches < ActiveRecord::Migration[5.0]
+class DropCounterCaches < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
       ALTER TABLE groups DROP num_enrollments CASCADE;

@@ -1,4 +1,4 @@
-class AddNumGroupsQuestionsToCourses < ActiveRecord::Migration[5.0]
+class AddNumGroupsQuestionsToCourses < ActiveRecord::Migration[5.0][5.0]
   def up
     execute <<-SQL
     alter table courses ADD num_groups integer default 0;
