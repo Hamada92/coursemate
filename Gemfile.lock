@@ -140,7 +140,6 @@ GEM
       sass (>= 3.2)
     json (1.8.6)
     jwt (2.1.0)
-    kgio (2.11.2)
     local_time (2.0.1)
     loofah (2.2.2)
       crass (~> 1.0.2)
@@ -170,6 +169,8 @@ GEM
       mini_portile2 (~> 2.3.0)
     orm_adapter (0.5.0)
     pg (0.20.0)
+    puma (4.3.3)
+      nio4r (~> 2.0)
     rack (2.0.5)
     rack-protection (2.0.3)
       rack
@@ -209,7 +210,6 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    raindrops (0.19.0)
     rake (12.3.1)
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
@@ -270,9 +270,6 @@ GEM
     tilt (2.0.8)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    unicorn (5.4.1)
-      kgio (~> 2.6)
-      raindrops (~> 0.7)
     warden (1.2.7)
       rack (>= 1.0)
     web-console (3.6.2)
@@ -322,6 +319,7 @@ DEPENDENCIES
   mocha
   newrelic_rpm
   pg (= 0.20)
+  puma
   rails (~> 5.1.0)
   rails-controller-testing
   rails_12factor
@@ -335,7 +333,6 @@ DEPENDENCIES
   simple_form
   sinatra
   spring
-  unicorn
   web-console
   webpacker (~> 3.5)
   whenever
