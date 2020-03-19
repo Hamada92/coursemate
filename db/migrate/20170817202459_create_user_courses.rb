@@ -21,10 +21,3 @@ class CreateUserCourses < ActiveRecord::Migration[5.0][5.0]
     SQL
   end
 end
-
-
-create sequence payment_profiles_id_seq;
-create table payments (
-  id integer not null default nextval('payment_profiles_id_seq'),
-  name text not null,
-);
