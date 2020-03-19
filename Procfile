@@ -1,2 +1,2 @@
-web: rails server -p 3000 -b 0.0.0.0
+web: bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-development}
 worker: bundle exec sidekiq
